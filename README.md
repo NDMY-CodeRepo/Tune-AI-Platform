@@ -11,6 +11,14 @@ Tune AI Intelligence contains **Executive Intelligence, Next Best Action and Nex
 
 Both read live Snowflake data. The database describes its records as **synthetic demo data**; no business figures are fabricated locally. Existing GOLD definitions and financial calculations are preserved. The service desk reuses `APP_STATE.DATA_REQUEST_TICKET` without recreation or migration.
 
+## Visual direction
+
+The AI application follows the supplied Tune Protect Executive Intelligence dashboard reference: compact logo/navigation, a single title/filter row, coordinated financial cards, charts and exact detail beside an insight rail. Reporting-period controls are in the calendar popover; chart options retain GWP/NEP and line/channel choices. Planned loss-ratio and claims comparisons remain unavailable until their source basis is established.
+
+Customer Growth and Retention Intelligence use the same light theme, with filters in the header and the worklist/profile directly beneath the portfolio KPIs. Source definitions and ranking methodology sit after the main workflow. Engagement briefs use verified evidence and retain deterministic fallback. The service desk inherits the common branding and typography; its workflow is unchanged.
+
+This visual pass has live data/AppTest validation. Browser rendering, responsive layout and hosted startup still require a presenter rehearsal; automated browser access was unavailable.
+
 ## Repository layout
 
 ```text
@@ -50,7 +58,12 @@ python -m venv .venv
 
 # Terminal 2 — Tune Data Service Desk
 .\launch.ps1 -App desk
+
+# Or start both in one terminal; Ctrl+C stops both
+.\launch.ps1 -App both
 ```
+
+With `-App both`, intelligence uses 8501 and the desk uses 8502. `-Port 9000` changes these to 9000 and 9001. Keep the launching terminal open; Ctrl+C stops both child process trees. Server logs are saved under `validation/*-launch*.log`.
 
 Open <http://localhost:8501> for intelligence and <http://localhost:8502> for requests. Running `launch.ps1` without arguments still launches intelligence. Use `-Port` to override either default. The launch script reuses the existing `snowflake-DINHEAO-HN84194` Snowflake CLI profile in `%LOCALAPPDATA%\snowflake\config.toml`, overrides only the session's database/schema, role and warehouse, and leaves the profile unchanged. This profile was renamed from `pos-ai-platform`; connection parameters are preserved. It defaults to existing `AGENT_ROLE` / `POC_WH`. Override for another environment:
 

@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "executive_live_cards": "PASS",
+  "no_unconfirmed_plan_ratio": "PASS",
+  "NEP_and_channel_views": "PASS",
+  "business_line_filter": "PASS",
+  "multi_year_and_single_month": "PASS",
+  "backend_files_byte_unchanged": [
+    "shared/business_logic.py",
+    "shared/snowflake_service.py",
+    "shared/environment.yml"
+  ],
+  "browser_rendering": "NOT EXECUTED: browser and native hosts unavailable"
+}

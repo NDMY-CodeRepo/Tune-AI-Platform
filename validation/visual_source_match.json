@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "remote_files_match_local": {
+    "intelligence": {
+      "apps/ai-intelligence/app.py": "f888cf9c768e198cc4e6131b50866e9bfd2b78aa35741983671f39ba260f8854",
+      "shared/ui.py": "6c37b323f4ab880332ff80ad294117c173fba7eb226b6ece9d93c45bfae65427"
+    },
+    "desk": {
+      "apps/data-service-desk/app.py": "7ea68ad7bdc9917260a7a28ca4c09b9088743f0b2be720c0bed992c51965235b",
+      "shared/ui.py": "6c37b323f4ab880332ff80ad294117c173fba7eb226b6ece9d93c45bfae65427"
+    }
+  }
+}

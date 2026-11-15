@@ -2,6 +2,16 @@
 
 The existing MVP was refactored into two independent Streamlit apps. Existing financial SQL, ranking/retention rules, Cortex grounding, ticket persistence, transition validation and concurrency checks were preserved. **Local AppTest and live SQL checks pass. Browser appearance and interactive hosted startup remain unverified.**
 
+## Reference-led visual refinement
+
+The latest visual pass uses the supplied Tune Protect Executive Intelligence image as a composition reference. The 246px desktop sidebar has compact branding and icon navigation. Executive Intelligence has a single title/filter row, a calendar reporting-range popover, icon/tint financial cards and a three-part overview: trend, signed variance contribution and an insight rail. Financial detail stays directly under the charts. The unconfirmed planned loss ratio shown in the reference is deliberately not reproduced.
+
+Customer Growth / Retention Intelligence now place their filters in the header and the worklist/profile directly after the KPI row. Repeated recommendation blocks, large information banners and pre-worklist methodology sections were removed. Full supporting evidence and source definitions remain available on demand. User-controlled widgets remain native Streamlit controls; no frontend framework or dependency was added. Native navigation inputs remain focusable, dynamic HTML text is escaped, and the common stylesheet no longer paints every layout wrapper as one large white canvas.
+
+Live financial UI checks pass for the initial cards, NEP view, channel breakdown, Travel filtering, multi-year selection and a single-month period. Live NBO still reconciles to 10,566 and both Cortex/fallback paths pass. Retention, financial reconciliation and separate ticket workflows pass. Business logic, Snowflake service and dependency environment hashes match the start-of-visual-pass snapshot; data/calculation changes were not required. Evidence: `visual_baseline.json`, `visual_checks.json`, and the current workflow logs. Both app entry points and the shared visual helper were downloaded from the updated Snowflake live versions and matched local SHA-256 hashes (`visual_source_match.json`). The CLI still reports its known post-upload URL-format error; artifact verification does not establish hosted startup.
+
+Browser rendering is **NOT EXECUTED**: both browser host and native computer-use connection were unavailable. AppTest assertions establish execution and data behavior, not pixel alignment, contrast measurements, responsive layout or browser row-click behavior. The supplied screenshots informed the changes; they are not verification screenshots of this revision.
+
 ## Monorepo structure update
 
 Both applications remain in the existing Git repository, with entry points and individual Snowflake configs under `apps/ai-intelligence/` and `apps/data-service-desk/`. Reusable modules, branding and the Snowflake environment are maintained once under `shared/`. `sql/` and `tests/` remain at the repository root. No Git repository was initialized, no commits were rewritten and no nested repositories were created; Git HEAD matches the pre-move snapshot.
