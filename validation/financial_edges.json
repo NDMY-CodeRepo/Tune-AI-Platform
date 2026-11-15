@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "missing_actual_and_plan": "PASS",
+  "zero_plan_percentage": "PASS",
+  "zero_earned_premium_ratio": "PASS",
+  "null_source_amount_not_silently_omitted": "PASS",
+  "mutations": "NONE: inline SQL fixtures only"
+}

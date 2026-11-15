@@ -1,0 +1,30 @@
+[
+  [
+    {
+      "NO_RENEWAL"  :   146948  ,
+      "NO_VALUE"  :   0  ,
+      "NO_SCORE"  :   0  ,
+      "NO_RISK_BAND"  :   0  ,
+      "NO_CHANNEL"  :   0  ,
+      "NO_VALUE_BAND"  :   0
+    }
+  ],
+  [
+    {
+      "RETENTION_RISK_BAND"  :   "Medium"  ,
+      "N"  :   113080  ,
+      "NO_RENEWAL"  :   93767
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Low"  ,
+      "N"  :   62613  ,
+      "NO_RENEWAL"  :   50938
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "High"  ,
+      "N"  :   4032  ,
+      "NO_RENEWAL"  :   2243
+    }
+  ]
+]
+

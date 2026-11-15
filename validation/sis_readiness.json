@@ -1,0 +1,49 @@
+[
+  [
+    {
+      "PACKAGE_NAME"  :   "toml"  ,
+      "VERSION"  :   "0.10.2"
+    }  ,
+    {
+      "PACKAGE_NAME"  :   "streamlit"  ,
+      "VERSION"  :   "1.42.0"
+    }
+  ],
+  [
+    {
+      "name"  :   "POC_WH"  ,
+      "state"  :   "SUSPENDED"  ,
+      "type"  :   "STANDARD"  ,
+      "size"  :   "X-Small"  ,
+      "running"  :   0  ,
+      "queued"  :   0  ,
+      "is_default"  :   "N"  ,
+      "is_current"  :   "N"  ,
+      "auto_suspend"  :   60  ,
+      "auto_resume"  :   "true"  ,
+      "available"  :   ""  ,
+      "provisioning"  :   ""  ,
+      "quiescing"  :   ""  ,
+      "other"  :   ""  ,
+      "created_on"  :   "2026-10-20T19:23:05.152000-07:00"  ,
+      "resumed_on"  :   "2026-11-15T07:03:57.093000-08:00"  ,
+      "updated_on"  :   "2026-11-15T07:03:57.093000-08:00"  ,
+      "owner"  :   "ACCOUNTADMIN"  ,
+      "comment"  :   "SF_POC_V2 build and demo warehouse"  ,
+      "resource_monitor"  :   "null"  ,
+      "actives"  :   0  ,
+      "pendings"  :   0  ,
+      "failed"  :   0  ,
+      "suspended"  :   1  ,
+      "uuid"  :   "3111256"  ,
+      "owner_role_type"  :   "ROLE"  ,
+      "resource_constraint"  :   "STANDARD_GEN_2"  ,
+      "generation"  :   "2"  ,
+      "query_throughput_multiplier"  :   null  ,
+      "max_query_performance_level"  :   null  ,
+      "disabled_reasons"  :   null  ,
+      "tables"  :   null
+    }
+  ]
+]
+

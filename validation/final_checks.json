@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "session": {
+    "ROLE": "AGENT_ROLE",
+    "WAREHOUSE": "POC_WH"
+  },
+  "NBA_missing_renewal": "PASS",
+  "final_application_screens": "PASS",
+  "connection_outage_no_substituted_figures": "PASS",
+  "GOLD_column_metadata_unchanged": "PASS",
+  "semantic_content_hashes_unchanged": "PASS",
+  "semantic_fingerprints": [
+    {
+      "OBJECT_NAME": "DERIVED_METRIC",
+      "N": 26,
+      "CONTENT_HASH": 5171198532191414477
+    },
+    {
+      "OBJECT_NAME": "FIELD_DISPLAY",
+      "N": 188,
+      "CONTENT_HASH": -9142596810434469147
+    },
+    {
+      "OBJECT_NAME": "MART_REGISTRY",
+      "N": 4,
+      "CONTENT_HASH": -8255377461674191781
+    }
+  ]
+}

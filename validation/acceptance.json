@@ -1,0 +1,20 @@
+{
+  "NBA": "PASS: live screen, filters, deterministic explanation and 8 SQL rule/window cases",
+  "Executive": {
+    "status": "PASS",
+    "actual_plan_source_reconciliation": "PASS",
+    "grouped_totals": "PASS",
+    "semantic_definition": "PASS",
+    "ui": "PASS",
+    "2026_YTD_GWP": "18926262.09",
+    "2026_YTD_PLAN_GWP": "20084123.92",
+    "claims_plan_comparability": "UNCONFIRMED: no documented gross/net definition"
+  },
+  "ServiceDesk": {
+    "status": "PASS",
+    "ticket_id": "TP-273EEB63-0877-4EBF-A4FB-83D2B233AF3A",
+    "create_assign_resolve_business_view": "PASS",
+    "stale_update_rejected": "PASS"
+  },
+  "CortexOutage": "PASS: deterministic brief and customer screen available"
+}

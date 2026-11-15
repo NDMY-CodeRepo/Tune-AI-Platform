@@ -1,0 +1,941 @@
+[
+  [
+    {
+      "FIELD_NAME": "GROSS_WRITTEN_PREMIUM",
+      "FIELD_LABEL": "Gross Written Premium",
+      "BUSINESS_DEFINITION": "Premium written before reinsurance and commission, in MYR.",
+      "DEFAULT_AGGREGATION": "SUM",
+      "USAGE_NOTE": null
+    },
+    {
+      "FIELD_NAME": "GROSS_CLAIMS_PAID",
+      "FIELD_LABEL": "Gross Claims Paid",
+      "BUSINESS_DEFINITION": "Claims paid before reinsurance recoveries, in MYR.",
+      "DEFAULT_AGGREGATION": "SUM",
+      "USAGE_NOTE": null
+    },
+    {
+      "FIELD_NAME": "REINSURANCE_RECOVERIES",
+      "FIELD_LABEL": "Reinsurance Recoveries",
+      "BUSINESS_DEFINITION": "Reinsurers' share of the incurred claims on the row (paid, outstanding and IBNR), in MYR.",
+      "DEFAULT_AGGREGATION": "SUM",
+      "USAGE_NOTE": null
+    },
+    {
+      "FIELD_NAME": "NET_EARNED_PREMIUM",
+      "FIELD_LABEL": "Net Earned Premium",
+      "BUSINESS_DEFINITION": "Premium earned for the cover given, after reinsurance ceded, in MYR.",
+      "DEFAULT_AGGREGATION": "SUM",
+      "USAGE_NOTE": null
+    }
+  ],
+  [
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "ACCOUNTING_MONTH",
+      "FIELD_LABEL": "Accounting Month",
+      "DISPLAY_FORMAT": "DATE",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "POLICY_NUMBER",
+      "FIELD_LABEL": "Policy Number",
+      "DISPLAY_FORMAT": "TEXT",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "CUSTOMER_ID",
+      "FIELD_LABEL": "Customer ID",
+      "DISPLAY_FORMAT": "TEXT",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "ENTITY_CODE",
+      "FIELD_LABEL": "Entity Code",
+      "DISPLAY_FORMAT": "TEXT",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "LINE_OF_BUSINESS",
+      "FIELD_LABEL": "Line Of Business",
+      "DISPLAY_FORMAT": "TEXT",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "PRODUCT_CODE",
+      "FIELD_LABEL": "Product Code",
+      "DISPLAY_FORMAT": "TEXT",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "PRODUCT_NAME",
+      "FIELD_LABEL": "Product Name",
+      "DISPLAY_FORMAT": "TEXT",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "DISTRIBUTION_CHANNEL",
+      "FIELD_LABEL": "Distribution Channel",
+      "DISPLAY_FORMAT": "TEXT",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "PARTNER_NAME",
+      "FIELD_LABEL": "Partner Name",
+      "DISPLAY_FORMAT": "TEXT",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "UNDERWRITING_YEAR",
+      "FIELD_LABEL": "Underwriting Year",
+      "DISPLAY_FORMAT": "TEXT",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "POLICY_STATUS",
+      "FIELD_LABEL": "Policy Status",
+      "DISPLAY_FORMAT": "TEXT",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "BUSINESS_TYPE",
+      "FIELD_LABEL": "Business Type",
+      "DISPLAY_FORMAT": "TEXT",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "RISK_COUNTRY",
+      "FIELD_LABEL": "Risk Country",
+      "DISPLAY_FORMAT": "TEXT",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "CUSTOMER_SEGMENT",
+      "FIELD_LABEL": "Customer Segment",
+      "DISPLAY_FORMAT": "TEXT",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "CLAIM_CAUSE",
+      "FIELD_LABEL": "Claim Cause",
+      "DISPLAY_FORMAT": "TEXT",
+      "AMOUNTS_ONLY": true,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": "Rows without a claim carry the premium under No Claim, so a ratio grouped by this field means nothing. Group claim amounts and counts by it, or show each value's share of incurred claims."
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "CLAIM_SEVERITY_BAND",
+      "FIELD_LABEL": "Claim Severity Band",
+      "DISPLAY_FORMAT": "TEXT",
+      "AMOUNTS_ONLY": true,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": "Rows without a claim carry the premium under No Claim, so a ratio grouped by this field means nothing. Group claim amounts and counts by it, or show each value's share of incurred claims."
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "POLICY_INCEPTION_DATE",
+      "FIELD_LABEL": "Policy Inception Date",
+      "DISPLAY_FORMAT": "DATE",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "POLICY_EXPIRY_DATE",
+      "FIELD_LABEL": "Policy Expiry Date",
+      "DISPLAY_FORMAT": "DATE",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "GROSS_WRITTEN_PREMIUM",
+      "FIELD_LABEL": "Gross Written Premium",
+      "DISPLAY_FORMAT": "CURRENCY",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "NET_EARNED_PREMIUM",
+      "FIELD_LABEL": "Net Earned Premium",
+      "DISPLAY_FORMAT": "CURRENCY",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "GROSS_CLAIMS_PAID",
+      "FIELD_LABEL": "Gross Claims Paid",
+      "DISPLAY_FORMAT": "CURRENCY",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "OS_RESERVE_MOVEMENT",
+      "FIELD_LABEL": "OS Reserve Movement",
+      "DISPLAY_FORMAT": "CURRENCY",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "IBNR_MOVEMENT",
+      "FIELD_LABEL": "IBNR Movement",
+      "DISPLAY_FORMAT": "CURRENCY",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "COMMISSION_EXPENSE",
+      "FIELD_LABEL": "Commission Expense",
+      "DISPLAY_FORMAT": "CURRENCY",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "WRITTEN_COMMISSION",
+      "FIELD_LABEL": "Written Commission",
+      "DISPLAY_FORMAT": "CURRENCY",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "MANAGEMENT_EXPENSE",
+      "FIELD_LABEL": "Management Expense",
+      "DISPLAY_FORMAT": "CURRENCY",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "NEW_POLICY_COUNT",
+      "FIELD_LABEL": "New Policy Count",
+      "DISPLAY_FORMAT": "COUNT",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "EXPOSURE_POLICY_YEARS",
+      "FIELD_LABEL": "Exposure Policy Years",
+      "DISPLAY_FORMAT": "NUMBER",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "CLAIM_COUNT",
+      "FIELD_LABEL": "Claim Count",
+      "DISPLAY_FORMAT": "COUNT",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "CLAIMS_SETTLED_COUNT",
+      "FIELD_LABEL": "Claims Settled Count",
+      "DISPLAY_FORMAT": "COUNT",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "CLAIM_SETTLEMENT_DAYS_TOTAL",
+      "FIELD_LABEL": "Claim Settlement Days Total",
+      "DISPLAY_FORMAT": "DAYS",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "RENEWAL_DUE_COUNT",
+      "FIELD_LABEL": "Renewal Due Count",
+      "DISPLAY_FORMAT": "COUNT",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "RENEWED_COUNT",
+      "FIELD_LABEL": "Renewed Count",
+      "DISPLAY_FORMAT": "COUNT",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "GROSS_EARNED_PREMIUM",
+      "FIELD_LABEL": "Gross Earned Premium",
+      "DISPLAY_FORMAT": "CURRENCY",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "REINSURANCE_RECOVERIES",
+      "FIELD_LABEL": "Reinsurance Recoveries",
+      "DISPLAY_FORMAT": "CURRENCY",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": null,
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "LOSS_RATIO",
+      "FIELD_LABEL": "Loss Ratio (Net)",
+      "DISPLAY_FORMAT": "PERCENT",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": "PORTFOLIO",
+      "USAGE_NOTE": "A ratio over the whole portfolio: refused when grouped or filtered by a claim cause or severity field, whose No Claim rows hold the premium."
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "GROSS_LOSS_RATIO",
+      "FIELD_LABEL": "Loss Ratio (Gross)",
+      "DISPLAY_FORMAT": "PERCENT",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": "PORTFOLIO",
+      "USAGE_NOTE": "A ratio over the whole portfolio: refused when grouped or filtered by a claim cause or severity field, whose No Claim rows hold the premium."
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "COMMISSION_RATIO",
+      "FIELD_LABEL": "Commission Ratio",
+      "DISPLAY_FORMAT": "PERCENT",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": "PORTFOLIO",
+      "USAGE_NOTE": "A ratio over the whole portfolio: refused when grouped or filtered by a claim cause or severity field, whose No Claim rows hold the premium."
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "EXPENSE_RATIO",
+      "FIELD_LABEL": "Management Expense Ratio",
+      "DISPLAY_FORMAT": "PERCENT",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": "PORTFOLIO",
+      "USAGE_NOTE": "A ratio over the whole portfolio: refused when grouped or filtered by a claim cause or severity field, whose No Claim rows hold the premium."
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "COMBINED_RATIO",
+      "FIELD_LABEL": "Combined Ratio",
+      "DISPLAY_FORMAT": "PERCENT",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": "PORTFOLIO",
+      "USAGE_NOTE": "A ratio over the whole portfolio: refused when grouped or filtered by a claim cause or severity field, whose No Claim rows hold the premium."
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "CLAIM_FREQUENCY",
+      "FIELD_LABEL": "Claim Frequency",
+      "DISPLAY_FORMAT": "NUMBER",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": "PORTFOLIO",
+      "USAGE_NOTE": "A ratio over the whole portfolio: refused when grouped or filtered by a claim cause or severity field, whose No Claim rows hold the premium."
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "AVERAGE_CLAIM_COST",
+      "FIELD_LABEL": "Average Claim Cost",
+      "DISPLAY_FORMAT": "CURRENCY",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": "PER_CLAIM",
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "CLAIM_SETTLEMENT_TAT_DAYS",
+      "FIELD_LABEL": "Claim Settlement TAT (Days)",
+      "DISPLAY_FORMAT": "DAYS",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": "PER_CLAIM",
+      "USAGE_NOTE": null
+    },
+    {
+      "MART_NAME": "GI_ENTERPRISE_WIDE_MART",
+      "FIELD_NAME": "RENEWAL_RETENTION_RATE",
+      "FIELD_LABEL": "Renewal Retention Rate",
+      "DISPLAY_FORMAT": "PERCENT",
+      "AMOUNTS_ONLY": false,
+      "RATIO_BASIS": "PORTFOLIO",
+      "USAGE_NOTE": "A ratio over the whole portfolio: refused when grouped or filtered by a claim cause or severity field, whose No Claim rows hold the premium."
+    }
+  ],
+  [
+    {
+      "DUPLICATE_KEYS": 0
+    }
+  ],
+  [
+    {
+      "COLUMN_NAME": "PLAN_NET_EARNED_PREMIUM",
+      "COMMENT": null
+    },
+    {
+      "COLUMN_NAME": "LINE_OF_BUSINESS",
+      "COMMENT": null
+    },
+    {
+      "COLUMN_NAME": "ACCOUNTING_MONTH",
+      "COMMENT": null
+    },
+    {
+      "COLUMN_NAME": "PLAN_INCURRED_CLAIMS",
+      "COMMENT": null
+    },
+    {
+      "COLUMN_NAME": "PLAN_EXPENSES",
+      "COMMENT": null
+    },
+    {
+      "COLUMN_NAME": "DISTRIBUTION_CHANNEL",
+      "COMMENT": null
+    },
+    {
+      "COLUMN_NAME": "PLAN_GROSS_WRITTEN_PREMIUM",
+      "COMMENT": null
+    },
+    {
+      "COLUMN_NAME": "ENTITY_CODE",
+      "COMMENT": null
+    }
+  ],
+  [
+    {
+      "created_on": "2026-11-15T01:15:22.898000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "DATABASE",
+      "name": "TUNE_BI_DB",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T07:04:45.610000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "FUNCTION",
+      "name": "TUNE_BI_DB.MOCK.PICK(ARRAY, FLOAT)",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T07:04:45.542000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "FUNCTION",
+      "name": "TUNE_BI_DB.MOCK.R(VARCHAR, VARCHAR)",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T07:04:45.673000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "FUNCTION",
+      "name": "TUNE_BI_DB.MOCK.SNAP()",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T07:04:41.522000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "PROCEDURE",
+      "name": "TUNE_BI_DB.APP_STATE.PROMOTE_BOOKMARK_TO_PAGE(VARCHAR, VARCHAR, VARCHAR, VARCHAR, VARIANT)",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T07:04:41.589000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "PROCEDURE",
+      "name": "TUNE_BI_DB.APP_STATE.RETIRE_PAGE(VARCHAR, VARCHAR)",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T07:04:41.791000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "PROCEDURE",
+      "name": "TUNE_BI_DB.APP_STATE.REVIEW_SCHEDULE(VARCHAR, VARCHAR, VARCHAR, VARCHAR)",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T07:04:41.727000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "PROCEDURE",
+      "name": "TUNE_BI_DB.APP_STATE.SUBMIT_SCHEDULE(VARCHAR, VARCHAR, VARCHAR, VARCHAR, VARCHAR, VARCHAR, VARCHAR, VARCHAR, FLOAT)",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:15:23.437000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "SCHEMA",
+      "name": "TUNE_BI_DB.APP_STATE",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:15:23.246000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "SCHEMA",
+      "name": "TUNE_BI_DB.GOLD",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:44:32.894000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "SCHEMA",
+      "name": "TUNE_BI_DB.MOCK",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:15:22.906000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "SCHEMA",
+      "name": "TUNE_BI_DB.PUBLIC",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:15:34.774000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "STAGE",
+      "name": "TUNE_BI_DB.APP_STATE.DELIVERY_OUTBOX",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:15:23.912000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "STAGE",
+      "name": "TUNE_BI_DB.GOLD.SEMANTIC_MODELS",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:44:33.010000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "TABLE",
+      "name": "TUNE_BI_DB.APP_STATE.ACCESS_GROUP",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:15:35.050000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "TABLE",
+      "name": "TUNE_BI_DB.APP_STATE.AI_REQUEST_LOG",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:44:33.340000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "TABLE",
+      "name": "TUNE_BI_DB.APP_STATE.APP_USER",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:15:32.909000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "TABLE",
+      "name": "TUNE_BI_DB.APP_STATE.BI_ADMIN",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:15:34.246000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "TABLE",
+      "name": "TUNE_BI_DB.APP_STATE.DELIVERY_LOG",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:15:32.735000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "TABLE",
+      "name": "TUNE_BI_DB.APP_STATE.GOVERNANCE_RULE",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:44:33.178000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "TABLE",
+      "name": "TUNE_BI_DB.APP_STATE.MART_ACCESS",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:15:34.087000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "TABLE",
+      "name": "TUNE_BI_DB.APP_STATE.REPORT_SCHEDULE_QUEUE",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:15:33.632000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "TABLE",
+      "name": "TUNE_BI_DB.APP_STATE.USER_BOOKMARKS",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:15:33.428000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "TABLE",
+      "name": "TUNE_BI_DB.APP_STATE.USER_CUSTOM_FIELDS",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:15:33.824000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "TABLE",
+      "name": "TUNE_BI_DB.APP_STATE.USER_DYNAMIC_PAGES",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:15:28.921000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "TABLE",
+      "name": "TUNE_BI_DB.GOLD.CUSTOMER_360_WIDE_MART",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:15:24.348000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "TABLE",
+      "name": "TUNE_BI_DB.GOLD.DERIVED_METRIC",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T07:03:58.979000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "TABLE",
+      "name": "TUNE_BI_DB.GOLD.FIELD_DISPLAY",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:15:28.388000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "TABLE",
+      "name": "TUNE_BI_DB.GOLD.GI_ENTERPRISE_WIDE_MART",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:15:29.112000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "TABLE",
+      "name": "TUNE_BI_DB.GOLD.GI_PLAN_MONTHLY",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:15:24.186000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "TABLE",
+      "name": "TUNE_BI_DB.GOLD.MART_REGISTRY",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:15:28.748000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "TABLE",
+      "name": "TUNE_BI_DB.GOLD.MOTOR_INSURANCE_WIDE_MART",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:15:28.564000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "TABLE",
+      "name": "TUNE_BI_DB.GOLD.TRAVEL_INSURANCE_WIDE_MART",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:15:23.723000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "TAG",
+      "name": "TUNE_BI_DB.GOLD.BUSINESS_DEFINITION",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:15:23.626000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "TAG",
+      "name": "TUNE_BI_DB.GOLD.DEFAULT_AGGREGATION",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:15:23.827000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "TAG",
+      "name": "TUNE_BI_DB.GOLD.SAMPLE_VALUES",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T01:15:23.533000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "TAG",
+      "name": "TUNE_BI_DB.GOLD.SEMANTIC_TYPE",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T07:04:41.381000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "VIEW",
+      "name": "TUNE_BI_DB.APP_STATE.VW_SCHEDULE_QUEUE",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T07:04:37.698000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "VIEW",
+      "name": "TUNE_BI_DB.APP_STATE.VW_USER_MART_ACCESS",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T07:04:41.237000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "VIEW",
+      "name": "TUNE_BI_DB.APP_STATE.VW_USER_PAGE_QUOTA",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T07:04:33.756000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "VIEW",
+      "name": "TUNE_BI_DB.GOLD.VW_AS_AT",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T07:04:33.557000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "VIEW",
+      "name": "TUNE_BI_DB.GOLD.VW_SEMANTIC_CATALOG",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-11-15T07:04:38.021000-08:00",
+      "privilege": "OWNERSHIP",
+      "granted_on": "VIEW",
+      "name": "TUNE_BI_DB.GOLD.VW_USER_SEMANTIC_CATALOG",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "true",
+      "granted_by": "AGENT_ROLE"
+    },
+    {
+      "created_on": "2026-10-20T19:23:07.375000-07:00",
+      "privilege": "OPERATE",
+      "granted_on": "WAREHOUSE",
+      "name": "POC_WH",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "false",
+      "granted_by": "ACCOUNTADMIN"
+    },
+    {
+      "created_on": "2026-10-20T19:23:07.382000-07:00",
+      "privilege": "USAGE",
+      "granted_on": "WAREHOUSE",
+      "name": "POC_WH",
+      "granted_to": "ROLE",
+      "grantee_name": "AGENT_ROLE",
+      "grant_option": "false",
+      "granted_by": "ACCOUNTADMIN"
+    }
+  ],
+  [
+    {
+      "DISTRIBUTION_CHANNEL": "Affinity Partner"
+    },
+    {
+      "DISTRIBUTION_CHANNEL": "Agency"
+    },
+    {
+      "DISTRIBUTION_CHANNEL": "Aggregator"
+    },
+    {
+      "DISTRIBUTION_CHANNEL": "Bancassurance"
+    },
+    {
+      "DISTRIBUTION_CHANNEL": "Broker"
+    },
+    {
+      "DISTRIBUTION_CHANNEL": "Direct Online"
+    }
+  ]
+]

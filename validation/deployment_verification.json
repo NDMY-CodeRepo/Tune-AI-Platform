@@ -1,0 +1,96 @@
+[
+  [
+    {
+      "title"  :   "Tune AI Intelligence"  ,
+      "main_file"  :   "app.py"  ,
+      "query_warehouse"  :   "POC_WH"  ,
+      "url_id"  :   "ofcwqtigogmxp3nyrhtq"  ,
+      "default_packages"  :   "python==3.11.*,snowflake-snowpark-python,streamlit"  ,
+      "user_packages"  :   "python==3.11,streamlit==1.42.0,snowflake-snowpark-python,pandas,plotly,toml"  ,
+      "import_urls"  :   "[]"  ,
+      "external_access_integrations"  :   "[]"  ,
+      "external_access_secrets"  :   "{}"  ,
+      "compute_pool"  :   "SYSTEM_COMPUTE_POOL_CPU"  ,
+      "runtime_name"  :   "SYSTEM$WAREHOUSE_RUNTIME"  ,
+      "name"  :   "TUNE_AI_INTELLIGENCE"  ,
+      "comment"  :   null  ,
+      "default_version"  :   "LAST"  ,
+      "default_version_name"  :   "VERSION$1"  ,
+      "default_version_alias"  :   null  ,
+      "default_version_location_uri"  :   "snow://streamlit/TUNE_BI_DB.APP_STATE.TUNE_AI_INTELLIGENCE/versions/version$1/"  ,
+      "default_version_source_location_uri"  :   null  ,
+      "default_version_git_commit_hash"  :   null  ,
+      "last_version_name"  :   "VERSION$1"  ,
+      "last_version_alias"  :   null  ,
+      "last_version_location_uri"  :   "snow://streamlit/TUNE_BI_DB.APP_STATE.TUNE_AI_INTELLIGENCE/versions/version$1/"  ,
+      "last_version_source_location_uri"  :   null  ,
+      "last_version_git_commit_hash"  :   null  ,
+      "live_version_location_uri"  :   "snow://streamlit/TUNE_BI_DB.APP_STATE.TUNE_AI_INTELLIGENCE/versions/live/"
+    }
+  ],
+  [
+    {
+      "name"  :   "/versions/live/.streamlit/config.toml"  ,
+      "size"  :   208  ,
+      "md5"  :   "80caa244b8987bd70c0f0925965b1ce0"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 16:22:27 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/app.py"  ,
+      "size"  :   22016  ,
+      "md5"  :   "9497f7444e0e8036d7c4c9135741e2f9"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 16:22:27 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/business_logic.py"  ,
+      "size"  :   10000  ,
+      "md5"  :   "d9d13b6e9cc55c7a7dec050d47c1c80e"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 16:22:27 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/environment.yml"  ,
+      "size"  :   176  ,
+      "md5"  :   "292afc940e3dd712e83e7980311cb752"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 16:22:28 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/pyproject.toml"  ,
+      "size"  :   912  ,
+      "md5"  :   "95ea1af01fb6a56bc4555a4fc8624d05"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 16:17:32 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/snowflake_service.py"  ,
+      "size"  :   7120  ,
+      "md5"  :   "76d2421384d4bc46d499f9e9a8734cca"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 16:22:28 GMT"
+    }
+  ],
+  [
+    {
+      "file"  :   "1071_796508169/1794759746153/app.py"  ,
+      "size"  :   22011  ,
+      "status"  :   "DOWNLOADED"  ,
+      "message"  :   ""
+    }  ,
+    {
+      "file"  :   "1071_796508169/1794759746479/business_logic.py"  ,
+      "size"  :   9995  ,
+      "status"  :   "DOWNLOADED"  ,
+      "message"  :   ""
+    }  ,
+    {
+      "file"  :   "1071_796508169/1794759746831/environment.yml"  ,
+      "size"  :   163  ,
+      "status"  :   "DOWNLOADED"  ,
+      "message"  :   ""
+    }  ,
+    {
+      "file"  :   "1071_796508169/1794759747153/snowflake_service.py"  ,
+      "size"  :   7106  ,
+      "status"  :   "DOWNLOADED"  ,
+      "message"  :   ""
+    }
+  ]
+]
+

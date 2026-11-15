@@ -1,0 +1,10 @@
+name: tune_ai_intelligence
+channels:
+  - snowflake
+dependencies:
+  - python=3.11
+  - streamlit=1.42.0
+  - snowflake-snowpark-python
+  - pandas
+  - plotly
+  - toml

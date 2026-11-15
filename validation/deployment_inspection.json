@@ -1,0 +1,29 @@
+[
+  [
+    {
+      "REGION"  :   "AWS_AP_SOUTHEAST_5"  ,
+      "ACCOUNT_LOCATOR"  :   "UR05008"  ,
+      "ORGANIZATION"  :   "DINHEAO"  ,
+      "ACCOUNT_NAME"  :   "HN84194"
+    }
+  ],
+  [
+    {
+      "created_on"  :   "2026-11-15T08:17:31.257000-08:00"  ,
+      "name"  :   "TUNE_AI_INTELLIGENCE"  ,
+      "database_name"  :   "TUNE_BI_DB"  ,
+      "schema_name"  :   "APP_STATE"  ,
+      "title"  :   "Tune AI Intelligence"  ,
+      "comment"  :   null  ,
+      "owner"  :   "AGENT_ROLE"  ,
+      "query_warehouse"  :   "POC_WH"  ,
+      "url_id"  :   "ofcwqtigogmxp3nyrhtq"  ,
+      "owner_role_type"  :   "ROLE"  ,
+      "idle_auto_shutdown_time_seconds"  :   null  ,
+      "scheduled_tasks"  :   null  ,
+      "artifact_repositories"  :   "[]"
+    }
+  ],
+  []
+]
+

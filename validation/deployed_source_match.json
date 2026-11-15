@@ -1,0 +1,22 @@
+{
+  "app.py": {
+    "local_sha256": "f568f8b551654fb5826aaaaf57f472faa14e0e70dc8b1272d9bb78bb9757a2d1",
+    "deployed_sha256": "f568f8b551654fb5826aaaaf57f472faa14e0e70dc8b1272d9bb78bb9757a2d1"
+  },
+  "business_logic.py": {
+    "local_sha256": "35a5eb80672d9800bbe5a7d9b3485d2501e41c378c85865b29403d354f42d884",
+    "deployed_sha256": "35a5eb80672d9800bbe5a7d9b3485d2501e41c378c85865b29403d354f42d884"
+  },
+  "snowflake_service.py": {
+    "local_sha256": "f850bd703b5e9f812154a723fabe62bd95c050c24fed910e2bd73581446e2e5b",
+    "deployed_sha256": "f850bd703b5e9f812154a723fabe62bd95c050c24fed910e2bd73581446e2e5b"
+  },
+  "environment.yml": {
+    "local_sha256": "66d6391aba0c3f0ac050f207d6f8174054187693c56540968e3579b0fa082af4",
+    "deployed_sha256": "66d6391aba0c3f0ac050f207d6f8174054187693c56540968e3579b0fa082af4"
+  },
+  "tune-protect-group-logo.png": {
+    "local_sha256": "3727d0c5b4470e655df841f43d7fe57b35d452021455b4b736fe0cd558bd51e0",
+    "deployed_sha256": "3727d0c5b4470e655df841f43d7fe57b35d452021455b4b736fe0cd558bd51e0"
+  }
+}

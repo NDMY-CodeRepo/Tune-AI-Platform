@@ -1,0 +1,2639 @@
+[
+  [
+    {
+      "AS_AT_MONTH"  :   "2026-10-01"  ,
+      "AS_AT_DATE"  :   "2026-10-31"  ,
+      "AS_AT_YEAR"  :   2026  ,
+      "SNAPSHOT_DATE"  :   "2026-10-31"  ,
+      "FIRST_COMPARABLE_MONTH"  :   "2025-01-01"
+    }
+  ],
+  [
+    {
+      "MART_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "MART_LABEL"  :   "General Insurance (all lines)"  ,
+      "DOMAIN"  :   "Unified semantic layer"  ,
+      "GRAIN"  :   "One row per policy per accounting month. Every metric is the movement in that month, so it adds up across any dimension and any period."  ,
+      "DESCRIPTION"  :   "Unified General Insurance mart across Motor, Travel, Fire, Personal Accident and Commercial lines, for executive and cross-line reporting."  ,
+      "DISPLAY_ORDER"  :   1  ,
+      "IS_UNIFIED_LAYER"  :   true
+    }  ,
+    {
+      "MART_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "MART_LABEL"  :   "Travel Data Mart"  ,
+      "DOMAIN"  :   "Travel"  ,
+      "GRAIN"  :   "One row per travel policy or certificate, with premium and claims to date as at the snapshot date."  ,
+      "DESCRIPTION"  :   "Travel insurance policies with partner and flight channel, destination, trip duration and delay, baggage and medical claims."  ,
+      "DISPLAY_ORDER"  :   3  ,
+      "IS_UNIFIED_LAYER"  :   false
+    }  ,
+    {
+      "MART_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "MART_LABEL"  :   "Motor Data Mart"  ,
+      "DOMAIN"  :   "Motor"  ,
+      "GRAIN"  :   "One row per motor policy term, with premium and claims to date as at the snapshot date."  ,
+      "DESCRIPTION"  :   "Motor insurance policy terms with vehicle, NCD tier, sum insured, workshop panel and own-damage and third-party claims."  ,
+      "DISPLAY_ORDER"  :   4  ,
+      "IS_UNIFIED_LAYER"  :   false
+    }  ,
+    {
+      "MART_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "MART_LABEL"  :   "Customer 360"  ,
+      "DOMAIN"  :   "Customer"  ,
+      "GRAIN"  :   "One row per customer as at the snapshot date."  ,
+      "DESCRIPTION"  :   "Customer profile with holdings across lines, tenure, lifetime value, retention risk and channel affinity. Holds no name, NRIC or contact detail."  ,
+      "DISPLAY_ORDER"  :   2  ,
+      "IS_UNIFIED_LAYER"  :   false
+    }
+  ],
+  [
+    {
+      "MART_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "FIELD_NAME"  :   "LOSS_RATIO"  ,
+      "FIELD_LABEL"  :   "Loss Ratio (Net)"  ,
+      "SQL_EXPRESSION"  :   "(SUM(GROSS_CLAIMS_PAID) + SUM(OS_RESERVE_MOVEMENT) + SUM(IBNR_MOVEMENT) - SUM(REINSURANCE_RECOVERIES)) / NULLIF(SUM(NET_EARNED_PREMIUM), 0)"  ,
+      "BUSINESS_DEFINITION"  :   "Net incurred claims (paid, outstanding reserve and IBNR, less reinsurance recoveries) over net earned premium. The headline loss ratio."  ,
+      "DISPLAY_FORMAT"  :   "PERCENT"  ,
+      "DISPLAY_ORDER"  :   1
+    }  ,
+    {
+      "MART_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "FIELD_NAME"  :   "GROSS_LOSS_RATIO"  ,
+      "FIELD_LABEL"  :   "Loss Ratio (Gross)"  ,
+      "SQL_EXPRESSION"  :   "(SUM(GROSS_CLAIMS_PAID) + SUM(OS_RESERVE_MOVEMENT) + SUM(IBNR_MOVEMENT)) / NULLIF(SUM(GROSS_EARNED_PREMIUM), 0)"  ,
+      "BUSINESS_DEFINITION"  :   "Gross incurred claims (paid, outstanding reserve and IBNR) over gross earned premium, before reinsurance."  ,
+      "DISPLAY_FORMAT"  :   "PERCENT"  ,
+      "DISPLAY_ORDER"  :   2
+    }  ,
+    {
+      "MART_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "FIELD_NAME"  :   "COMMISSION_RATIO"  ,
+      "FIELD_LABEL"  :   "Commission Ratio"  ,
+      "SQL_EXPRESSION"  :   "SUM(COMMISSION_EXPENSE) / NULLIF(SUM(NET_EARNED_PREMIUM), 0)"  ,
+      "BUSINESS_DEFINITION"  :   "Earned commission expense over net earned premium."  ,
+      "DISPLAY_FORMAT"  :   "PERCENT"  ,
+      "DISPLAY_ORDER"  :   3
+    }  ,
+    {
+      "MART_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "FIELD_NAME"  :   "EXPENSE_RATIO"  ,
+      "FIELD_LABEL"  :   "Management Expense Ratio"  ,
+      "SQL_EXPRESSION"  :   "SUM(MANAGEMENT_EXPENSE) / NULLIF(SUM(NET_EARNED_PREMIUM), 0)"  ,
+      "BUSINESS_DEFINITION"  :   "Management expenses over net earned premium."  ,
+      "DISPLAY_FORMAT"  :   "PERCENT"  ,
+      "DISPLAY_ORDER"  :   4
+    }  ,
+    {
+      "MART_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "FIELD_NAME"  :   "COMBINED_RATIO"  ,
+      "FIELD_LABEL"  :   "Combined Ratio"  ,
+      "SQL_EXPRESSION"  :   "(SUM(GROSS_CLAIMS_PAID) + SUM(OS_RESERVE_MOVEMENT) + SUM(IBNR_MOVEMENT) - SUM(REINSURANCE_RECOVERIES) + SUM(COMMISSION_EXPENSE) + SUM(MANAGEMENT_EXPENSE)) / NULLIF(SUM(NET_EARNED_PREMIUM), 0)"  ,
+      "BUSINESS_DEFINITION"  :   "Net loss ratio plus commission ratio plus management expense ratio. Above 100% is an underwriting loss."  ,
+      "DISPLAY_FORMAT"  :   "PERCENT"  ,
+      "DISPLAY_ORDER"  :   5
+    }  ,
+    {
+      "MART_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "FIELD_NAME"  :   "CLAIM_FREQUENCY"  ,
+      "FIELD_LABEL"  :   "Claim Frequency"  ,
+      "SQL_EXPRESSION"  :   "SUM(CLAIM_COUNT) / NULLIF(SUM(EXPOSURE_POLICY_YEARS), 0)"  ,
+      "BUSINESS_DEFINITION"  :   "Claims reported per policy year of exposure."  ,
+      "DISPLAY_FORMAT"  :   "NUMBER"  ,
+      "DISPLAY_ORDER"  :   6
+    }  ,
+    {
+      "MART_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "FIELD_NAME"  :   "AVERAGE_CLAIM_COST"  ,
+      "FIELD_LABEL"  :   "Average Claim Cost"  ,
+      "SQL_EXPRESSION"  :   "(SUM(GROSS_CLAIMS_PAID) + SUM(OS_RESERVE_MOVEMENT)) / NULLIF(SUM(CLAIM_COUNT), 0)"  ,
+      "BUSINESS_DEFINITION"  :   "Paid plus outstanding case reserve per reported claim, before reinsurance and excluding IBNR, in MYR."  ,
+      "DISPLAY_FORMAT"  :   "CURRENCY"  ,
+      "DISPLAY_ORDER"  :   7
+    }  ,
+    {
+      "MART_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "FIELD_NAME"  :   "CLAIM_SETTLEMENT_TAT_DAYS"  ,
+      "FIELD_LABEL"  :   "Claim Settlement TAT (Days)"  ,
+      "SQL_EXPRESSION"  :   "SUM(CLAIM_SETTLEMENT_DAYS_TOTAL) / NULLIF(SUM(CLAIMS_SETTLED_COUNT), 0)"  ,
+      "BUSINESS_DEFINITION"  :   "Average days from claim notification to settlement, weighted by settled claims."  ,
+      "DISPLAY_FORMAT"  :   "DAYS"  ,
+      "DISPLAY_ORDER"  :   8
+    }  ,
+    {
+      "MART_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "FIELD_NAME"  :   "RENEWAL_RETENTION_RATE"  ,
+      "FIELD_LABEL"  :   "Renewal Retention Rate"  ,
+      "SQL_EXPRESSION"  :   "SUM(RENEWED_COUNT) / NULLIF(SUM(RENEWAL_DUE_COUNT), 0)"  ,
+      "BUSINESS_DEFINITION"  :   "Share of policies due for renewal that renewed."  ,
+      "DISPLAY_FORMAT"  :   "PERCENT"  ,
+      "DISPLAY_ORDER"  :   9
+    }
+  ],
+  [
+    {
+      "ROW_COUNT"  :   179725  ,
+      "CUSTOMERS"  :   179725  ,
+      "SNAPSHOT_MIN"  :   "2026-10-31"  ,
+      "SNAPSHOT_MAX"  :   "2026-10-31"  ,
+      "RENEWAL_MIN"  :   "2026-11-01"  ,
+      "RENEWAL_MAX"  :   "2027-10-01"
+    }
+  ],
+  [
+    {
+      "ROW_COUNT"  :   10566  ,
+      "CUSTOMERS"  :   10566  ,
+      "MISSING"  :   0
+    }
+  ],
+  [
+    {
+      "RETENTION_RISK_BAND"  :   "Medium"  ,
+      "LIFETIME_VALUE_BAND"  :   "Low"  ,
+      "PREFERRED_CHANNEL"  :   "Direct Online"  ,
+      "N"  :   12802
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Medium"  ,
+      "LIFETIME_VALUE_BAND"  :   "Low"  ,
+      "PREFERRED_CHANNEL"  :   "Affinity Partner"  ,
+      "N"  :   41992
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Low"  ,
+      "LIFETIME_VALUE_BAND"  :   "Low"  ,
+      "PREFERRED_CHANNEL"  :   "Direct Online"  ,
+      "N"  :   6728
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Medium"  ,
+      "LIFETIME_VALUE_BAND"  :   "Low"  ,
+      "PREFERRED_CHANNEL"  :   "Agency"  ,
+      "N"  :   8708
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Medium"  ,
+      "LIFETIME_VALUE_BAND"  :   "Low"  ,
+      "PREFERRED_CHANNEL"  :   "Aggregator"  ,
+      "N"  :   6781
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Medium"  ,
+      "LIFETIME_VALUE_BAND"  :   "Medium"  ,
+      "PREFERRED_CHANNEL"  :   "Aggregator"  ,
+      "N"  :   3336
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Medium"  ,
+      "LIFETIME_VALUE_BAND"  :   "Medium"  ,
+      "PREFERRED_CHANNEL"  :   "Agency"  ,
+      "N"  :   7414
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Low"  ,
+      "LIFETIME_VALUE_BAND"  :   "Low"  ,
+      "PREFERRED_CHANNEL"  :   "Agency"  ,
+      "N"  :   4312
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Medium"  ,
+      "LIFETIME_VALUE_BAND"  :   "High"  ,
+      "PREFERRED_CHANNEL"  :   "Agency"  ,
+      "N"  :   3570
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Low"  ,
+      "LIFETIME_VALUE_BAND"  :   "High"  ,
+      "PREFERRED_CHANNEL"  :   "Affinity Partner"  ,
+      "N"  :   1311
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Medium"  ,
+      "LIFETIME_VALUE_BAND"  :   "Medium"  ,
+      "PREFERRED_CHANNEL"  :   "Affinity Partner"  ,
+      "N"  :   11289
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Low"  ,
+      "LIFETIME_VALUE_BAND"  :   "Low"  ,
+      "PREFERRED_CHANNEL"  :   "Affinity Partner"  ,
+      "N"  :   22394
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Low"  ,
+      "LIFETIME_VALUE_BAND"  :   "Medium"  ,
+      "PREFERRED_CHANNEL"  :   "Bancassurance"  ,
+      "N"  :   901
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Low"  ,
+      "LIFETIME_VALUE_BAND"  :   "Top"  ,
+      "PREFERRED_CHANNEL"  :   "Affinity Partner"  ,
+      "N"  :   388
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Low"  ,
+      "LIFETIME_VALUE_BAND"  :   "Medium"  ,
+      "PREFERRED_CHANNEL"  :   "Aggregator"  ,
+      "N"  :   1312
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Low"  ,
+      "LIFETIME_VALUE_BAND"  :   "High"  ,
+      "PREFERRED_CHANNEL"  :   "Agency"  ,
+      "N"  :   2487
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Medium"  ,
+      "LIFETIME_VALUE_BAND"  :   "High"  ,
+      "PREFERRED_CHANNEL"  :   "Aggregator"  ,
+      "N"  :   1146
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Medium"  ,
+      "LIFETIME_VALUE_BAND"  :   "High"  ,
+      "PREFERRED_CHANNEL"  :   "Affinity Partner"  ,
+      "N"  :   1941
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Low"  ,
+      "LIFETIME_VALUE_BAND"  :   "Medium"  ,
+      "PREFERRED_CHANNEL"  :   "Direct Online"  ,
+      "N"  :   3472
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Low"  ,
+      "LIFETIME_VALUE_BAND"  :   "High"  ,
+      "PREFERRED_CHANNEL"  :   "Direct Online"  ,
+      "N"  :   1130
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "High"  ,
+      "LIFETIME_VALUE_BAND"  :   "Medium"  ,
+      "PREFERRED_CHANNEL"  :   "Aggregator"  ,
+      "N"  :   866
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "High"  ,
+      "LIFETIME_VALUE_BAND"  :   "Top"  ,
+      "PREFERRED_CHANNEL"  :   "Aggregator"  ,
+      "N"  :   60
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Medium"  ,
+      "LIFETIME_VALUE_BAND"  :   "Top"  ,
+      "PREFERRED_CHANNEL"  :   "Affinity Partner"  ,
+      "N"  :   588
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Low"  ,
+      "LIFETIME_VALUE_BAND"  :   "Low"  ,
+      "PREFERRED_CHANNEL"  :   "Aggregator"  ,
+      "N"  :   3390
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Medium"  ,
+      "LIFETIME_VALUE_BAND"  :   "Top"  ,
+      "PREFERRED_CHANNEL"  :   "Agency"  ,
+      "N"  :   1051
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Medium"  ,
+      "LIFETIME_VALUE_BAND"  :   "Low"  ,
+      "PREFERRED_CHANNEL"  :   "Broker"  ,
+      "N"  :   188
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "High"  ,
+      "LIFETIME_VALUE_BAND"  :   "Low"  ,
+      "PREFERRED_CHANNEL"  :   "Aggregator"  ,
+      "N"  :   608
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "High"  ,
+      "LIFETIME_VALUE_BAND"  :   "Low"  ,
+      "PREFERRED_CHANNEL"  :   "Agency"  ,
+      "N"  :   345
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Medium"  ,
+      "LIFETIME_VALUE_BAND"  :   "High"  ,
+      "PREFERRED_CHANNEL"  :   "Broker"  ,
+      "N"  :   443
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Medium"  ,
+      "LIFETIME_VALUE_BAND"  :   "Top"  ,
+      "PREFERRED_CHANNEL"  :   "Bancassurance"  ,
+      "N"  :   199
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Low"  ,
+      "LIFETIME_VALUE_BAND"  :   "Top"  ,
+      "PREFERRED_CHANNEL"  :   "Aggregator"  ,
+      "N"  :   91
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "High"  ,
+      "LIFETIME_VALUE_BAND"  :   "Medium"  ,
+      "PREFERRED_CHANNEL"  :   "Agency"  ,
+      "N"  :   54
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Low"  ,
+      "LIFETIME_VALUE_BAND"  :   "Low"  ,
+      "PREFERRED_CHANNEL"  :   "Broker"  ,
+      "N"  :   64
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "High"  ,
+      "LIFETIME_VALUE_BAND"  :   "Top"  ,
+      "PREFERRED_CHANNEL"  :   "Direct Online"  ,
+      "N"  :   4
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "High"  ,
+      "LIFETIME_VALUE_BAND"  :   "High"  ,
+      "PREFERRED_CHANNEL"  :   "Broker"  ,
+      "N"  :   6
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "High"  ,
+      "LIFETIME_VALUE_BAND"  :   "Top"  ,
+      "PREFERRED_CHANNEL"  :   "Affinity Partner"  ,
+      "N"  :   10
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Low"  ,
+      "LIFETIME_VALUE_BAND"  :   "Low"  ,
+      "PREFERRED_CHANNEL"  :   "Bancassurance"  ,
+      "N"  :   320
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Low"  ,
+      "LIFETIME_VALUE_BAND"  :   "High"  ,
+      "PREFERRED_CHANNEL"  :   "Aggregator"  ,
+      "N"  :   431
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Low"  ,
+      "LIFETIME_VALUE_BAND"  :   "High"  ,
+      "PREFERRED_CHANNEL"  :   "Broker"  ,
+      "N"  :   314
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "High"  ,
+      "LIFETIME_VALUE_BAND"  :   "Low"  ,
+      "PREFERRED_CHANNEL"  :   "Affinity Partner"  ,
+      "N"  :   985
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Low"  ,
+      "LIFETIME_VALUE_BAND"  :   "Top"  ,
+      "PREFERRED_CHANNEL"  :   "Direct Online"  ,
+      "N"  :   255
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Low"  ,
+      "LIFETIME_VALUE_BAND"  :   "Medium"  ,
+      "PREFERRED_CHANNEL"  :   "Broker"  ,
+      "N"  :   192
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "High"  ,
+      "LIFETIME_VALUE_BAND"  :   "High"  ,
+      "PREFERRED_CHANNEL"  :   "Bancassurance"  ,
+      "N"  :   6
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "High"  ,
+      "LIFETIME_VALUE_BAND"  :   "Low"  ,
+      "PREFERRED_CHANNEL"  :   "Broker"  ,
+      "N"  :   20
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "High"  ,
+      "LIFETIME_VALUE_BAND"  :   "Top"  ,
+      "PREFERRED_CHANNEL"  :   "Bancassurance"  ,
+      "N"  :   2
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "High"  ,
+      "LIFETIME_VALUE_BAND"  :   "Medium"  ,
+      "PREFERRED_CHANNEL"  :   "Direct Online"  ,
+      "N"  :   55
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Low"  ,
+      "LIFETIME_VALUE_BAND"  :   "Medium"  ,
+      "PREFERRED_CHANNEL"  :   "Affinity Partner"  ,
+      "N"  :   6712
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Low"  ,
+      "LIFETIME_VALUE_BAND"  :   "Medium"  ,
+      "PREFERRED_CHANNEL"  :   "Agency"  ,
+      "N"  :   4795
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Medium"  ,
+      "LIFETIME_VALUE_BAND"  :   "Medium"  ,
+      "PREFERRED_CHANNEL"  :   "Direct Online"  ,
+      "N"  :   5819
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "High"  ,
+      "LIFETIME_VALUE_BAND"  :   "High"  ,
+      "PREFERRED_CHANNEL"  :   "Aggregator"  ,
+      "N"  :   420
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Low"  ,
+      "LIFETIME_VALUE_BAND"  :   "Top"  ,
+      "PREFERRED_CHANNEL"  :   "Broker"  ,
+      "N"  :   279
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "High"  ,
+      "LIFETIME_VALUE_BAND"  :   "Low"  ,
+      "PREFERRED_CHANNEL"  :   "Direct Online"  ,
+      "N"  :   363
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "High"  ,
+      "LIFETIME_VALUE_BAND"  :   "Top"  ,
+      "PREFERRED_CHANNEL"  :   "Agency"  ,
+      "N"  :   11
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "High"  ,
+      "LIFETIME_VALUE_BAND"  :   "High"  ,
+      "PREFERRED_CHANNEL"  :   "Direct Online"  ,
+      "N"  :   14
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Medium"  ,
+      "LIFETIME_VALUE_BAND"  :   "High"  ,
+      "PREFERRED_CHANNEL"  :   "Bancassurance"  ,
+      "N"  :   604
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Medium"  ,
+      "LIFETIME_VALUE_BAND"  :   "Top"  ,
+      "PREFERRED_CHANNEL"  :   "Direct Online"  ,
+      "N"  :   369
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Medium"  ,
+      "LIFETIME_VALUE_BAND"  :   "Low"  ,
+      "PREFERRED_CHANNEL"  :   "Bancassurance"  ,
+      "N"  :   727
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Low"  ,
+      "LIFETIME_VALUE_BAND"  :   "High"  ,
+      "PREFERRED_CHANNEL"  :   "Bancassurance"  ,
+      "N"  :   371
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Medium"  ,
+      "LIFETIME_VALUE_BAND"  :   "High"  ,
+      "PREFERRED_CHANNEL"  :   "Direct Online"  ,
+      "N"  :   1701
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Medium"  ,
+      "LIFETIME_VALUE_BAND"  :   "Medium"  ,
+      "PREFERRED_CHANNEL"  :   "Broker"  ,
+      "N"  :   336
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "High"  ,
+      "LIFETIME_VALUE_BAND"  :   "Medium"  ,
+      "PREFERRED_CHANNEL"  :   "Affinity Partner"  ,
+      "N"  :   88
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "High"  ,
+      "LIFETIME_VALUE_BAND"  :   "Top"  ,
+      "PREFERRED_CHANNEL"  :   "Broker"  ,
+      "N"  :   7
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "High"  ,
+      "LIFETIME_VALUE_BAND"  :   "High"  ,
+      "PREFERRED_CHANNEL"  :   "Agency"  ,
+      "N"  :   31
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "High"  ,
+      "LIFETIME_VALUE_BAND"  :   "Medium"  ,
+      "PREFERRED_CHANNEL"  :   "Bancassurance"  ,
+      "N"  :   6
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Low"  ,
+      "LIFETIME_VALUE_BAND"  :   "Top"  ,
+      "PREFERRED_CHANNEL"  :   "Bancassurance"  ,
+      "N"  :   167
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Medium"  ,
+      "LIFETIME_VALUE_BAND"  :   "Top"  ,
+      "PREFERRED_CHANNEL"  :   "Aggregator"  ,
+      "N"  :   193
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "High"  ,
+      "LIFETIME_VALUE_BAND"  :   "Low"  ,
+      "PREFERRED_CHANNEL"  :   "Bancassurance"  ,
+      "N"  :   48
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "High"  ,
+      "LIFETIME_VALUE_BAND"  :   "High"  ,
+      "PREFERRED_CHANNEL"  :   "Affinity Partner"  ,
+      "N"  :   21
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Medium"  ,
+      "LIFETIME_VALUE_BAND"  :   "Medium"  ,
+      "PREFERRED_CHANNEL"  :   "Bancassurance"  ,
+      "N"  :   1451
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Low"  ,
+      "LIFETIME_VALUE_BAND"  :   "Top"  ,
+      "PREFERRED_CHANNEL"  :   "Agency"  ,
+      "N"  :   797
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "Medium"  ,
+      "LIFETIME_VALUE_BAND"  :   "Top"  ,
+      "PREFERRED_CHANNEL"  :   "Broker"  ,
+      "N"  :   432
+    }  ,
+    {
+      "RETENTION_RISK_BAND"  :   "High"  ,
+      "LIFETIME_VALUE_BAND"  :   "Medium"  ,
+      "PREFERRED_CHANNEL"  :   "Broker"  ,
+      "N"  :   2
+    }
+  ],
+  [
+    {
+      "ACCOUNTING_MONTH"  :   "2024-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   299  ,
+      "GWP"  :   "1365619.86"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   601  ,
+      "GWP"  :   "247262.04"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   1822  ,
+      "GWP"  :   "1172077.45"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   887  ,
+      "GWP"  :   "157610.83"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   8967  ,
+      "GWP"  :   "821005.76"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   583  ,
+      "GWP"  :   "1293124.99"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   1201  ,
+      "GWP"  :   "249449.18"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   3542  ,
+      "GWP"  :   "1078815.91"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   1792  ,
+      "GWP"  :   "162835.90"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   14608  ,
+      "GWP"  :   "747474.79"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   893  ,
+      "GWP"  :   "1405584.34"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   1825  ,
+      "GWP"  :   "265894.42"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5276  ,
+      "GWP"  :   "1101014.76"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   2671  ,
+      "GWP"  :   "158128.05"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   17202  ,
+      "GWP"  :   "803940.38"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   1194  ,
+      "GWP"  :   "1382970.22"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   2408  ,
+      "GWP"  :   "240943.79"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   6970  ,
+      "GWP"  :   "1083608.07"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   3533  ,
+      "GWP"  :   "155067.44"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   17301  ,
+      "GWP"  :   "756080.05"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   1503  ,
+      "GWP"  :   "1374302.29"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   2984  ,
+      "GWP"  :   "243075.83"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   8788  ,
+      "GWP"  :   "1154026.63"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   4432  ,
+      "GWP"  :   "160207.96"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   18197  ,
+      "GWP"  :   "819539.91"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   1797  ,
+      "GWP"  :   "1297283.05"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   3530  ,
+      "GWP"  :   "229375.67"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   10532  ,
+      "GWP"  :   "1090774.90"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   5332  ,
+      "GWP"  :   "162234.81"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   18174  ,
+      "GWP"  :   "771984.96"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   2056  ,
+      "GWP"  :   "1220032.68"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   4125  ,
+      "GWP"  :   "245273.66"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   12323  ,
+      "GWP"  :   "1129673.17"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   6203  ,
+      "GWP"  :   "157907.63"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   19027  ,
+      "GWP"  :   "813862.74"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   2397  ,
+      "GWP"  :   "1610155.32"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   4769  ,
+      "GWP"  :   "265228.33"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   14069  ,
+      "GWP"  :   "1118174.20"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   7116  ,
+      "GWP"  :   "161006.57"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   19399  ,
+      "GWP"  :   "798473.01"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   2690  ,
+      "GWP"  :   "1336424.49"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   5340  ,
+      "GWP"  :   "240055.94"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   15874  ,
+      "GWP"  :   "1201384.80"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   7986  ,
+      "GWP"  :   "157047.25"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   19416  ,
+      "GWP"  :   "797800.49"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   2987  ,
+      "GWP"  :   "1345620.23"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   5908  ,
+      "GWP"  :   "233922.11"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   17621  ,
+      "GWP"  :   "1115449.70"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8913  ,
+      "GWP"  :   "169333.16"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   20395  ,
+      "GWP"  :   "831851.41"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-11-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   3298  ,
+      "GWP"  :   "1434478.92"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-11-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   6474  ,
+      "GWP"  :   "239247.08"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-11-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   19372  ,
+      "GWP"  :   "1158356.49"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-11-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   9778  ,
+      "GWP"  :   "156410.77"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-11-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   20640  ,
+      "GWP"  :   "801132.86"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-12-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   3619  ,
+      "GWP"  :   "1483226.30"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-12-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   7088  ,
+      "GWP"  :   "254509.19"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-12-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   21083  ,
+      "GWP"  :   "1142059.11"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-12-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   10659  ,
+      "GWP"  :   "155446.90"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-12-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   21325  ,
+      "GWP"  :   "818186.00"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   3888  ,
+      "GWP"  :   "1291107.31"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   7663  ,
+      "GWP"  :   "258668.16"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   22730  ,
+      "GWP"  :   "1162970.20"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   11475  ,
+      "GWP"  :   "156689.72"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   21703  ,
+      "GWP"  :   "818219.00"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   3856  ,
+      "GWP"  :   "1274836.55"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   7578  ,
+      "GWP"  :   "217056.96"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   22516  ,
+      "GWP"  :   "1009637.31"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   11399  ,
+      "GWP"  :   "145297.99"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   20434  ,
+      "GWP"  :   "721252.82"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   3889  ,
+      "GWP"  :   "1448539.09"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   7606  ,
+      "GWP"  :   "251713.40"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   22696  ,
+      "GWP"  :   "1144377.67"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   11411  ,
+      "GWP"  :   "161531.00"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   21450  ,
+      "GWP"  :   "790790.98"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   3838  ,
+      "GWP"  :   "1138940.78"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   7591  ,
+      "GWP"  :   "250438.34"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   22691  ,
+      "GWP"  :   "1051470.44"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   11388  ,
+      "GWP"  :   "153953.54"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   21164  ,
+      "GWP"  :   "781765.74"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   3838  ,
+      "GWP"  :   "1307989.89"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   7640  ,
+      "GWP"  :   "262916.72"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   22701  ,
+      "GWP"  :   "1090526.57"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   11361  ,
+      "GWP"  :   "149190.59"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   21762  ,
+      "GWP"  :   "815341.42"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   3787  ,
+      "GWP"  :   "1154663.68"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   7659  ,
+      "GWP"  :   "250449.05"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   22650  ,
+      "GWP"  :   "1121380.61"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   11355  ,
+      "GWP"  :   "160183.99"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   21724  ,
+      "GWP"  :   "801170.35"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   3794  ,
+      "GWP"  :   "1243838.86"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   7683  ,
+      "GWP"  :   "225598.50"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   22671  ,
+      "GWP"  :   "1143714.85"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   11325  ,
+      "GWP"  :   "156703.22"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   21726  ,
+      "GWP"  :   "810659.70"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   3831  ,
+      "GWP"  :   "1418479.05"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   7679  ,
+      "GWP"  :   "249323.03"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   22668  ,
+      "GWP"  :   "1135607.98"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   11312  ,
+      "GWP"  :   "156226.41"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   21715  ,
+      "GWP"  :   "812785.75"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   3772  ,
+      "GWP"  :   "1199172.91"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   7584  ,
+      "GWP"  :   "228301.71"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   22566  ,
+      "GWP"  :   "1059640.04"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   11272  ,
+      "GWP"  :   "157653.76"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   21319  ,
+      "GWP"  :   "776986.58"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   3791  ,
+      "GWP"  :   "1368425.57"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   7606  ,
+      "GWP"  :   "246668.56"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   22522  ,
+      "GWP"  :   "1155596.71"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   11313  ,
+      "GWP"  :   "162289.21"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   21749  ,
+      "GWP"  :   "814624.19"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-11-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   3784  ,
+      "GWP"  :   "1402747.47"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-11-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   7621  ,
+      "GWP"  :   "242069.02"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-11-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   22451  ,
+      "GWP"  :   "1088341.64"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-11-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   11235  ,
+      "GWP"  :   "152266.25"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-11-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   21135  ,
+      "GWP"  :   "785447.91"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-12-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   3766  ,
+      "GWP"  :   "1270211.15"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-12-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   7668  ,
+      "GWP"  :   "253915.95"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-12-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   22433  ,
+      "GWP"  :   "1126016.92"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-12-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   11254  ,
+      "GWP"  :   "161488.25"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-12-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   21578  ,
+      "GWP"  :   "812639.78"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   3773  ,
+      "GWP"  :   "1471243.39"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   7639  ,
+      "GWP"  :   "246688.76"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   22390  ,
+      "GWP"  :   "1076357.74"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   11256  ,
+      "GWP"  :   "156670.69"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   21573  ,
+      "GWP"  :   "809966.06"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   3735  ,
+      "GWP"  :   "1096049.49"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   7562  ,
+      "GWP"  :   "219052.83"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   22241  ,
+      "GWP"  :   "1051618.78"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   11214  ,
+      "GWP"  :   "149237.73"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   20558  ,
+      "GWP"  :   "751471.34"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   3768  ,
+      "GWP"  :   "1370188.44"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   7607  ,
+      "GWP"  :   "237521.06"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   22414  ,
+      "GWP"  :   "1115096.74"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   11325  ,
+      "GWP"  :   "166681.79"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   21664  ,
+      "GWP"  :   "804795.53"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   3725  ,
+      "GWP"  :   "1102255.93"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   7606  ,
+      "GWP"  :   "252576.38"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   22318  ,
+      "GWP"  :   "1099003.04"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   11296  ,
+      "GWP"  :   "157951.86"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   21430  ,
+      "GWP"  :   "803457.92"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   3745  ,
+      "GWP"  :   "1272520.22"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   7619  ,
+      "GWP"  :   "263627.01"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   22355  ,
+      "GWP"  :   "1089081.91"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   11369  ,
+      "GWP"  :   "166121.84"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   21786  ,
+      "GWP"  :   "799580.17"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   3747  ,
+      "GWP"  :   "1348175.22"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   7585  ,
+      "GWP"  :   "250679.73"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   22268  ,
+      "GWP"  :   "1049927.83"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   11392  ,
+      "GWP"  :   "154424.87"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   21266  ,
+      "GWP"  :   "789699.85"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   3786  ,
+      "GWP"  :   "1378648.74"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   7570  ,
+      "GWP"  :   "242166.56"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   22300  ,
+      "GWP"  :   "1129704.37"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   11417  ,
+      "GWP"  :   "164319.18"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   21737  ,
+      "GWP"  :   "819021.38"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   3782  ,
+      "GWP"  :   "1273780.50"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   7598  ,
+      "GWP"  :   "245756.21"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   22159  ,
+      "GWP"  :   "1068771.33"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   11468  ,
+      "GWP"  :   "163261.80"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   21674  ,
+      "GWP"  :   "802776.30"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   3781  ,
+      "GWP"  :   "1260034.72"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   7554  ,
+      "GWP"  :   "233517.72"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   22116  ,
+      "GWP"  :   "1160263.96"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   11501  ,
+      "GWP"  :   "163140.96"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   21204  ,
+      "GWP"  :   "775653.63"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   3818  ,
+      "GWP"  :   "1467200.21"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   7616  ,
+      "GWP"  :   "255756.81"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   22122  ,
+      "GWP"  :   "1136894.25"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   11564  ,
+      "GWP"  :   "165035.45"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   21659  ,
+      "GWP"  :   "793119.96"
+    }
+  ],
+  [
+    {
+      "ACCOUNTING_MONTH"  :   "2024-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1402283.57"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "250882.14"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1210973.48"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "161877.53"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "847178.30"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1331735.07"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "254149.12"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1094387.39"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "167626.79"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "769945.73"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1414603.80"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "271754.98"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1126489.39"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "164369.79"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "819386.03"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1381806.52"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "248790.35"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1105125.64"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "155745.53"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "763106.56"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1400876.42"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "246076.86"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1174413.86"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "164209.33"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "829221.34"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1320203.78"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "233156.97"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1102552.56"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "164928.31"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "781381.36"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1253673.23"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "251072.64"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1165918.43"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "162879.29"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "822420.95"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1604485.21"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "271534.44"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1126203.21"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "163532.25"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "807576.75"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1344712.07"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "244743.16"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1222028.91"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "157637.98"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "811522.57"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1372088.32"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "238938.09"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1144953.76"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "173624.28"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "839722.89"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-11-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1472046.02"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-11-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "245423.09"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-11-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1193132.64"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-11-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "159523.86"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-11-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "823422.44"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-12-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1508770.27"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-12-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "259610.53"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-12-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1155790.96"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-12-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "159597.73"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2024-12-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "841738.94"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1326456.08"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "262897.66"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1181209.99"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "161029.52"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "835439.05"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1301963.84"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "218431.68"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1026763.17"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "146216.45"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "736582.07"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1465296.60"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "255766.18"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1147649.29"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "164311.84"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "802846.22"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1147367.00"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "254806.90"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1084245.71"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "155953.76"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "787360.09"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1337252.34"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "264945.54"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1119386.68"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "154215.75"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "832023.22"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1163383.21"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "258793.96"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1127991.85"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "164400.79"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "820834.19"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1258776.88"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "231925.63"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1184548.17"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "159817.07"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "836098.25"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1440001.80"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "255266.54"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1170774.45"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "160458.17"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "826914.18"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1224448.07"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "234489.70"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1077545.85"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "159133.20"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "790176.19"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1391573.99"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "250251.05"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1191657.89"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "165092.71"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "829598.58"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-11-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1445142.17"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-11-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "244592.95"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-11-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1105046.12"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-11-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "155863.97"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-11-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "808759.43"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-12-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1289884.54"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-12-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "255140.13"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-12-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1148266.66"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-12-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "163514.03"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2025-12-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "824963.25"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1524209.54"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "249834.17"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1186803.52"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "161380.06"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-01-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "818629.30"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1116255.58"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "224087.01"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1154303.25"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "152281.77"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-02-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "765842.87"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1412064.23"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "241858.13"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1213119.42"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "171837.38"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-03-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "812390.44"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1120706.68"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "257604.51"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1215104.03"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "162801.81"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-04-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "820255.56"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1297569.23"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "270262.67"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1200535.14"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "168268.60"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-05-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "817077.72"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1354520.87"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "253590.71"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1130753.62"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "157602.62"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-06-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "809183.07"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1420156.01"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "248891.85"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1234962.32"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "167576.16"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-07-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "830549.59"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1289508.46"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "251482.05"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1156570.55"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "166723.15"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-08-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "815929.97"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1268772.13"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "237693.17"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1270520.26"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "167873.13"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-09-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "787744.66"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Commercial"  ,
+      "N"  :   6  ,
+      "GWP"  :   "1494967.00"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Fire"  ,
+      "N"  :   8  ,
+      "GWP"  :   "263540.42"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Motor"  ,
+      "N"  :   5  ,
+      "GWP"  :   "1231661.28"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Personal Accident"  ,
+      "N"  :   8  ,
+      "GWP"  :   "170590.59"
+    }  ,
+    {
+      "ACCOUNTING_MONTH"  :   "2026-10-01"  ,
+      "LINE_OF_BUSINESS"  :   "Travel"  ,
+      "N"  :   16  ,
+      "GWP"  :   "812187.35"
+    }
+  ],
+  [
+    {
+      "DUPLICATE_KEYS"  :   0
+    }
+  ],
+  [],
+  [
+    {
+      "CORTEX_PROBE"  :   "\"Available\""
+    }
+  ]
+]
+

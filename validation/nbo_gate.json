@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "source_unique_customers": 10566,
+  "overview_customers": 10566,
+  "high_value_filter": "PASS",
+  "source_attributes": "PASS",
+  "cortex_grounded_selection": "PASS",
+  "streamlit_launch_filter_brief": "PASS",
+  "ai_disabled_fallback": "PASS"
+}

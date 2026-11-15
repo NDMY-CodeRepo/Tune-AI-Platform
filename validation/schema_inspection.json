@@ -1,0 +1,1312 @@
+[
+  [
+    {
+      "TABLE_SCHEMA"  :   "APP_STATE"  ,
+      "TABLE_NAME"  :   "ACCESS_GROUP"  ,
+      "TABLE_TYPE"  :   "BASE TABLE"
+    }  ,
+    {
+      "TABLE_SCHEMA"  :   "APP_STATE"  ,
+      "TABLE_NAME"  :   "AI_REQUEST_LOG"  ,
+      "TABLE_TYPE"  :   "BASE TABLE"
+    }  ,
+    {
+      "TABLE_SCHEMA"  :   "APP_STATE"  ,
+      "TABLE_NAME"  :   "APP_USER"  ,
+      "TABLE_TYPE"  :   "BASE TABLE"
+    }  ,
+    {
+      "TABLE_SCHEMA"  :   "APP_STATE"  ,
+      "TABLE_NAME"  :   "BI_ADMIN"  ,
+      "TABLE_TYPE"  :   "BASE TABLE"
+    }  ,
+    {
+      "TABLE_SCHEMA"  :   "APP_STATE"  ,
+      "TABLE_NAME"  :   "DELIVERY_LOG"  ,
+      "TABLE_TYPE"  :   "BASE TABLE"
+    }  ,
+    {
+      "TABLE_SCHEMA"  :   "APP_STATE"  ,
+      "TABLE_NAME"  :   "GOVERNANCE_RULE"  ,
+      "TABLE_TYPE"  :   "BASE TABLE"
+    }  ,
+    {
+      "TABLE_SCHEMA"  :   "APP_STATE"  ,
+      "TABLE_NAME"  :   "MART_ACCESS"  ,
+      "TABLE_TYPE"  :   "BASE TABLE"
+    }  ,
+    {
+      "TABLE_SCHEMA"  :   "APP_STATE"  ,
+      "TABLE_NAME"  :   "REPORT_SCHEDULE_QUEUE"  ,
+      "TABLE_TYPE"  :   "BASE TABLE"
+    }  ,
+    {
+      "TABLE_SCHEMA"  :   "APP_STATE"  ,
+      "TABLE_NAME"  :   "USER_BOOKMARKS"  ,
+      "TABLE_TYPE"  :   "BASE TABLE"
+    }  ,
+    {
+      "TABLE_SCHEMA"  :   "APP_STATE"  ,
+      "TABLE_NAME"  :   "USER_CUSTOM_FIELDS"  ,
+      "TABLE_TYPE"  :   "BASE TABLE"
+    }  ,
+    {
+      "TABLE_SCHEMA"  :   "APP_STATE"  ,
+      "TABLE_NAME"  :   "USER_DYNAMIC_PAGES"  ,
+      "TABLE_TYPE"  :   "BASE TABLE"
+    }  ,
+    {
+      "TABLE_SCHEMA"  :   "APP_STATE"  ,
+      "TABLE_NAME"  :   "VW_SCHEDULE_QUEUE"  ,
+      "TABLE_TYPE"  :   "VIEW"
+    }  ,
+    {
+      "TABLE_SCHEMA"  :   "APP_STATE"  ,
+      "TABLE_NAME"  :   "VW_USER_MART_ACCESS"  ,
+      "TABLE_TYPE"  :   "VIEW"
+    }  ,
+    {
+      "TABLE_SCHEMA"  :   "APP_STATE"  ,
+      "TABLE_NAME"  :   "VW_USER_PAGE_QUOTA"  ,
+      "TABLE_TYPE"  :   "VIEW"
+    }  ,
+    {
+      "TABLE_SCHEMA"  :   "GOLD"  ,
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "TABLE_TYPE"  :   "BASE TABLE"
+    }  ,
+    {
+      "TABLE_SCHEMA"  :   "GOLD"  ,
+      "TABLE_NAME"  :   "DERIVED_METRIC"  ,
+      "TABLE_TYPE"  :   "BASE TABLE"
+    }  ,
+    {
+      "TABLE_SCHEMA"  :   "GOLD"  ,
+      "TABLE_NAME"  :   "FIELD_DISPLAY"  ,
+      "TABLE_TYPE"  :   "BASE TABLE"
+    }  ,
+    {
+      "TABLE_SCHEMA"  :   "GOLD"  ,
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "TABLE_TYPE"  :   "BASE TABLE"
+    }  ,
+    {
+      "TABLE_SCHEMA"  :   "GOLD"  ,
+      "TABLE_NAME"  :   "GI_PLAN_MONTHLY"  ,
+      "TABLE_TYPE"  :   "BASE TABLE"
+    }  ,
+    {
+      "TABLE_SCHEMA"  :   "GOLD"  ,
+      "TABLE_NAME"  :   "MART_REGISTRY"  ,
+      "TABLE_TYPE"  :   "BASE TABLE"
+    }  ,
+    {
+      "TABLE_SCHEMA"  :   "GOLD"  ,
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "TABLE_TYPE"  :   "BASE TABLE"
+    }  ,
+    {
+      "TABLE_SCHEMA"  :   "GOLD"  ,
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "TABLE_TYPE"  :   "BASE TABLE"
+    }  ,
+    {
+      "TABLE_SCHEMA"  :   "GOLD"  ,
+      "TABLE_NAME"  :   "VW_AS_AT"  ,
+      "TABLE_TYPE"  :   "VIEW"
+    }  ,
+    {
+      "TABLE_SCHEMA"  :   "GOLD"  ,
+      "TABLE_NAME"  :   "VW_SEMANTIC_CATALOG"  ,
+      "TABLE_TYPE"  :   "VIEW"
+    }  ,
+    {
+      "TABLE_SCHEMA"  :   "GOLD"  ,
+      "TABLE_NAME"  :   "VW_USER_SEMANTIC_CATALOG"  ,
+      "TABLE_TYPE"  :   "VIEW"
+    }
+  ],
+  [
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "CUSTOMER_ID"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "CUSTOMER_TYPE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "AGE_BAND"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "GENDER"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "HOME_STATE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "HOME_COUNTRY"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "CUSTOMER_SINCE_DATE"  ,
+      "DATA_TYPE"  :   "DATE"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "TENURE_BAND"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "PREFERRED_CHANNEL"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "ACQUISITION_PARTNER"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "HOLDS_MOTOR"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "HOLDS_TRAVEL"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "HOLDS_PERSONAL_ACCIDENT"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "HOLDS_FIRE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "RETENTION_RISK_BAND"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "LIFETIME_VALUE_BAND"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "MARKETING_CONSENT"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "NEXT_RENEWAL_MONTH"  ,
+      "DATA_TYPE"  :   "DATE"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "NEXT_BEST_PRODUCT"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "SNAPSHOT_DATE"  ,
+      "DATA_TYPE"  :   "DATE"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "CUSTOMER_COUNT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "ACTIVE_POLICY_COUNT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "LIFETIME_POLICY_COUNT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "LINES_HELD_COUNT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "TENURE_MONTHS"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "GWP_LAST_12_MONTHS"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "GWP_LIFETIME"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "CLAIM_COUNT_LIFETIME"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "CLAIMS_PAID_LIFETIME"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "LIFETIME_VALUE"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "CUSTOMER_360_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "RETENTION_RISK_SCORE"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "DERIVED_METRIC"  ,
+      "COLUMN_NAME"  :   "MART_NAME"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "DERIVED_METRIC"  ,
+      "COLUMN_NAME"  :   "FIELD_NAME"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "DERIVED_METRIC"  ,
+      "COLUMN_NAME"  :   "FIELD_LABEL"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "DERIVED_METRIC"  ,
+      "COLUMN_NAME"  :   "SQL_EXPRESSION"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "DERIVED_METRIC"  ,
+      "COLUMN_NAME"  :   "BUSINESS_DEFINITION"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "DERIVED_METRIC"  ,
+      "COLUMN_NAME"  :   "DISPLAY_FORMAT"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "DERIVED_METRIC"  ,
+      "COLUMN_NAME"  :   "DISPLAY_ORDER"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "FIELD_DISPLAY"  ,
+      "COLUMN_NAME"  :   "MART_NAME"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "FIELD_DISPLAY"  ,
+      "COLUMN_NAME"  :   "FIELD_NAME"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "FIELD_DISPLAY"  ,
+      "COLUMN_NAME"  :   "FIELD_LABEL"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "FIELD_DISPLAY"  ,
+      "COLUMN_NAME"  :   "DISPLAY_FORMAT"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "FIELD_DISPLAY"  ,
+      "COLUMN_NAME"  :   "AMOUNTS_ONLY"  ,
+      "DATA_TYPE"  :   "BOOLEAN"
+    }  ,
+    {
+      "TABLE_NAME"  :   "FIELD_DISPLAY"  ,
+      "COLUMN_NAME"  :   "RATIO_BASIS"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "FIELD_DISPLAY"  ,
+      "COLUMN_NAME"  :   "USAGE_NOTE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "ACCOUNTING_MONTH"  ,
+      "DATA_TYPE"  :   "DATE"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "POLICY_NUMBER"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "CUSTOMER_ID"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "ENTITY_CODE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "LINE_OF_BUSINESS"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "PRODUCT_CODE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "PRODUCT_NAME"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "DISTRIBUTION_CHANNEL"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "PARTNER_NAME"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "UNDERWRITING_YEAR"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "POLICY_STATUS"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "BUSINESS_TYPE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "RISK_COUNTRY"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "CUSTOMER_SEGMENT"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "CLAIM_CAUSE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "CLAIM_SEVERITY_BAND"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "POLICY_INCEPTION_DATE"  ,
+      "DATA_TYPE"  :   "DATE"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "POLICY_EXPIRY_DATE"  ,
+      "DATA_TYPE"  :   "DATE"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "GROSS_WRITTEN_PREMIUM"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "NET_EARNED_PREMIUM"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "GROSS_CLAIMS_PAID"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "OS_RESERVE_MOVEMENT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "IBNR_MOVEMENT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "COMMISSION_EXPENSE"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "MANAGEMENT_EXPENSE"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "NEW_POLICY_COUNT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "EXPOSURE_POLICY_YEARS"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "CLAIM_COUNT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "CLAIMS_SETTLED_COUNT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "CLAIM_SETTLEMENT_DAYS_TOTAL"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "RENEWAL_DUE_COUNT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "RENEWED_COUNT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "GROSS_EARNED_PREMIUM"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "REINSURANCE_RECOVERIES"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_ENTERPRISE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "WRITTEN_COMMISSION"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_PLAN_MONTHLY"  ,
+      "COLUMN_NAME"  :   "ACCOUNTING_MONTH"  ,
+      "DATA_TYPE"  :   "DATE"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_PLAN_MONTHLY"  ,
+      "COLUMN_NAME"  :   "ENTITY_CODE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_PLAN_MONTHLY"  ,
+      "COLUMN_NAME"  :   "LINE_OF_BUSINESS"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_PLAN_MONTHLY"  ,
+      "COLUMN_NAME"  :   "DISTRIBUTION_CHANNEL"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_PLAN_MONTHLY"  ,
+      "COLUMN_NAME"  :   "PLAN_GROSS_WRITTEN_PREMIUM"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_PLAN_MONTHLY"  ,
+      "COLUMN_NAME"  :   "PLAN_NET_EARNED_PREMIUM"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_PLAN_MONTHLY"  ,
+      "COLUMN_NAME"  :   "PLAN_INCURRED_CLAIMS"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "GI_PLAN_MONTHLY"  ,
+      "COLUMN_NAME"  :   "PLAN_EXPENSES"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MART_REGISTRY"  ,
+      "COLUMN_NAME"  :   "MART_NAME"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MART_REGISTRY"  ,
+      "COLUMN_NAME"  :   "MART_LABEL"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MART_REGISTRY"  ,
+      "COLUMN_NAME"  :   "DOMAIN"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MART_REGISTRY"  ,
+      "COLUMN_NAME"  :   "GRAIN"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MART_REGISTRY"  ,
+      "COLUMN_NAME"  :   "DESCRIPTION"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MART_REGISTRY"  ,
+      "COLUMN_NAME"  :   "DISPLAY_ORDER"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MART_REGISTRY"  ,
+      "COLUMN_NAME"  :   "IS_UNIFIED_LAYER"  ,
+      "DATA_TYPE"  :   "BOOLEAN"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "POLICY_NUMBER"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "CUSTOMER_ID"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "ENTITY_CODE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "PRODUCT_CODE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "COVER_TYPE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "DISTRIBUTION_CHANNEL"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "PARTNER_NAME"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "BUSINESS_TYPE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "POLICY_INCEPTION_DATE"  ,
+      "DATA_TYPE"  :   "DATE"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "POLICY_EXPIRY_DATE"  ,
+      "DATA_TYPE"  :   "DATE"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "UNDERWRITING_YEAR"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "POLICY_STATUS"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "RENEWAL_STATUS"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "VEHICLE_MAKE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "VEHICLE_MODEL"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "VEHICLE_CLASS"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "VEHICLE_AGE_BAND"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "NCD_TIER"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "RISK_STATE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "RISK_COUNTRY"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "DRIVER_AGE_BAND"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "WORKSHOP_PANEL_TYPE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "WORKSHOP_NAME"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "CLAIM_CAUSE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "CLAIM_SEVERITY_BAND"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "SNAPSHOT_DATE"  ,
+      "DATA_TYPE"  :   "DATE"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "POLICY_COUNT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "EXPOSURE_VEHICLE_YEARS"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "SUM_INSURED"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "GROSS_WRITTEN_PREMIUM"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "NET_EARNED_PREMIUM"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "COMMISSION_EXPENSE"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "CLAIM_COUNT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "OD_CLAIM_COUNT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "TP_CLAIM_COUNT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "OD_CLAIMS_PAID"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "TP_CLAIMS_PAID"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "GROSS_CLAIMS_PAID"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "OUTSTANDING_CLAIMS_RESERVE"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "IBNR_AMOUNT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "CLAIMS_SETTLED_COUNT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "CLAIM_SETTLEMENT_DAYS_TOTAL"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "RENEWAL_DUE_COUNT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "RENEWED_COUNT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "GROSS_EARNED_PREMIUM"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "REINSURANCE_RECOVERIES"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "SPECIAL_PERILS_COVER"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "MOTOR_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "WRITTEN_COMMISSION"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "POLICY_NUMBER"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "CUSTOMER_ID"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "ENTITY_CODE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "PRODUCT_CODE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "PLAN_TYPE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "DISTRIBUTION_CHANNEL"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "PARTNER_NAME"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "BOOKING_CHANNEL"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "AIRLINE_CODE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "ORIGIN_COUNTRY"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "DESTINATION_COUNTRY"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "DESTINATION_REGION"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "RISK_COUNTRY"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "TRIP_TYPE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "TRIP_DURATION_BAND"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "TRAVELLER_AGE_BAND"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "POLICY_ISSUE_DATE"  ,
+      "DATA_TYPE"  :   "DATE"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "TRIP_START_DATE"  ,
+      "DATA_TYPE"  :   "DATE"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "TRIP_END_DATE"  ,
+      "DATA_TYPE"  :   "DATE"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "UNDERWRITING_YEAR"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "POLICY_STATUS"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "CLAIM_CAUSE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "CLAIM_SEVERITY_BAND"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "SANCTION_SCREENING_STATUS"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "SNAPSHOT_DATE"  ,
+      "DATA_TYPE"  :   "DATE"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "POLICY_COUNT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "TRAVELLER_COUNT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "TRIP_DURATION_DAYS"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "GROSS_WRITTEN_PREMIUM"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "NET_EARNED_PREMIUM"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "COMMISSION_EXPENSE"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "CLAIM_COUNT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "DELAY_CLAIM_COUNT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "BAGGAGE_CLAIM_COUNT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "MEDICAL_CLAIM_COUNT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "DELAY_CLAIMS_PAID"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "BAGGAGE_CLAIMS_PAID"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "MEDICAL_CLAIMS_PAID"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "GROSS_CLAIMS_PAID"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "OUTSTANDING_CLAIMS_RESERVE"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "IBNR_AMOUNT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "CLAIMS_SETTLED_COUNT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "CLAIM_SETTLEMENT_DAYS_TOTAL"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "GROSS_EARNED_PREMIUM"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "REINSURANCE_RECOVERIES"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "IS_REPEAT_CUSTOMER"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "REPEAT_POLICY_COUNT"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "TRAVEL_INSURANCE_WIDE_MART"  ,
+      "COLUMN_NAME"  :   "WRITTEN_COMMISSION"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_AS_AT"  ,
+      "COLUMN_NAME"  :   "AS_AT_MONTH"  ,
+      "DATA_TYPE"  :   "DATE"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_AS_AT"  ,
+      "COLUMN_NAME"  :   "AS_AT_DATE"  ,
+      "DATA_TYPE"  :   "DATE"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_AS_AT"  ,
+      "COLUMN_NAME"  :   "AS_AT_YEAR"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_AS_AT"  ,
+      "COLUMN_NAME"  :   "SNAPSHOT_DATE"  ,
+      "DATA_TYPE"  :   "DATE"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_AS_AT"  ,
+      "COLUMN_NAME"  :   "FIRST_COMPARABLE_MONTH"  ,
+      "DATA_TYPE"  :   "DATE"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "MART_NAME"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "MART_LABEL"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "DOMAIN"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "IS_UNIFIED_LAYER"  ,
+      "DATA_TYPE"  :   "BOOLEAN"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "MART_ORDER"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "FIELD_NAME"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "FIELD_LABEL"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "FIELD_ORIGIN"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "SEMANTIC_TYPE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "DEFAULT_AGGREGATION"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "BUSINESS_DEFINITION"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "SAMPLE_VALUES"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "DATA_TYPE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "DISPLAY_FORMAT"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "SQL_EXPRESSION"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "FIELD_ORDER"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "AMOUNTS_ONLY"  ,
+      "DATA_TYPE"  :   "BOOLEAN"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "RATIO_BASIS"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "USAGE_NOTE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_USER_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "USER_ID"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_USER_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "ACCESS_GROUP"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_USER_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "MART_NAME"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_USER_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "MART_LABEL"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_USER_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "DOMAIN"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_USER_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "IS_UNIFIED_LAYER"  ,
+      "DATA_TYPE"  :   "BOOLEAN"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_USER_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "MART_ORDER"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_USER_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "FIELD_NAME"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_USER_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "FIELD_LABEL"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_USER_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "FIELD_ORIGIN"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_USER_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "SEMANTIC_TYPE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_USER_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "DEFAULT_AGGREGATION"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_USER_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "BUSINESS_DEFINITION"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_USER_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "SAMPLE_VALUES"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_USER_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "DATA_TYPE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_USER_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "DISPLAY_FORMAT"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_USER_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "SQL_EXPRESSION"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_USER_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "FIELD_ORDER"  ,
+      "DATA_TYPE"  :   "NUMBER"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_USER_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "AMOUNTS_ONLY"  ,
+      "DATA_TYPE"  :   "BOOLEAN"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_USER_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "RATIO_BASIS"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }  ,
+    {
+      "TABLE_NAME"  :   "VW_USER_SEMANTIC_CATALOG"  ,
+      "COLUMN_NAME"  :   "USAGE_NOTE"  ,
+      "DATA_TYPE"  :   "TEXT"
+    }
+  ]
+]
+

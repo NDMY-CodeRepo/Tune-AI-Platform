@@ -1,0 +1,38 @@
+[
+  [
+    {
+      "title"  :   "Tune AI Intelligence"  ,
+      "main_file"  :   "app.py"  ,
+      "query_warehouse"  :   "POC_WH"  ,
+      "url_id"  :   "ofcwqtigogmxp3nyrhtq"  ,
+      "default_packages"  :   "python==3.11.*,snowflake-snowpark-python,streamlit"  ,
+      "user_packages"  :   ""  ,
+      "import_urls"  :   "[]"  ,
+      "external_access_integrations"  :   "[]"  ,
+      "external_access_secrets"  :   "{}"  ,
+      "compute_pool"  :   "SYSTEM_COMPUTE_POOL_CPU"  ,
+      "runtime_name"  :   "SYSTEM$ST_CONTAINER_RUNTIME_PY3_11"  ,
+      "name"  :   "TUNE_AI_INTELLIGENCE"  ,
+      "comment"  :   null  ,
+      "default_version"  :   "LAST"  ,
+      "default_version_name"  :   "VERSION$1"  ,
+      "default_version_alias"  :   null  ,
+      "default_version_location_uri"  :   "snow://streamlit/TUNE_BI_DB.APP_STATE.TUNE_AI_INTELLIGENCE/versions/version$1/"  ,
+      "default_version_source_location_uri"  :   null  ,
+      "default_version_git_commit_hash"  :   null  ,
+      "last_version_name"  :   "VERSION$1"  ,
+      "last_version_alias"  :   null  ,
+      "last_version_location_uri"  :   "snow://streamlit/TUNE_BI_DB.APP_STATE.TUNE_AI_INTELLIGENCE/versions/version$1/"  ,
+      "last_version_source_location_uri"  :   null  ,
+      "last_version_git_commit_hash"  :   null  ,
+      "live_version_location_uri"  :   "snow://streamlit/TUNE_BI_DB.APP_STATE.TUNE_AI_INTELLIGENCE/versions/live/"
+    }
+  ],
+  [
+    {
+      "CUSTOMERS"  :   179725  ,
+      "MISSING_ATTRIBUTES"  :   146948
+    }
+  ]
+]
+
