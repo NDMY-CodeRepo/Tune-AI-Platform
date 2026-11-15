@@ -1,0 +1,60 @@
+{
+  "intelligence": {
+    "status": "PASS",
+    "files": {
+      "app.py": {
+        "local_sha256": "190452b0d869de4e780a40f68a073b499c2f8d616040a83b1127240bfcdaf153",
+        "deployed_sha256": "190452b0d869de4e780a40f68a073b499c2f8d616040a83b1127240bfcdaf153"
+      },
+      "ui.py": {
+        "local_sha256": "f7bb9be56e62c433edfc406693b256dbbf21cfc59b1c91a93879ea8abda20159",
+        "deployed_sha256": "f7bb9be56e62c433edfc406693b256dbbf21cfc59b1c91a93879ea8abda20159"
+      },
+      "business_logic.py": {
+        "local_sha256": "35a5eb80672d9800bbe5a7d9b3485d2501e41c378c85865b29403d354f42d884",
+        "deployed_sha256": "35a5eb80672d9800bbe5a7d9b3485d2501e41c378c85865b29403d354f42d884"
+      },
+      "snowflake_service.py": {
+        "local_sha256": "6a1772b0497daf42cdfc54780dee49d9cefb70744521bc94d4f3e49a8ae9620c",
+        "deployed_sha256": "6a1772b0497daf42cdfc54780dee49d9cefb70744521bc94d4f3e49a8ae9620c"
+      },
+      "environment.yml": {
+        "local_sha256": "66d6391aba0c3f0ac050f207d6f8174054187693c56540968e3579b0fa082af4",
+        "deployed_sha256": "66d6391aba0c3f0ac050f207d6f8174054187693c56540968e3579b0fa082af4"
+      },
+      "tune-protect-group-logo.png": {
+        "local_sha256": "3727d0c5b4470e655df841f43d7fe57b35d452021455b4b736fe0cd558bd51e0",
+        "deployed_sha256": "3727d0c5b4470e655df841f43d7fe57b35d452021455b4b736fe0cd558bd51e0"
+      }
+    }
+  },
+  "desk": {
+    "status": "PASS",
+    "files": {
+      "data_service_desk.py": {
+        "local_sha256": "1ad87ca3d1b44c995f534cf65352adf1d13609f3b9dbcd52394ea0df571d1dbf",
+        "deployed_sha256": "1ad87ca3d1b44c995f534cf65352adf1d13609f3b9dbcd52394ea0df571d1dbf"
+      },
+      "ui.py": {
+        "local_sha256": "f7bb9be56e62c433edfc406693b256dbbf21cfc59b1c91a93879ea8abda20159",
+        "deployed_sha256": "f7bb9be56e62c433edfc406693b256dbbf21cfc59b1c91a93879ea8abda20159"
+      },
+      "business_logic.py": {
+        "local_sha256": "35a5eb80672d9800bbe5a7d9b3485d2501e41c378c85865b29403d354f42d884",
+        "deployed_sha256": "35a5eb80672d9800bbe5a7d9b3485d2501e41c378c85865b29403d354f42d884"
+      },
+      "snowflake_service.py": {
+        "local_sha256": "6a1772b0497daf42cdfc54780dee49d9cefb70744521bc94d4f3e49a8ae9620c",
+        "deployed_sha256": "6a1772b0497daf42cdfc54780dee49d9cefb70744521bc94d4f3e49a8ae9620c"
+      },
+      "environment.yml": {
+        "local_sha256": "66d6391aba0c3f0ac050f207d6f8174054187693c56540968e3579b0fa082af4",
+        "deployed_sha256": "66d6391aba0c3f0ac050f207d6f8174054187693c56540968e3579b0fa082af4"
+      },
+      "tune-protect-group-logo.png": {
+        "local_sha256": "3727d0c5b4470e655df841f43d7fe57b35d452021455b4b736fe0cd558bd51e0",
+        "deployed_sha256": "3727d0c5b4470e655df841f43d7fe57b35d452021455b4b736fe0cd558bd51e0"
+      }
+    }
+  }
+}

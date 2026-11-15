@@ -13,8 +13,9 @@ entities:
     main_file: app.py
     artifacts:
       - app.py
-      - business_logic.py
-      - snowflake_service.py
+      - src: shared/*.py
+        dest: shared/
+      - src: shared/assets/*.png
+        dest: shared/assets/
       - environment.yml
       - .streamlit/config.toml
-      - tune-protect-group-logo.png

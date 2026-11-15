@@ -2,8 +2,8 @@
 import json
 from pathlib import Path
 from streamlit.testing.v1 import AppTest
-from business_logic import GOLD, CANDIDATE_WHERE, customer_evidence
-from snowflake_service import get_service, read
+from shared.business_logic import GOLD, CANDIDATE_WHERE, customer_evidence
+from shared.snowflake_service import get_service, read
 
 s = get_service()
 health = s.health()
@@ -18,7 +18,8 @@ assert customers.MARKETING_CONSENT.eq('Yes').all() and customers.NEXT_BEST_PRODU
 _, facts, _ = customer_evidence(customers.iloc[0].to_dict(), 'NBO')
 ids = s.explain(facts)
 assert ids
-app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / 'app.py'), default_timeout=90).run()
+app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / 'apps/ai-intelligence/app.py'), default_timeout=90).run()
+app.sidebar.radio[0].set_value('Next Best Offer').run()
 assert not app.exception, app.exception
 assert not app.error, [x.value for x in app.error]
 assert app.metric[0].value == '10,566'

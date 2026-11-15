@@ -1,55 +1,81 @@
-# Validation report — 16 November 2026
+# Separation and redesign validation — 16 November 2026
 
-Maintenance update: renamed the shared local Snowflake profile to `snowflake-DINHEAO-HN84194`, preserving its connection parameters. Updated the launcher and README. Added the supplied Tune Protect logo to the sidebar and tab icon, and to deployed artifacts. The renamed profile connected successfully; Streamlit AppTest rendered the logo and reconciled the NBO KPI to 10,566. Local HTTP health returned `ok` after restart. Updated source and logo were downloaded from the Snowflake live version and matched local SHA-256 hashes. Browser visual QA remains unverified.
+The existing MVP was refactored into two independent Streamlit apps. Existing financial SQL, ranking/retention rules, Cortex grounding, ticket persistence, transition validation and concurrency checks were preserved. **Local AppTest and live SQL checks pass. Browser appearance and interactive hosted startup remain unverified.**
 
-Implemented all four workspaces and created the Snowflake app object. **Local application and live SQL checks pass. Browser presentation and interactive hosted startup remain unverified.** Do not treat this report as a completed presenter-role rehearsal.
+## Monorepo structure update
+
+Both applications remain in the existing Git repository, with entry points and individual Snowflake configs under `apps/ai-intelligence/` and `apps/data-service-desk/`. Reusable modules, branding and the Snowflake environment are maintained once under `shared/`. `sql/` and `tests/` remain at the repository root. No Git repository was initialized, no commits were rewritten and no nested repositories were created; Git HEAD matches the pre-move snapshot.
+
+`launch.ps1` selects either relocated entry point. `deploy.ps1` stages the chosen app/config and shared files under ignored `output/deploy/`, because Snowflake CLI rejects artifact sources outside a project root. This is a small copy-and-deploy script, with no added dependency or build framework. `-PrepareOnly` creates a reviewable bundle without deployment. The CLI exit code is preserved.
+
+The relocation leaves business rules, dependency environment and logo bytes unchanged. Shared service imports are package-relative; each entry point resolves the repository package locally or the adjacent shared package in a deployed bundle. An isolated-bundle test caught a working-directory dependency during the move; that was fixed and is covered for both apps.
+
+The relocated apps passed the live NBO, retention, financial and ticket workflows. NBO remains 10,566. Final GOLD metadata/semantic fingerprint checks pass. Both local servers report `ok` on their existing ports. Both updated Snowflake objects use `app.py` as the staged entry point, and remote shared package paths, logo and source hashes match local files (`monorepo_checks.json`, `monorepo_deployments.json`). No ticket setup or migration was executed. Browser rendering and interactive hosted startup remain unverified.
+
+## Applications
+
+| Application | Entry point / local address | Snowflake object |
+|---|---|---|
+| Tune AI Intelligence | `apps/ai-intelligence/app.py` · http://localhost:8501 | `TUNE_BI_DB.APP_STATE.TUNE_AI_INTELLIGENCE` |
+| Tune Data Service Desk | `apps/data-service-desk/app.py` · http://localhost:8502 | `TUNE_BI_DB.APP_STATE.TUNE_DATA_SERVICE_DESK` |
+
+Intelligence navigation contains only Executive Intelligence, Next Best Action and Next Best Offer. Its default page is Executive Intelligence. The service desk has its own Business User Portal / Data Team Workspace navigation and branding. Neither imports the other entry point. `shared/ui.py` and the existing connection/business modules are shared.
+
+## Design changes implemented
+
+- Used the supplied dashboard and customer-segmentation references as inspiration for compact branding, light surfaces, navy type, subtle borders, Tune red accents and a clear customer-table/profile hierarchy. No additional frontend framework or dependency.
+- Financial KPIs use compact RM notation, with exact values in details, help and chart hovers. Actual/plan trends and signed variance contributions sit side by side; red indicates unfavorable premium variance and green favorable variance.
+- NBO is presented as Customer Growth Intelligence. The prominent candidate headline is sourced from the queried count. Segmentation is expandable, and the ranked table sits beside the selected profile and grounded engagement brief. Priority-opportunity segment means Low risk + High/Top value; no revenue forecast or conversion prediction.
+- NBA is presented as Retention Intelligence. KPI hierarchy is portfolio, High risk, High-value at risk and Priority retention opportunities. The priority count uses the existing action CASE expression. Customer actions and supporting evidence sit beside the worklist.
+- The standalone service desk provides a prominent New Data Request action, My Requests, a status journey and resolution details. The data team sees all-request workload counts, pending priority breakdown, ownership and the existing assignment/progress/resolution workflow.
+
+These are implemented layout changes, not a claim of browser-verified visual quality.
 
 ## Acceptance evidence
 
-| Criterion | Status | Evidence / boundary |
+| Check | Status | Evidence |
 |---|---|---|
-| Application launches | PASS locally; hosted startup NOT EXECUTED | Streamlit AppTest on 1.42.0; local HTTP health `ok`. Snowflake app object/package settings verified separately. |
-| NBO count reconciles | PASS | 10,566 distinct source customers = grouped overview count = application KPI; `nbo_gate.json`. |
-| Real customer attributes support recommendations | PASS | Live source predicate checks, High-value filter, recommendation evidence and live Cortex evidence selection. |
-| NBA transparent rules | PASS | Eight live SQL rule/window fixtures, filters, missing-renewal wording, deterministic explanation; `acceptance.json`, `final_checks.json`. |
-| Executive metrics reconcile | PASS for supported definitions | Independent GWP, NEP, net incurred and loss-ratio source queries; monthly/line/channel totals reconcile. Claims plan gross/net basis remains unconfirmed. |
-| Business user creates a ticket | PASS | Real Snowflake INSERT through Streamlit AppTest; labelled validation request. |
-| Data team assigns and resolves | PASS | Owner/progress/status/resolution persisted; stale version update rejected. |
-| Business user sees resolution | PASS | Role switching and resolution visibility tested through AppTest against persisted state. |
-| AI unavailable | PASS | Toggle-off brief, simulated Cortex outage, and simulated connection-outage screen without substituted figures. |
-| GOLD remains unchanged | PASS for code scope and checked invariants | No GOLD DDL/DML. GOLD column metadata and DERIVED_METRIC/FIELD_DISPLAY/MART_REGISTRY content hashes unchanged from preimplementation inspection. No claim of a full before/after hash of every mart row. |
+| Both app entry points launch | PASS locally | Both execute in Streamlit AppTest; HTTP health returns `ok` on 8501 and 8502. |
+| Independent navigation | PASS | Offline AppTest asserts exactly three AI modules and two desk workspaces; no Cortex toggle in the desk. |
+| NBO reconciliation | PASS | 10,566 unique source candidates = overview total = app KPI; live filters, source attributes and Cortex brief pass. |
+| NBA retention rules | PASS | Eight live SQL boundary/rule cases, risk/value filters, deterministic explanation and missing-renewal wording. |
+| Executive financial calculations | PASS for supported definitions | Independent GWP, NEP, net incurred and loss-ratio source queries; month/line/channel totals reconcile. |
+| Ticket creation / assignment / resolution | PASS | AppTest creates a labelled validation request through the separate desk app, assigns owner, saves IN_PROGRESS then RESOLVED. |
+| Business-user resolution visibility | PASS | Return to Business User Portal shows the saved resolution. |
+| Concurrency protection | PASS | A stale ticket version update is rejected. |
+| Cortex and fallback | PASS | Live grounded NBO explanation; toggle-off and simulated Cortex-outage fallback. |
+| Connection outage | PASS | Friendly error state with no substituted business figures. |
+| Financial edge cases | PASS | Read-only SQL fixtures for missing actual/plan keys, zero denominators and null source amounts. |
+| GOLD and existing calculations | PASS for checked invariants | No GOLD DDL/DML; column metadata and semantic-table content fingerprints unchanged. `business_logic.py` byte-identical to pre-refactor Git HEAD. |
+| Ticket table reuse | PASS | Existing APP_STATE.DATA_REQUEST_TICKET reused. No setup, recreation or migration executed. Existing CRUD methods unchanged. |
+| Two hosted objects and artifacts | PASS for object/file state | SQL DESCRIBE shows independent entry points and warehouse runtimes; downloaded source/branding files match local SHA-256 hashes. |
+| Browser visuals / row selection / hosted runtime startup | NOT EXECUTED | Browser host and native computer-use connection unavailable. Local Python 3.10 tests do not establish Snowflake Python 3.11 startup. |
 
 ## Executed checks
 
-- `pytest`: **15 passed**. Parameter binding, evidence-ID validation, ticket transition restrictions and unknown-renewal wording.
-- `tests.live_nbo`: PASS on Streamlit 1.42.0. Executed first as the NBO implementation gate, then repeated after runtime alignment.
-- `tests.live_workflows`: PASS on Streamlit 1.42.0. Includes live financial reconciliation, SQL retention rules, ticket create/assign/resolve/business view and simulated Cortex outage.
-- `tests.live_financial_edges`: PASS. Inline read-only Snowflake fixtures verify missing actual/plan keys, zero denominators and null source amounts.
-- `tests.final_checks`: PASS on existing `AGENT_ROLE` / `POC_WH`. Final screens, missing renewal dates, connection failure, semantic fingerprints and GOLD column metadata.
-- Python compilation: PASS. Dependency check: no broken requirements. The interrupted dependency downgrade left an ignored stale protobuf metadata directory; the active runtime imports and tests pass.
-- Live Cortex: `AI_COMPLETE` with `llama3.3-70b` and structured evidence identifiers passed. Legacy `CORTEX.COMPLETE` is unavailable on this account.
+- `pytest`: **26 passed** (15 original cases, seven navigation/currency cases, and four independent-directory / standalone-bundle import cases).
+- `tests.live_nbo`: PASS, including live Cortex selection and AI-off fallback on Streamlit 1.42.0.
+- `tests.live_workflows`: PASS after adapting navigation to the separated apps. Validation ticket: `TP-9452C7D7-1297-437F-9ABB-5ACFED0B6D23`. This labelled synthetic rehearsal record remains in the existing table; no report or external message was sent.
+- `tests.live_financial_edges`: PASS; inline SELECT fixtures only.
+- `tests.final_checks`: PASS on `AGENT_ROLE` / `POC_WH`; final AI screens, missing renewal, connection failure, GOLD column metadata and semantic fingerprints.
+- Source-preservation checks: existing service methods `finance`, `create_ticket`, `update_ticket`, `tickets`, `explain`, `customers`, `overview` and `health` have identical Python ASTs to pre-refactor Git HEAD. `business_logic.py` is byte-identical. Only two read-only summary methods were added to the service.
+- Python compilation and `git diff --check`: PASS.
 
-The broader customer source has 179,725 unique customers, all at snapshot 31 October 2026. Of these, 146,948 have no next renewal month; the app does not infer one. All 10,566 NBO candidates have the required attributes.
+Source snapshot remains 31 October 2026. For Motor + Travel, January–October 2026, GWP actual **RM 18,926,262.09** and plan **RM 20,084,123.92** reconcile. These are verification observations, not UI constants. Plan incurred claims still lack a documented gross/net basis, so claims variance and planned loss ratio remain withheld.
 
-Financial actual and plan periods: January 2024–October 2026. Actual policy/month keys and plan month/entity/line/channel keys had no duplicates at inspection. For Motor + Travel, January–October 2026, source GWP is **MYR 18,926,262.09** and plan GWP **MYR 20,084,123.92**. These are captured verification observations, not app constants.
+## Deployment boundary
 
-## Deployment evidence
+Both objects use `SYSTEM$WAREHOUSE_RUNTIME` and existing `POC_WH`. No compute pool, external service, pipeline, database, model training, access grant or dependency was added. The new object is only the separately required desk app. Its data table already existed.
 
-- App: `TUNE_BI_DB.APP_STATE.TUNE_AI_INTELLIGENCE`, owner `AGENT_ROLE`.
-- Runtime: `SYSTEM$WAREHOUSE_RUNTIME`; query warehouse: existing `POC_WH`.
-- Package declaration: Python 3.11, Streamlit 1.42.0, Snowpark, pandas, Plotly and toml.
-- No external access integrations or secrets attached. No new compute pool was created. The initial account default selected a system container runtime; deployment was corrected to explicit warehouse runtime.
-- The final live-version copies of `app.py`, `business_logic.py`, `snowflake_service.py` and `environment.yml` were downloaded through Snowflake SQL GET and match local SHA-256 hashes exactly; `deployed_source_match.json`.
-- CLI 3.33.0 reports a nonzero exit after uploading when it cannot construct a browser URL from the working organization/account hostname. SQL DESCRIBE, LIST and downloaded-file hashes establish the remote object and file state; they do not establish interactive runtime startup.
-- A trial regional hostname failed certificate validation. It was not retained; no TLS checks were disabled and no connection profile was modified.
-- Local server remains available at `http://localhost:8501`, using the existing named profile with session-only overrides for `AGENT_ROLE` / `POC_WH`.
+CLI 3.33.0 still exits nonzero when constructing a browser URL from the working organization/account hostname, after it uploads/updates the apps. SQL DESCRIBE and downloaded-file hash comparisons establish the object and artifact state independently; they do not prove runtime startup. No hostname override or TLS relaxation was used during this refactor.
 
-## Remaining rehearsal checks
+Additional relocation evidence: `monorepo_baseline.json`, `monorepo_checks.json`, `monorepo_deployments.json`.
 
-Computer use stopped because it could not confidently determine the current browser URL. No browser workaround was attempted. Consequently these checks remain NOT EXECUTED:
+Earlier separation evidence files: `nbo_gate.json`, `acceptance.json`, `financial_edges.json`, `final_checks.json`, `refactor_preservation.json`, `separate_deployments.json`, `separate_source_match.json`.
 
-1. Visual inspection at the presentation resolution, chart appearance and customer table row clicks.
-2. Interactive Snowflake app startup, package resolution and execution under its Python 3.11 runtime.
-3. Presenter-role access and full hosted create/assign/resolve workflow.
+## Remaining rehearsal
 
-Confirm the plan incurred-claims definition before enabling claims actual/plan variance or planned loss ratio. Demo role switching is not real authentication/authorization. Validation tickets are retained as labelled synthetic rehearsal records. No report, customer communication or external notification was sent.
+1. Visually inspect both apps at the intended presentation resolution; confirm KPI/card alignment, responsive behavior, chart legends and customer-row selection.
+2. Open each Snowflake app under the presenter's actual role; verify Python 3.11 package/runtime startup and access.
+3. Rehearse the complete hosted customer brief and request/assignment/resolution journeys. Workspace switching is a demo convenience, not real authorization.
+4. Confirm the plan-claims basis before enabling any further claims comparisons.

@@ -1,6 +1,6 @@
 import pytest
-from business_logic import customer_query, validate_ai_selection
-from business_logic import validate_ticket_change, customer_evidence
+from shared.business_logic import customer_query, validate_ai_selection
+from shared.business_logic import validate_ticket_change, customer_evidence
 
 
 def test_filters_are_bound_and_limit_is_bound():

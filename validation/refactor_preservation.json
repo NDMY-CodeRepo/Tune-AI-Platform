@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "business_logic_byte_identical": true,
+  "existing_service_methods_AST_identical": [
+    "finance",
+    "create_ticket",
+    "update_ticket",
+    "tickets",
+    "explain",
+    "customers",
+    "overview",
+    "health"
+  ],
+  "ticket_setup_or_migration_executed": false
+}

@@ -8,9 +8,9 @@ import pandas as pd
 import streamlit as st
 import toml
 
-from business_logic import (GOLD, CANDIDATE_WHERE, customer_query, validate_ai_selection,
+from .business_logic import (GOLD, CANDIDATE_WHERE, customer_query, validate_ai_selection,
                             finance_query, LOSS_RATIO, CATEGORIES, PRIORITIES, STATUSES,
-                            validate_ticket_change)
+                            validate_ticket_change, ACTION_SQL)
 
 
 class SnowflakeService:
@@ -37,6 +37,10 @@ class SnowflakeService:
         return self.query(f"""SELECT COUNT(*) AS ROW_COUNT, COUNT(DISTINCT CUSTOMER_ID) AS CUSTOMERS,
         MIN(SNAPSHOT_DATE) AS SNAPSHOT_MIN, MAX(SNAPSHOT_DATE) AS SNAPSHOT_MAX
         FROM {GOLD}.CUSTOMER_360_WIDE_MART""").iloc[0].to_dict()
+
+    def retention_priorities(self):
+        return self.query(f"""SELECT COUNT_IF(ACTION='Priority retention review') PRIORITY_CUSTOMERS
+        FROM (SELECT {ACTION_SQL} ACTION FROM {GOLD}.CUSTOMER_360_WIDE_MART)""").iloc[0].to_dict()
 
     def explain(self, facts):
         prompt = ("Select the most useful evidence for a concise executive engagement brief. "
@@ -73,6 +77,11 @@ class SnowflakeService:
             where.append('REQUESTER=?'); params.append(requester)
         return self.query('SELECT * FROM TUNE_BI_DB.APP_STATE.DATA_REQUEST_TICKET WHERE '+
                           (' AND '.join(where) or '1=1')+' ORDER BY CREATED_AT DESC,TICKET_ID LIMIT 200', params)
+
+    def ticket_overview(self, requester=None):
+        return self.query('SELECT STATUS,PRIORITY,COUNT(*) REQUESTS FROM TUNE_BI_DB.APP_STATE.DATA_REQUEST_TICKET'+
+                          (' WHERE REQUESTER=?' if requester is not None else '')+' GROUP BY ALL',
+                          [requester] if requester is not None else [])
 
     def create_ticket(self, ticket_id, bu, requester, title, description, category, priority, justification):
         if not all(x.strip() for x in [bu,requester,title,description,justification]):

@@ -12,7 +12,7 @@
   },
   "ServiceDesk": {
     "status": "PASS",
-    "ticket_id": "TP-273EEB63-0877-4EBF-A4FB-83D2B233AF3A",
+    "ticket_id": "TP-80117C94-BA3A-45EB-8982-B23A76B5A147",
     "create_assign_resolve_business_view": "PASS",
     "stale_update_rejected": "PASS"
   },

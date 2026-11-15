@@ -1,0 +1,309 @@
+[
+  [
+    {
+      "title"  :   "Tune AI Intelligence"  ,
+      "main_file"  :   "app.py"  ,
+      "query_warehouse"  :   "POC_WH"  ,
+      "url_id"  :   "ofcwqtigogmxp3nyrhtq"  ,
+      "default_packages"  :   "python==3.11.*,snowflake-snowpark-python,streamlit"  ,
+      "user_packages"  :   "python==3.11,streamlit==1.42.0,snowflake-snowpark-python,pandas,plotly,toml"  ,
+      "import_urls"  :   "[]"  ,
+      "external_access_integrations"  :   "[]"  ,
+      "external_access_secrets"  :   "{}"  ,
+      "compute_pool"  :   "SYSTEM_COMPUTE_POOL_CPU"  ,
+      "runtime_name"  :   "SYSTEM$WAREHOUSE_RUNTIME"  ,
+      "name"  :   "TUNE_AI_INTELLIGENCE"  ,
+      "comment"  :   null  ,
+      "default_version"  :   "LAST"  ,
+      "default_version_name"  :   "VERSION$1"  ,
+      "default_version_alias"  :   null  ,
+      "default_version_location_uri"  :   "snow://streamlit/TUNE_BI_DB.APP_STATE.TUNE_AI_INTELLIGENCE/versions/version$1/"  ,
+      "default_version_source_location_uri"  :   null  ,
+      "default_version_git_commit_hash"  :   null  ,
+      "last_version_name"  :   "VERSION$1"  ,
+      "last_version_alias"  :   null  ,
+      "last_version_location_uri"  :   "snow://streamlit/TUNE_BI_DB.APP_STATE.TUNE_AI_INTELLIGENCE/versions/version$1/"  ,
+      "last_version_source_location_uri"  :   null  ,
+      "last_version_git_commit_hash"  :   null  ,
+      "live_version_location_uri"  :   "snow://streamlit/TUNE_BI_DB.APP_STATE.TUNE_AI_INTELLIGENCE/versions/live/"
+    }
+  ],
+  [
+    {
+      "title"  :   "Tune Data Service Desk"  ,
+      "main_file"  :   "app.py"  ,
+      "query_warehouse"  :   "POC_WH"  ,
+      "url_id"  :   "jxirsuwvzqqj3xcvvly3"  ,
+      "default_packages"  :   "python==3.11.*,snowflake-snowpark-python,streamlit"  ,
+      "user_packages"  :   "python==3.11,streamlit==1.42.0,snowflake-snowpark-python,pandas,plotly,toml"  ,
+      "import_urls"  :   "[]"  ,
+      "external_access_integrations"  :   "[]"  ,
+      "external_access_secrets"  :   "{}"  ,
+      "compute_pool"  :   null  ,
+      "runtime_name"  :   "SYSTEM$WAREHOUSE_RUNTIME"  ,
+      "name"  :   "TUNE_DATA_SERVICE_DESK"  ,
+      "comment"  :   null  ,
+      "default_version"  :   "LAST"  ,
+      "default_version_name"  :   "VERSION$1"  ,
+      "default_version_alias"  :   null  ,
+      "default_version_location_uri"  :   "snow://streamlit/TUNE_BI_DB.APP_STATE.TUNE_DATA_SERVICE_DESK/versions/version$1/"  ,
+      "default_version_source_location_uri"  :   null  ,
+      "default_version_git_commit_hash"  :   null  ,
+      "last_version_name"  :   "VERSION$1"  ,
+      "last_version_alias"  :   null  ,
+      "last_version_location_uri"  :   "snow://streamlit/TUNE_BI_DB.APP_STATE.TUNE_DATA_SERVICE_DESK/versions/version$1/"  ,
+      "last_version_source_location_uri"  :   null  ,
+      "last_version_git_commit_hash"  :   null  ,
+      "live_version_location_uri"  :   "snow://streamlit/TUNE_BI_DB.APP_STATE.TUNE_DATA_SERVICE_DESK/versions/live/"
+    }
+  ],
+  [
+    {
+      "name"  :   "/versions/live/.streamlit/config.toml"  ,
+      "size"  :   208  ,
+      "md5"  :   "76313f878d3aa75ba3fd53b8f20837be"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 17:01:56 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/app.py"  ,
+      "size"  :   20992  ,
+      "md5"  :   "1445f7e725827977a71eca84d6d35a51"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 17:01:56 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/business_logic.py"  ,
+      "size"  :   10000  ,
+      "md5"  :   "e549f1afb8bb5e1b403eb09160acf8a5"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 16:53:22 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/environment.yml"  ,
+      "size"  :   176  ,
+      "md5"  :   "78593d6ce9d1ad4813ea7e733c28a72f"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 17:01:56 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/pyproject.toml"  ,
+      "size"  :   912  ,
+      "md5"  :   "95ea1af01fb6a56bc4555a4fc8624d05"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 16:17:32 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/shared/__init__.py"  ,
+      "size"  :   80  ,
+      "md5"  :   "85adeb89c0e6969a37976eab48904792"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 17:01:57 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/shared/assets/tune-protect-group-logo.png"  ,
+      "size"  :   44432  ,
+      "md5"  :   "7f5cc094f30c48f49e4d7f8cf1686288"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 17:01:57 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/shared/business_logic.py"  ,
+      "size"  :   10000  ,
+      "md5"  :   "e1edac09dc21e512411e12efa1ab576a"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 17:01:57 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/shared/snowflake_service.py"  ,
+      "size"  :   7840  ,
+      "md5"  :   "b6fae078ac14a72102803d873bf24d33"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 17:01:58 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/shared/ui.py"  ,
+      "size"  :   4064  ,
+      "md5"  :   "7cf049fa2c708f3a277a08c3484f2521"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 17:01:58 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/snowflake_service.py"  ,
+      "size"  :   7696  ,
+      "md5"  :   "7aaca1bdb1550501b33f147f457f181c"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 16:53:23 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/tune-protect-group-logo.png"  ,
+      "size"  :   44432  ,
+      "md5"  :   "33cc15ff1a2afaf2a94356206edcc156"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 16:53:24 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/ui.py"  ,
+      "size"  :   3968  ,
+      "md5"  :   "14ab4034f61c1feac1368ada1fbdcdca"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 16:53:24 GMT"
+    }
+  ],
+  [
+    {
+      "name"  :   "/versions/live/.streamlit/config.toml"  ,
+      "size"  :   208  ,
+      "md5"  :   "c949b447454c13969e27e7388a0ec5db"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 17:02:28 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/app.py"  ,
+      "size"  :   9024  ,
+      "md5"  :   "971e31109aac98fe16ef64ca1ab9f13f"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 17:02:29 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/business_logic.py"  ,
+      "size"  :   10000  ,
+      "md5"  :   "b5544e3e660d150e88847318d24c1eeb"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 16:53:22 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/data_service_desk.py"  ,
+      "size"  :   8688  ,
+      "md5"  :   "fad0e576a166fdb2f8c0cb9d0900a0d7"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 16:53:22 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/environment.yml"  ,
+      "size"  :   176  ,
+      "md5"  :   "cedb917dfa1a67801bc7a69bafb21692"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 17:02:29 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/shared/__init__.py"  ,
+      "size"  :   80  ,
+      "md5"  :   "25c6d987c626e615669d6ef1c72df4bd"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 17:02:29 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/shared/assets/tune-protect-group-logo.png"  ,
+      "size"  :   44432  ,
+      "md5"  :   "b5e563afaafa3d3a0796b5232f7c028d"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 17:02:30 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/shared/business_logic.py"  ,
+      "size"  :   10000  ,
+      "md5"  :   "bd89d373b2869ad1c53a18773ef4ef04"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 17:02:30 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/shared/snowflake_service.py"  ,
+      "size"  :   7840  ,
+      "md5"  :   "aa3a76ab5ce10a9370fb407fce598846"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 17:02:31 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/shared/ui.py"  ,
+      "size"  :   4064  ,
+      "md5"  :   "5e3d1fcc05ce419890082a4729188f98"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 17:02:31 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/snowflake_service.py"  ,
+      "size"  :   7696  ,
+      "md5"  :   "5eed97bc04a2bb3dc2eccb666478c369"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 16:53:23 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/tune-protect-group-logo.png"  ,
+      "size"  :   44432  ,
+      "md5"  :   "97e680b14da1fdc68b87eaa307038bee"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 16:53:24 GMT"
+    }  ,
+    {
+      "name"  :   "/versions/live/ui.py"  ,
+      "size"  :   3968  ,
+      "md5"  :   "ffd4fb5e18fa3148341603b45d0a6ebc"  ,
+      "last_modified"  :   "Sun, 15 Nov 2026 16:53:24 GMT"
+    }
+  ],
+  [
+    {
+      "file"  :   "1071_796508169/1794762115281/app.py"  ,
+      "size"  :   20991  ,
+      "status"  :   "DOWNLOADED"  ,
+      "message"  :   ""
+    }  ,
+    {
+      "file"  :   "1071_796508169/1794762115625/environment.yml"  ,
+      "size"  :   163  ,
+      "status"  :   "DOWNLOADED"  ,
+      "message"  :   ""
+    }  ,
+    {
+      "file"  :   "1071_796508169/1794762115915/shared/__init__.py"  ,
+      "size"  :   64  ,
+      "status"  :   "DOWNLOADED"  ,
+      "message"  :   ""
+    }  ,
+    {
+      "file"  :   "1071_796508169/1794762116228/shared/assets/tune-protect-group-logo.png"  ,
+      "size"  :   44420  ,
+      "status"  :   "DOWNLOADED"  ,
+      "message"  :   ""
+    }  ,
+    {
+      "file"  :   "1071_796508169/1794762116655/shared/business_logic.py"  ,
+      "size"  :   9995  ,
+      "status"  :   "DOWNLOADED"  ,
+      "message"  :   ""
+    }  ,
+    {
+      "file"  :   "1071_796508169/1794762117015/shared/snowflake_service.py"  ,
+      "size"  :   7833  ,
+      "status"  :   "DOWNLOADED"  ,
+      "message"  :   ""
+    }  ,
+    {
+      "file"  :   "1071_796508169/1794762117417/shared/ui.py"  ,
+      "size"  :   4055  ,
+      "status"  :   "DOWNLOADED"  ,
+      "message"  :   ""
+    }
+  ],
+  [
+    {
+      "file"  :   "1071_796508173/1794762148098/app.py"  ,
+      "size"  :   9012  ,
+      "status"  :   "DOWNLOADED"  ,
+      "message"  :   ""
+    }  ,
+    {
+      "file"  :   "1071_796508173/1794762148401/environment.yml"  ,
+      "size"  :   163  ,
+      "status"  :   "DOWNLOADED"  ,
+      "message"  :   ""
+    }  ,
+    {
+      "file"  :   "1071_796508173/1794762148656/shared/__init__.py"  ,
+      "size"  :   64  ,
+      "status"  :   "DOWNLOADED"  ,
+      "message"  :   ""
+    }  ,
+    {
+      "file"  :   "1071_796508173/1794762148947/shared/assets/tune-protect-group-logo.png"  ,
+      "size"  :   44420  ,
+      "status"  :   "DOWNLOADED"  ,
+      "message"  :   ""
+    }  ,
+    {
+      "file"  :   "1071_796508173/1794762149417/shared/business_logic.py"  ,
+      "size"  :   9995  ,
+      "status"  :   "DOWNLOADED"  ,
+      "message"  :   ""
+    }  ,
+    {
+      "file"  :   "1071_796508173/1794762149715/shared/snowflake_service.py"  ,
+      "size"  :   7833  ,
+      "status"  :   "DOWNLOADED"  ,
+      "message"  :   ""
+    }  ,
+    {
+      "file"  :   "1071_796508173/1794762150156/shared/ui.py"  ,
+      "size"  :   4055  ,
+      "status"  :   "DOWNLOADED"  ,
+      "message"  :   ""
+    }
+  ]
+]
+

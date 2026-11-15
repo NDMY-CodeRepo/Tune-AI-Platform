@@ -5,4 +5,6 @@ __pycache__/
 .env
 validation/*.log
 validation/deployed_source/
+validation/deployed_intelligence/
+validation/deployed_desk/
 output/

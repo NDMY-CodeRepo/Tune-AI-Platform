@@ -1,0 +1,21 @@
+definition_version: 2
+entities:
+  tune_desk:
+    type: streamlit
+    identifier:
+      name: TUNE_DATA_SERVICE_DESK
+      database: TUNE_BI_DB
+      schema: APP_STATE
+    title: Tune Data Service Desk
+    query_warehouse: POC_WH
+    runtime_name: SYSTEM$WAREHOUSE_RUNTIME
+    stage: TUNE_DESK_CODE
+    main_file: app.py
+    artifacts:
+      - app.py
+      - src: shared/*.py
+        dest: shared/
+      - src: shared/assets/*.png
+        dest: shared/assets/
+      - environment.yml
+      - .streamlit/config.toml

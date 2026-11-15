@@ -5,15 +5,15 @@ from pathlib import Path
 from unittest.mock import patch
 
 from streamlit.testing.v1 import AppTest
-from business_logic import GOLD, customer_evidence
-from snowflake_service import get_service, read
+from shared.business_logic import GOLD, customer_evidence
+from shared.snowflake_service import get_service, read
 
 ROOT = Path(__file__).resolve().parents[1]
 s = get_service()
 identity = s.query('SELECT CURRENT_ROLE() ROLE,CURRENT_WAREHOUSE() WAREHOUSE').iloc[0].to_dict()
 missing = s.query(f"SELECT CUSTOMER_ID, LIFETIME_VALUE,LIFETIME_VALUE_BAND,RETENTION_RISK_BAND,RETENTION_RISK_SCORE,NEXT_RENEWAL_MONTH,PREFERRED_CHANNEL,NULL UPCOMING,'Retention review' ACTION FROM {GOLD}.CUSTOMER_360_WIDE_MART WHERE NEXT_RENEWAL_MONTH IS NULL LIMIT 1").iloc[0].to_dict()
 assert 'unavailable' in customer_evidence(missing,'NBA')[1][-1]
-a = AppTest.from_file(str(ROOT/'app.py'),default_timeout=90).run()
+a = AppTest.from_file(str(ROOT/'apps/ai-intelligence/app.py'),default_timeout=90).run()
 assert not a.error and not a.exception
 a.sidebar.radio[0].set_value('Next Best Action').run()
 a.selectbox(key='NBArisk').set_value('Low').run()
@@ -33,8 +33,8 @@ schema_after = s.query("SELECT TABLE_NAME,COLUMN_NAME,DATA_TYPE FROM TUNE_BI_DB.
 assert schema_before == schema_after
 
 read.clear()
-with patch('snowflake_service.get_service',side_effect=RuntimeError('simulated connection outage')):
-    outage = AppTest.from_file(str(ROOT/'app.py'),default_timeout=30).run()
+with patch('shared.snowflake_service.get_service',side_effect=RuntimeError('simulated connection outage')):
+    outage = AppTest.from_file(str(ROOT/'apps/ai-intelligence/app.py'),default_timeout=30).run()
     assert outage.error and not outage.exception and not outage.metric
     assert 'No sample figures' in outage.error[0].value
 

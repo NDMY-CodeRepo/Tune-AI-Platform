@@ -2,8 +2,8 @@
 import json
 from pathlib import Path
 import pandas as pd
-from business_logic import GOLD, finance_query
-from snowflake_service import get_service
+from shared.business_logic import GOLD, finance_query
+from shared.snowflake_service import get_service
 
 actual = """(SELECT TO_DATE(column1) ACCOUNTING_MONTH,'MY' ENTITY_CODE,'Motor' LINE_OF_BUSINESS,
 'Agency' DISTRIBUTION_CHANNEL,column2 GROSS_WRITTEN_PREMIUM,0 NET_EARNED_PREMIUM,
