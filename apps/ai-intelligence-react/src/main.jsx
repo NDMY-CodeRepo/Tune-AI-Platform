@@ -1,43 +1,74 @@
-import React,{useState,useEffect,useMemo} from 'react';
-import {createRoot} from 'react-dom/client';
-import {BarChart3,Users,Target,RefreshCw,Sparkles,Layers,Shield,FileText,Percent,ArrowDownRight,ArrowUpRight,ArrowRight,CalendarDays,ChevronRight,ChevronDown,Menu,X,LoaderCircle,CheckCircle2,Info,Search,UserRound,SlidersHorizontal,ArrowUpDown} from 'lucide-react';
-import {ResponsiveContainer,LineChart,Line,CartesianGrid,XAxis,YAxis,Tooltip,BarChart,Bar,Cell,ReferenceLine,PieChart,Pie} from 'recharts';
+import React,{useState,useEffect,useMemo} from 'react';
+
+import {createRoot} from 'react-dom/client';
+
+import {BarChart3,Users,Target,RefreshCw,Sparkles,Layers,Shield,FileText,Percent,ArrowDownRight,ArrowUpRight,ArrowRight,CalendarDays,ChevronRight,ChevronDown,Menu,X,LoaderCircle,CheckCircle2,Info,Search,UserRound,SlidersHorizontal,ArrowUpDown} from 'lucide-react';
+
+import {ResponsiveContainer,LineChart,Line,CartesianGrid,XAxis,YAxis,Tooltip,BarChart,Bar,Cell,ReferenceLine,PieChart,Pie} from 'recharts';
+
 import './styles.css';
-import Sidebar from './shared/Sidebar';
+import Sidebar,{Information} from './shared/Sidebar';
 import {sourceLabel,errorLabel,formatDate,formatNumber} from './shared/presentation.mjs';
 import Select from './Select';
 import FloatingExecutiveChat from './FloatingExecutiveChat';
-
-const RED='#D71942',BLUE='#7289A9',GREEN='#237D75',COLORS=[RED,BLUE,'#243D60','#A6B8C6','#6B8C88','#C59B9F'];
-const valid=v=>v!==null&&v!==undefined&&Number.isFinite(Number(v));
+
+
+const RED='#D71942',BLUE='#7289A9',GREEN='#237D75',COLORS=[RED,BLUE,'#243D60','#A6B8C6','#6B8C88','#C59B9F'];
+
+const valid=v=>v!==null&&v!==undefined&&Number.isFinite(Number(v));
+
 const number=formatNumber;
-const money=(v,exact=false)=>{if(!valid(v))return 'Unavailable';const n=Number(v),a=Math.abs(n);return 'RM '+(exact?n.toLocaleString('en-MY',{minimumFractionDigits:2,maximumFractionDigits:2}):a>=1e6?(n/1e6).toFixed(2)+'M':a>=1e3?(n/1e3).toFixed(1).replace(/\.0$/,'')+'K':n.toLocaleString('en-MY',{maximumFractionDigits:2}));};
-const pct=v=>valid(v)?(Number(v)*100).toFixed(1)+'%':'Unavailable';
-const month=v=>v?new Date(v.slice(0,10)+'T00:00:00').toLocaleDateString('en-GB',{month:'short',year:'numeric'}):'Unavailable';
-const dateKey=v=>v?.slice(0,10);
-const query=o=>new URLSearchParams(o).toString();
-
-async function api(path,body,signal){
-  const response=await fetch('/api'+path,{signal,...(body?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}:{})});
-  const result=await response.json();
+const money=(v,exact=false)=>{if(!valid(v))return 'Unavailable';const n=Number(v),a=Math.abs(n);return 'RM '+(exact?n.toLocaleString('en-MY',{minimumFractionDigits:2,maximumFractionDigits:2}):a>=1e6?(n/1e6).toFixed(2)+'M':a>=1e3?(n/1e3).toFixed(1).replace(/\.0$/,'')+'K':n.toLocaleString('en-MY',{maximumFractionDigits:2}));};
+
+const pct=v=>valid(v)?(Number(v)*100).toFixed(1)+'%':'Unavailable';
+
+const month=v=>v?new Date(v.slice(0,10)+'T00:00:00').toLocaleDateString('en-GB',{month:'short',year:'numeric'}):'Unavailable';
+
+const dateKey=v=>v?.slice(0,10);
+
+const query=o=>new URLSearchParams(o).toString();
+
+
+
+async function api(path,body,signal){
+
+  const response=await fetch('/api'+path,{signal,...(body?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}:{})});
+
+  const result=await response.json();
+
   if(!response.ok)throw Error(typeof result.detail==='string'?errorLabel(result.detail):'Please check the selected filters and try again.');
-  return result;
-}
-function useData(path,revision=0){
-  const [state,setState]=useState({data:null,loading:true,error:null});
-  useEffect(()=>{if(!path)return;const controller=new AbortController();setState({data:null,loading:true,error:null});api(path,null,controller.signal).then(data=>setState({data,loading:false,error:null})).catch(e=>{if(e.name!=='AbortError')setState({data:null,loading:false,error:e.message});});return()=>controller.abort();},[path,revision]);
-  return state;
-}
-function Panel({title,subtitle,action,children,className=''}){return <section className={'panel '+className}><div className="panel-heading"><div><h2>{title}</h2>{subtitle&&<p className="muted small">{subtitle}</p>}</div>{action}</div>{children}</section>;}
+  return result;
+
+}
+
+function useData(path,revision=0){
+
+  const [state,setState]=useState({data:null,loading:true,error:null});
+
+  useEffect(()=>{if(!path)return;const controller=new AbortController();setState({data:null,loading:true,error:null});api(path,null,controller.signal).then(data=>setState({data,loading:false,error:null})).catch(e=>{if(e.name!=='AbortError')setState({data:null,loading:false,error:e.message});});return()=>controller.abort();},[path,revision]);
+
+  return state;
+
+}
+
+function Panel({title,subtitle,action,children,className=''}){return <section className={'panel '+className}><div className="panel-heading"><div><h2>{title}</h2>{subtitle&&<p className="muted small">{subtitle}</p>}</div>{action}</div>{children}</section>;}
+
 function Loading(){return <div className="loading" role="status"><LoaderCircle className="spin" size={26}/><div>Preparing your reporting data<span>Loading the selected view</span></div></div>;}
 function ErrorState({message}){return <div className="notice error" role="alert"><Info size={20}/><div><strong>We couldn’t load this view</strong><p>{message}</p><small>Refresh data to try again.</small></div></div>;}
-function Empty({children}){return <div className="empty"><Search size={24}/><p>{children||'No data for this selection. Try broadening the filters.'}</p></div>;}
-function Badge({value}){return <span className={'badge '+(value==='High'?'risk-high':value==='Medium'?'risk-medium':value==='Low'?'risk-low':'neutral')}>{value||'Unavailable'}</span>;}
-function Delta({value,plan}){return <div className={'delta '+(!valid(value)?'muted':value<0?'negative':'positive')}>{valid(value)&&(value<0?<ArrowDownRight size={15}/>:<ArrowUpRight size={15}/>)}<span>{valid(value)?pct(value)+' vs plan':'Comparison unavailable'}{valid(plan)&&<span className="plan-note"> · {money(plan)}</span>}</span></div>;}
-function KPI({label,value,icon:Icon,detail,delta,plan,exact}){return <div className="kpi"><div className="metric-icon"><Icon size={21} strokeWidth={1.6}/></div><div className="kpi-body"><div className="metric-label">{label}</div><div className="metric-value" title={exact}>{value}</div>{delta!==undefined?<Delta value={delta} plan={plan}/>:<div className="metric-note">{detail}</div>}</div></div>;}
-function ChartTip({active,payload,label,ratio=false}){if(!active||!payload?.length)return null;return <div className="chart-tooltip"><strong>{typeof label==='string'&&label.match(/^\d{4}-/)?month(label):label}</strong>{payload.map((p,i)=><div key={i}><span className="dot" style={{background:p.color||RED}}/>{p.name}<b>{ratio?pct(p.value):money(p.value,true)}</b></div>)}</div>;}
-function Legend(){return <div className="legend"><span><i style={{background:RED}}/>Actual</span><span><i style={{background:BLUE}}/>Plan</span></div>;}
-
+function Empty({children}){return <div className="empty"><Search size={24}/><p>{children||'No data for this selection. Try broadening the filters.'}</p></div>;}
+
+function Badge({value}){return <span className={'badge '+(value==='High'?'risk-high':value==='Medium'?'risk-medium':value==='Low'?'risk-low':'neutral')}>{value||'Unavailable'}</span>;}
+
+function Delta({value,plan}){return <div className={'delta '+(!valid(value)?'muted':value<0?'negative':'positive')}>{valid(value)&&(value<0?<ArrowDownRight size={15}/>:<ArrowUpRight size={15}/>)}<span>{valid(value)?pct(value)+' vs plan':'Comparison unavailable'}{valid(plan)&&<span className="plan-note"> · {money(plan)}</span>}</span></div>;}
+
+function KPI({label,value,icon:Icon,detail,delta,plan,exact}){return <div className="kpi"><div className="metric-icon"><Icon size={21} strokeWidth={1.6}/></div><div className="kpi-body"><div className="metric-label">{label}</div><div className="metric-value" title={exact}>{value}</div>{delta!==undefined?<Delta value={delta} plan={plan}/>:<div className="metric-note">{detail}</div>}</div></div>;}
+
+function ChartTip({active,payload,label,ratio=false}){if(!active||!payload?.length)return null;return <div className="chart-tooltip"><strong>{typeof label==='string'&&label.match(/^\d{4}-/)?month(label):label}</strong>{payload.map((p,i)=><div key={i}><span className="dot" style={{background:p.color||RED}}/>{p.name}<b>{ratio?pct(p.value):money(p.value,true)}</b></div>)}</div>;}
+
+function Legend(){return <div className="legend"><span><i style={{background:RED}}/>Actual</span><span><i style={{background:BLUE}}/>Plan</span></div>;}
+
+
+
 function Insights({brief,module='EXEC',scope,customer,filters,ai}){
   const [result,setResult]=useState(brief),[busy,setBusy]=useState(false);
   useEffect(()=>{setResult(brief);},[brief]);
@@ -60,53 +91,90 @@ function Insights({brief,module='EXEC',scope,customer,filters,ai}){
 
 
 const TREND={'GWP actual vs plan':['GWP','PLAN_GWP'],'NEP actual vs plan':['NEP','PLAN_NEP'],'Net incurred claims':['NET_INCURRED_CLAIMS',null],'Net loss ratio':['LOSS_RATIO',null]};
-function Trend({rows}){
-  const [measure,setMeasure]=useState('GWP actual vs plan'),[field,plan]=TREND[measure],ratio=field==='LOSS_RATIO';
-  const data=rows.filter(r=>r.LEVEL==='MONTH').sort((a,b)=>a.ACCOUNTING_MONTH.localeCompare(b.ACCOUNTING_MONTH)).map(r=>({...r,Actual:r[field],Plan:plan?r[plan]:null}));
-  return <Panel title="Monthly performance" className="executive-monthly" action={<Select label="Trend metric" value={measure} onChange={setMeasure} options={Object.keys(TREND)}/> }><div className="chart-topline"><span className="muted small">{measure}</span>{plan?<Legend/>:<span className="pill">Actuals only</span>}</div><div className="chart trend-chart"><ResponsiveContainer width="100%" height="100%"><LineChart data={data} margin={{top:16,right:18,bottom:8,left:12}}><CartesianGrid stroke="#EEF0F4" vertical={false}/><XAxis dataKey="ACCOUNTING_MONTH" tickFormatter={month} axisLine={false} tickLine={false} minTickGap={24}/><YAxis width={78} tickFormatter={v=>ratio?pct(v):money(v)} axisLine={false} tickLine={false} domain={['auto','auto']}/><Tooltip content={<ChartTip ratio={ratio}/>}/>{plan&&<Line type="linear" dataKey="Plan" stroke={BLUE} strokeWidth={2} dot={{r:3,fill:'white',strokeWidth:2}} connectNulls={false} isAnimationActive={false}/>}<Line type="linear" dataKey="Actual" stroke={RED} strokeWidth={2.3} dot={{r:3,fill:'white',strokeWidth:2}} connectNulls={false} isAnimationActive={false}/></LineChart></ResponsiveContainer></div>{!plan&&<p className="footnote">Plan claims basis is unconfirmed. Claims and loss-ratio comparisons remain unavailable.</p>}</Panel>;
-}
-function Variance({rows,level,metric}){
-  const key=metric+'_VARIANCE',name=level==='LINE'?'LINE_OF_BUSINESS':'DISTRIBUTION_CHANNEL';
-  const group=rows.filter(r=>r.LEVEL===level),data=group.filter(r=>valid(r[key])&&r.MISSING_ACTUAL===0&&r.MISSING_PLAN===0&&r.KEY_COUNT>0).sort((a,b)=>a[key]-b[key]);
-  return <Panel title={level==='LINE'?'By business line':'By distribution channel'}>{!data.length?<Empty>No comparable actual and plan results for these filters.</Empty>:<div className="chart"><ResponsiveContainer width="100%" height="100%"><BarChart data={data} layout="vertical" margin={{top:12,right:22,bottom:8,left:0}} barSize={25}><CartesianGrid stroke="#EEF0F4" horizontal={false}/><XAxis type="number" tickFormatter={v=>money(v)} axisLine={false} tickLine={false}/><YAxis type="category" dataKey={name} width={level==='LINE'?70:120} axisLine={false} tickLine={false} tick={{fontSize:11}}/><Tooltip formatter={v=>money(v,true)} labelFormatter={v=>v}/><ReferenceLine x={0} stroke="#DFE4EC"/><Bar dataKey={key} name={metric+' variance'} radius={3} isAnimationActive={false}>{data.map((r,i)=><Cell key={i} fill={r[key]<0?RED:GREEN}/>)}</Bar></BarChart></ResponsiveContainer></div>}<p className="footnote">{metric} actual − plan · Red below plan / green above plan{group.length>data.length?` · ${group.length-data.length} unavailable groups excluded`:''}</p></Panel>;
-}
-function Mix({rows,level,metric}){
-  const data=rows.filter(r=>r.LEVEL===level).sort((a,b)=>b[metric]-a[metric]),field=level==='LINE'?'LINE_OF_BUSINESS':'DISTRIBUTION_CHANNEL',share=metric+'_SHARE';
-  return <Panel title={level==='LINE'?'Business line premium mix':'Distribution channel premium mix'}>{!data.length||data.some(r=>!valid(r[share]))?<Empty>Shares unavailable for missing, negative or zero-total premium.</Empty>:<div className="mix-layout"><div className="donut"><ResponsiveContainer width="100%" height="100%"><PieChart><Pie data={data} dataKey={share} nameKey={field} innerRadius="62%" outerRadius="90%" paddingAngle={2} stroke="white" isAnimationActive={false}>{data.map((r,i)=><Cell key={i} fill={COLORS[i%COLORS.length]}/>)}</Pie><Tooltip formatter={v=>pct(v)}/></PieChart></ResponsiveContainer><div className="donut-center">{metric}<small>premium mix</small></div></div><div className="mix-legend">{data.map((r,i)=><div key={r[field]}><span className="dot" style={{background:COLORS[i%COLORS.length]}}/><span title={r[field]}>{r[field]}</span><b title={money(r[metric],true)}>{pct(r[share])}</b></div>)}</div></div>}<p className="footnote">Share of selected actual {metric}. Each premium measure uses its own total.</p></Panel>;
-}
-function LineCard({line,row}){return <Panel title={line} action={<span className="line-icon">{line==='Motor'?<Shield size={20}/>:<Target size={20}/>}</span>}>{!row?<Empty>Not present in the selected scope.</Empty>:<><div className="metric-label">Actual gross written premium</div><div className="line-primary" title={money(row.GWP,true)}>{money(row.GWP)}</div><Delta value={row.GWP_VARIANCE_PCT} plan={row.PLAN_GWP}/><div className="line-support"><div><span>Net earned premium</span><b title={money(row.NEP,true)}>{money(row.NEP)}</b></div><div><span>Net incurred claims</span><b title={money(row.NET_INCURRED_CLAIMS,true)}>{money(row.NET_INCURRED_CLAIMS)}</b></div><div><span>Net loss ratio</span><b>{pct(row.LOSS_RATIO)}</b></div></div></>}</Panel>;}
-function ChannelTable({rows}){
-  const [sort,setSort]=useState(['GWP',-1]);
-  const fields=[['DISTRIBUTION_CHANNEL','Channel'],['GWP','GWP actual'],['PLAN_GWP','GWP plan'],['GWP_VARIANCE','GWP variance'],['GWP_VARIANCE_PCT','Variance %'],['NEP','NEP'],['NET_INCURRED_CLAIMS','Net incurred'],['LOSS_RATIO','Loss ratio']];
-  const data=[...rows.filter(r=>r.LEVEL==='CHANNEL')].sort((a,b)=>{const x=a[sort[0]],y=b[sort[0]];if(x===null)return 1;if(y===null)return -1;return (typeof x==='string'?x.localeCompare(y):x-y)*sort[1];});
-  return <Panel title="Channel performance scorecard" subtitle="Compare distribution performance. Select a column heading to sort."><div className="table-scroll"><table><thead><tr>{fields.map(([key,label])=><th key={key} aria-sort={sort[0]===key?(sort[1]===1?'ascending':'descending'):'none'}><button onClick={()=>setSort([key,sort[0]===key?-sort[1]:1])}>{label}<ArrowUpDown size={12}/></button></th>)}</tr></thead><tbody>{data.map(r=><tr key={r.DISTRIBUTION_CHANNEL}>{fields.map(([key])=><td key={key} title={key==='DISTRIBUTION_CHANNEL'?undefined:money(r[key],true)} className={key.includes('VARIANCE')&&valid(r[key])?(r[key]<0?'negative':'positive'):''}>{key==='DISTRIBUTION_CHANNEL'?r[key]:key.includes('PCT')||key==='LOSS_RATIO'?pct(r[key]):money(r[key])}</td>)}</tr>)}</tbody></table></div></Panel>;
-}
-function Detail({total,rows}){return <Panel title="Financial detail" subtitle="Exact amounts in RM · Display rounding elsewhere does not change the underlying calculations."><div className="table-scroll"><table><thead><tr>{['Metric','Actual','Plan','Variance','Variance %'].map(t=><th key={t}>{t}</th>)}</tr></thead><tbody>{[['Gross written premium','GWP'],['Net earned premium','NEP']].map(([label,f])=><tr key={f}><td>{label}</td><td>{money(total[f],true)}</td><td>{money(total['PLAN_'+f],true)}</td><td className={total[f+'_VARIANCE']<0?'negative':'positive'}>{money(total[f+'_VARIANCE'],true)}</td><td>{pct(total[f+'_VARIANCE_PCT'])}</td></tr>)}<tr><td>Net incurred claims</td><td>{money(total.NET_INCURRED_CLAIMS,true)}</td><td className="muted">Not comparable</td><td>—</td><td>—</td></tr><tr><td>Net loss ratio</td><td>{pct(total.LOSS_RATIO)}</td><td className="muted">Not established</td><td>—</td><td>—</td></tr></tbody></table></div><details><summary>Reporting basis & source evidence<ChevronDown size={16}/></summary><p>Actual and plan are independently aggregated at accounting month, entity, business line and distribution channel before joining. Variance = actual − plan; variance % = variance / plan.</p><p>Net incurred claims = gross claims paid + reserve movement + IBNR movement − reinsurance recoveries. Net loss ratio = summed net incurred claims / summed net earned premium. Missing values and zero denominators remain unavailable. The plan claims basis is unconfirmed.</p><p>Source: TUNE_BI_DB.GOLD.GI_ENTERPRISE_WIDE_MART, GI_PLAN_MONTHLY and DERIVED_METRIC. Illustrative Data, not production records. Reporting reads may be cached for up to five minutes.</p><pre>{JSON.stringify(rows,null,2)}</pre></details></Panel>;}
-function Executive({revision,ai}){
-  const options=useData('/finance/options',revision),[scope,setScope]=useState(null),[varMetric,setVarMetric]=useState('GWP'),[mixMetric,setMixMetric]=useState('GWP');
-  useEffect(()=>{if(options.data?.months.length){const m=options.data.months;setScope(old=>old||{start:m.find(x=>x.slice(0,4)===m.at(-1).slice(0,4)),end:m.at(-1),line:'All',channel:'All'});}},[options.data]);
-  const result=useData(scope?'/finance?'+query(scope):null,revision),data=result.data,rows=data?.rows||[],total=rows.find(r=>r.LEVEL==='TOTAL');
-  const update=(key,value)=>setScope(s=>({...s,[key]:value}));
-  return <><PageHeader title="Executive Intelligence" subtitle="Financial performance, portfolio insights and the gaps that matter."/>
-    {scope&&<div className="filter-bar"><div className="date-range"><Select label="From month" icon={CalendarDays} value={scope.start} onChange={v=>update('start',v)} options={options.data?.months.map(value=>({value,label:month(value)}))||[]}/><span className="muted">to</span><Select label="To month" value={scope.end} onChange={v=>update('end',v)} options={options.data?.months.map(value=>({value,label:month(value)}))||[]}/></div><Select label="Business line" value={scope.line} onChange={v=>update('line',v)} options={['All','Motor','Travel'].map(value=>({value,label:'Business line: '+value}))}/><Select label="Distribution channel" value={scope.channel} onChange={v=>update('channel',v)} options={['All',...(options.data?.channels||[])].map(value=>({value,label:'Channel: '+value}))}/></div>}
-    {options.error||result.error?<ErrorState message={options.error||result.error}/>:options.loading||result.loading?<Loading/>:!total?<Empty/>:<>
-      <div className="kpi-grid"><KPI label="Gross written premium" value={money(total.GWP)} exact={money(total.GWP,true)} icon={Layers} delta={total.GWP_VARIANCE_PCT} plan={total.PLAN_GWP}/><KPI label="Net earned premium" value={money(total.NEP)} exact={money(total.NEP,true)} icon={Shield} delta={total.NEP_VARIANCE_PCT} plan={total.PLAN_NEP}/><KPI label="Net incurred claims" value={money(total.NET_INCURRED_CLAIMS)} exact={money(total.NET_INCURRED_CLAIMS,true)} icon={FileText} detail="Net of reinsurance recoveries"/><KPI label="Net loss ratio" value={pct(total.LOSS_RATIO)} icon={Percent} detail="Plan comparison unavailable"/></div>
+function Trend({rows}){
 
-      {total.MISSING_ACTUAL+total.MISSING_PLAN>0&&<div className="notice">Some accounting keys lack an actual or plan counterpart. Affected comparisons are unavailable.</div>}
-      <Trend rows={rows}/>
-      <SectionHeading title="Variance intelligence" subtitle="Where the selected portfolio differs from plan" action={<MetricSwitch value={varMetric} onChange={setVarMetric}/>}/><div className="two-grid"><Variance rows={rows} level="LINE" metric={varMetric}/><Variance rows={rows} level="CHANNEL" metric={varMetric}/></div>
-      <SectionHeading title="Portfolio composition" subtitle="Premium contribution within the selected reporting scope" action={<MetricSwitch value={mixMetric} onChange={setMixMetric}/>}/><div className="two-grid"><Mix rows={rows} level="LINE" metric={mixMetric}/><Mix rows={rows} level="CHANNEL" metric={mixMetric}/></div>
-      <SectionHeading title="Motor vs Travel" subtitle="A side-by-side view of business line performance"/><div className="two-grid"><LineCard line="Motor" row={rows.find(r=>r.LEVEL==='LINE'&&r.LINE_OF_BUSINESS==='Motor')}/><LineCard line="Travel" row={rows.find(r=>r.LEVEL==='LINE'&&r.LINE_OF_BUSINESS==='Travel')}/></div>
+  const [measure,setMeasure]=useState('GWP actual vs plan'),[field,plan]=TREND[measure],ratio=field==='LOSS_RATIO';
+  const data=rows.filter(r=>r.LEVEL==='MONTH').sort((a,b)=>a.ACCOUNTING_MONTH.localeCompare(b.ACCOUNTING_MONTH)).map(r=>({...r,Actual:r[field],Plan:plan?r[plan]:null}));
+
+  return <Panel title="Monthly performance" className="executive-monthly" action={<Select label="Trend metric" value={measure} onChange={setMeasure} options={Object.keys(TREND)}/> }><div className="chart-topline"><span className="muted small">{measure}</span>{plan?<Legend/>:<span className="pill">Actuals only</span>}</div><div className="chart trend-chart"><ResponsiveContainer width="100%" height="100%"><LineChart data={data} margin={{top:16,right:18,bottom:8,left:12}}><CartesianGrid stroke="#EEF0F4" vertical={false}/><XAxis dataKey="ACCOUNTING_MONTH" tickFormatter={month} axisLine={false} tickLine={false} minTickGap={24}/><YAxis width={78} tickFormatter={v=>ratio?pct(v):money(v)} axisLine={false} tickLine={false} domain={['auto','auto']}/><Tooltip content={<ChartTip ratio={ratio}/>}/>{plan&&<Line type="linear" dataKey="Plan" stroke={BLUE} strokeWidth={2} dot={{r:3,fill:'white',strokeWidth:2}} connectNulls={false} isAnimationActive={false}/>}<Line type="linear" dataKey="Actual" stroke={RED} strokeWidth={2.3} dot={{r:3,fill:'white',strokeWidth:2}} connectNulls={false} isAnimationActive={false}/></LineChart></ResponsiveContainer></div>{!plan&&<p className="footnote">Plan claims basis is unconfirmed. Claims and loss-ratio comparisons remain unavailable.</p>}</Panel>;
+}
+
+function Variance({rows,level,metric}){
+
+  const key=metric+'_VARIANCE',name=level==='LINE'?'LINE_OF_BUSINESS':'DISTRIBUTION_CHANNEL';
+
+  const group=rows.filter(r=>r.LEVEL===level),data=group.filter(r=>valid(r[key])&&r.MISSING_ACTUAL===0&&r.MISSING_PLAN===0&&r.KEY_COUNT>0).sort((a,b)=>a[key]-b[key]);
+
+  return <Panel title={level==='LINE'?'By business line':'By distribution channel'}>{!data.length?<Empty>No comparable actual and plan results for these filters.</Empty>:<div className="chart"><ResponsiveContainer width="100%" height="100%"><BarChart data={data} layout="vertical" margin={{top:12,right:22,bottom:8,left:0}} barSize={25}><CartesianGrid stroke="#EEF0F4" horizontal={false}/><XAxis type="number" tickFormatter={v=>money(v)} axisLine={false} tickLine={false}/><YAxis type="category" dataKey={name} width={level==='LINE'?70:120} axisLine={false} tickLine={false} tick={{fontSize:11}}/><Tooltip formatter={v=>money(v,true)} labelFormatter={v=>v}/><ReferenceLine x={0} stroke="#DFE4EC"/><Bar dataKey={key} name={metric+' variance'} radius={3} isAnimationActive={false}>{data.map((r,i)=><Cell key={i} fill={r[key]<0?RED:GREEN}/>)}</Bar></BarChart></ResponsiveContainer></div>}<p className="footnote">{metric} actual − plan · Red below plan / green above plan{group.length>data.length?` · ${group.length-data.length} unavailable groups excluded`:''}</p></Panel>;
+}
+
+function Mix({rows,level,metric}){
+
+  const data=rows.filter(r=>r.LEVEL===level).sort((a,b)=>b[metric]-a[metric]),field=level==='LINE'?'LINE_OF_BUSINESS':'DISTRIBUTION_CHANNEL',share=metric+'_SHARE';
+
+  return <Panel title={level==='LINE'?'Business line premium mix':'Distribution channel premium mix'}>{!data.length||data.some(r=>!valid(r[share]))?<Empty>Shares unavailable for missing, negative or zero-total premium.</Empty>:<div className="mix-layout"><div className="donut"><ResponsiveContainer width="100%" height="100%"><PieChart><Pie data={data} dataKey={share} nameKey={field} innerRadius="62%" outerRadius="90%" paddingAngle={2} stroke="white" isAnimationActive={false}>{data.map((r,i)=><Cell key={i} fill={COLORS[i%COLORS.length]}/>)}</Pie><Tooltip formatter={v=>pct(v)}/></PieChart></ResponsiveContainer><div className="donut-center">{metric}<small>premium mix</small></div></div><div className="mix-legend">{data.map((r,i)=><div key={r[field]}><span className="dot" style={{background:COLORS[i%COLORS.length]}}/><span title={r[field]}>{r[field]}</span><b title={money(r[metric],true)}>{pct(r[share])}</b></div>)}</div></div>}<p className="footnote">Share of selected actual {metric}. Each premium measure uses its own total.</p></Panel>;
+}
+
+function LineCard({line,row}){return <Panel title={line} action={<span className="line-icon">{line==='Motor'?<Shield size={20}/>:<Target size={20}/>}</span>}>{!row?<Empty>Not present in the selected scope.</Empty>:<><div className="metric-label">Actual gross written premium</div><div className="line-primary" title={money(row.GWP,true)}>{money(row.GWP)}</div><Delta value={row.GWP_VARIANCE_PCT} plan={row.PLAN_GWP}/><div className="line-support"><div><span>Net earned premium</span><b title={money(row.NEP,true)}>{money(row.NEP)}</b></div><div><span>Net incurred claims</span><b title={money(row.NET_INCURRED_CLAIMS,true)}>{money(row.NET_INCURRED_CLAIMS)}</b></div><div><span>Net loss ratio</span><b>{pct(row.LOSS_RATIO)}</b></div></div></>}</Panel>;}
+
+function ChannelTable({rows}){
+
+  const [sort,setSort]=useState(['GWP',-1]);
+
+  const fields=[['DISTRIBUTION_CHANNEL','Channel'],['GWP','GWP actual'],['PLAN_GWP','GWP plan'],['GWP_VARIANCE','GWP variance'],['GWP_VARIANCE_PCT','Variance %'],['NEP','NEP'],['NET_INCURRED_CLAIMS','Net incurred'],['LOSS_RATIO','Loss ratio']];
+
+  const data=[...rows.filter(r=>r.LEVEL==='CHANNEL')].sort((a,b)=>{const x=a[sort[0]],y=b[sort[0]];if(x===null)return 1;if(y===null)return -1;return (typeof x==='string'?x.localeCompare(y):x-y)*sort[1];});
+
+  return <Panel title="Channel performance scorecard" subtitle="Compare distribution performance. Select a column heading to sort."><div className="table-scroll"><table><thead><tr>{fields.map(([key,label])=><th key={key} aria-sort={sort[0]===key?(sort[1]===1?'ascending':'descending'):'none'}><button onClick={()=>setSort([key,sort[0]===key?-sort[1]:1])}>{label}<ArrowUpDown size={12}/></button></th>)}</tr></thead><tbody>{data.map(r=><tr key={r.DISTRIBUTION_CHANNEL}>{fields.map(([key])=><td key={key} title={key==='DISTRIBUTION_CHANNEL'?undefined:money(r[key],true)} className={key.includes('VARIANCE')&&valid(r[key])?(r[key]<0?'negative':'positive'):''}>{key==='DISTRIBUTION_CHANNEL'?r[key]:key.includes('PCT')||key==='LOSS_RATIO'?pct(r[key]):money(r[key])}</td>)}</tr>)}</tbody></table></div></Panel>;
+
+}
+
+function Detail({total,rows}){return <Panel title="Financial detail" subtitle="Exact amounts in RM · Display rounding elsewhere does not change the underlying calculations."><div className="table-scroll"><table><thead><tr>{['Metric','Actual','Plan','Variance','Variance %'].map(t=><th key={t}>{t}</th>)}</tr></thead><tbody>{[['Gross written premium','GWP'],['Net earned premium','NEP']].map(([label,f])=><tr key={f}><td>{label}</td><td>{money(total[f],true)}</td><td>{money(total['PLAN_'+f],true)}</td><td className={total[f+'_VARIANCE']<0?'negative':'positive'}>{money(total[f+'_VARIANCE'],true)}</td><td>{pct(total[f+'_VARIANCE_PCT'])}</td></tr>)}<tr><td>Net incurred claims</td><td>{money(total.NET_INCURRED_CLAIMS,true)}</td><td className="muted">Not comparable</td><td>—</td><td>—</td></tr><tr><td>Net loss ratio</td><td>{pct(total.LOSS_RATIO)}</td><td className="muted">Not established</td><td>—</td><td>—</td></tr></tbody></table></div><details><summary>Reporting basis & source evidence<ChevronDown size={16}/></summary><p>Actual and plan are independently aggregated at accounting month, entity, business line and distribution channel before joining. Variance = actual − plan; variance % = variance / plan.</p><p>Net incurred claims = gross claims paid + reserve movement + IBNR movement − reinsurance recoveries. Net loss ratio = summed net incurred claims / summed net earned premium. Missing values and zero denominators remain unavailable. The plan claims basis is unconfirmed.</p><p>Source: TUNE_BI_DB.GOLD.GI_ENTERPRISE_WIDE_MART, GI_PLAN_MONTHLY and DERIVED_METRIC. Illustrative Data, not production records. Reporting reads may be cached for up to five minutes.</p><pre>{JSON.stringify(rows,null,2)}</pre></details></Panel>;}
+function Executive({revision,ai}){
+
+  const options=useData('/finance/options',revision),[scope,setScope]=useState(null),[varMetric,setVarMetric]=useState('GWP'),[mixMetric,setMixMetric]=useState('GWP');
+
+  useEffect(()=>{if(options.data?.months.length){const m=options.data.months;setScope(old=>old||{start:m.find(x=>x.slice(0,4)===m.at(-1).slice(0,4)),end:m.at(-1),line:'All',channel:'All'});}},[options.data]);
+
+  const result=useData(scope?'/finance?'+query(scope):null,revision),data=result.data,rows=data?.rows||[],total=rows.find(r=>r.LEVEL==='TOTAL');
+
+  const update=(key,value)=>setScope(s=>({...s,[key]:value}));
+
+  return <><PageHeader title="Executive Intelligence" subtitle="Financial performance, portfolio insights and the gaps that matter."/>
+
+    {scope&&<div className="filter-bar"><div className="date-range"><Select label="From month" icon={CalendarDays} value={scope.start} onChange={v=>update('start',v)} options={options.data?.months.map(value=>({value,label:month(value)}))||[]}/><span className="muted">to</span><Select label="To month" value={scope.end} onChange={v=>update('end',v)} options={options.data?.months.map(value=>({value,label:month(value)}))||[]}/></div><Select label="Business line" value={scope.line} onChange={v=>update('line',v)} options={['All','Motor','Travel'].map(value=>({value,label:'Business line: '+value}))}/><Select label="Distribution channel" value={scope.channel} onChange={v=>update('channel',v)} options={['All',...(options.data?.channels||[])].map(value=>({value,label:'Channel: '+value}))}/></div>}
+
+    {options.error||result.error?<ErrorState message={options.error||result.error}/>:options.loading||result.loading?<Loading/>:!total?<Empty/>:<>
+
+      <div className="kpi-grid"><KPI label="Gross written premium" value={money(total.GWP)} exact={money(total.GWP,true)} icon={Layers} delta={total.GWP_VARIANCE_PCT} plan={total.PLAN_GWP}/><KPI label="Net earned premium" value={money(total.NEP)} exact={money(total.NEP,true)} icon={Shield} delta={total.NEP_VARIANCE_PCT} plan={total.PLAN_NEP}/><KPI label="Net incurred claims" value={money(total.NET_INCURRED_CLAIMS)} exact={money(total.NET_INCURRED_CLAIMS,true)} icon={FileText} detail="Net of reinsurance recoveries"/><KPI label="Net loss ratio" value={pct(total.LOSS_RATIO)} icon={Percent} detail="Plan comparison unavailable"/></div>
+
+
+      {total.MISSING_ACTUAL+total.MISSING_PLAN>0&&<div className="notice">Some accounting keys lack an actual or plan counterpart. Affected comparisons are unavailable.</div>}
+
+      <Trend rows={rows}/>
+
+      <SectionHeading title="Variance intelligence" subtitle="Where the selected portfolio differs from plan" action={<MetricSwitch value={varMetric} onChange={setVarMetric}/>}/><div className="two-grid"><Variance rows={rows} level="LINE" metric={varMetric}/><Variance rows={rows} level="CHANNEL" metric={varMetric}/></div>
+
+      <SectionHeading title="Portfolio composition" subtitle="Premium contribution within the selected reporting scope" action={<MetricSwitch value={mixMetric} onChange={setMixMetric}/>}/><div className="two-grid"><Mix rows={rows} level="LINE" metric={mixMetric}/><Mix rows={rows} level="CHANNEL" metric={mixMetric}/></div>
+
+      <SectionHeading title="Motor vs Travel" subtitle="A side-by-side view of business line performance"/><div className="two-grid"><LineCard line="Motor" row={rows.find(r=>r.LEVEL==='LINE'&&r.LINE_OF_BUSINESS==='Motor')}/><LineCard line="Travel" row={rows.find(r=>r.LEVEL==='LINE'&&r.LINE_OF_BUSINESS==='Travel')}/></div>
+
       <ChannelTable rows={rows}/><Detail total={total} rows={rows}/>
       <Insights key={query(scope)+JSON.stringify(rows)} brief={data.brief} scope={scope} ai={ai}/>
 
-    </>}
-  </>;
-}
-function MetricSwitch({value,onChange}){return <div className="segmented" aria-label="Premium measure">{['GWP','NEP'].map(v=><button key={v} onClick={()=>onChange(v)} className={value===v?'active':''} aria-pressed={value===v}>{v}</button>)}</div>;}
+    </>}
+
+  </>;
+
+}
+
+function MetricSwitch({value,onChange}){return <div className="segmented" aria-label="Premium measure">{['GWP','NEP'].map(v=><button key={v} onClick={()=>onChange(v)} className={value===v?'active':''} aria-pressed={value===v}>{v}</button>)}</div>;}
+
 function PageHeader({title,subtitle}){return <header className="page-header"><div><div className="eyebrow">TUNE PROTECT / AI INTELLIGENCE</div><h1>{title}</h1><p>{subtitle}</p></div></header>;}
-function SectionHeading({title,subtitle,action}){return <div className="section-heading"><div><h2>{title}</h2>{subtitle&&<p>{subtitle}</p>}</div>{action}</div>;}
-
+function SectionHeading({title,subtitle,action}){return <div className="section-heading"><div><h2>{title}</h2>{subtitle&&<p>{subtitle}</p>}</div>{action}</div>;}
+
+
+
 function customerTab(){
   const hash=location.hash.slice(1);
   if(hash==='NBA'||hash==='CUSTOMERS/retention')return 'RETENTION';
@@ -161,21 +229,31 @@ function CustomerIntelligence({revision,ai}){
   </>;
 }
 
-function App(){
+function App(){
+
   const [page,setPage]=useState(()=>/^(CUSTOMERS(?:\/|$)|NBA$|NBO$)/.test(location.hash.slice(1))?'CUSTOMERS':'EXEC'),[ai,setAI]=useState(true),[revision,setRevision]=useState(0),[refreshing,setRefreshing]=useState(false),[navOpen,setNavOpen]=useState(false),[refreshError,setRefreshError]=useState('');
   useEffect(()=>{const change=()=>setPage(/^(CUSTOMERS(?:\/|$)|NBA$|NBO$)/.test(location.hash.slice(1))?'CUSTOMERS':'EXEC');window.addEventListener('hashchange',change);return()=>window.removeEventListener('hashchange',change);},[]);
-  function navigate(id){setPage(id);location.hash=id;setNavOpen(false);window.scrollTo({top:0});}
-  async function refresh(){setRefreshing(true);setRefreshError('');try{await api('/refresh',{});setRevision(v=>v+1);}catch(e){setRefreshError(e.message);}finally{setRefreshing(false);}}
+  function navigate(id){setPage(id);location.hash=id;setNavOpen(false);window.scrollTo({top:0});}
+
+  async function refresh(){setRefreshing(true);setRefreshError('');try{await api('/refresh',{});setRevision(v=>v+1);}catch(e){setRefreshError(e.message);}finally{setRefreshing(false);}}
+
   return <div className="app-shell">
     <Sidebar eyebrow="TUNE AI INTELLIGENCE" title="Business Intelligence" kind="intelligence" open={navOpen} onToggle={()=>setNavOpen(x=>!x)} active={page} onNavigate={navigate}
       items={[{id:'EXEC',label:'Executive Intelligence',icon:BarChart3},{id:'CUSTOMERS',label:'Customer Growth & Retention Intelligence',icon:Users}]}
       utility={<><label className="toggle"><input type="checkbox" checked={ai} onChange={e=>setAI(e.target.checked)}/><span className="toggle-track"/><span>AI assistance</span></label><button className="icon-button" aria-label="Refresh data" title="Refresh data" disabled={refreshing} onClick={refresh}><RefreshCw size={18} className={refreshing?'spin':''}/></button></>}/>
-    <main>{refreshError&&<ErrorState message={refreshError}/>}<div key={page} className={page==='EXEC'?'executive-view':undefined}>{page==='EXEC'?<Executive revision={revision} ai={ai}/>:<CustomerIntelligence revision={revision} ai={ai}/>}</div><footer>Tune Protect Group <span>Human-led decisions. Verified intelligence.</span></footer></main>
-  </div>;
-}
-class RenderBoundary extends React.Component {
-  state={failed:false};
-  static getDerivedStateFromError(){return {failed:true};}
+    <main>{refreshError&&<ErrorState message={refreshError}/>}<div key={page} className={page==='EXEC'?'executive-view':undefined}>{page==='EXEC'?<Executive revision={revision} ai={ai}/>:<CustomerIntelligence revision={revision} ai={ai}/>}</div><footer className="tune-footer">Tune Protect Group <span>Trusted Insights. Smarter Business Decisions.</span><Information kind="intelligence"/></footer></main>
+  </div>;
+
+}
+
+class RenderBoundary extends React.Component {
+
+  state={failed:false};
+
+  static getDerivedStateFromError(){return {failed:true};}
+
   render(){return this.state.failed?<div style={{padding:40,maxWidth:700,margin:'auto'}}><h1>Let’s reload your workspace</h1><p style={{margin:'18px 0'}}>The interface encountered an unexpected error. Your information is unchanged.</p><button className="button primary" onClick={()=>location.reload()}>Reload application</button></div>:this.props.children;}
-}
-createRoot(document.getElementById('root')).render(<RenderBoundary><App/></RenderBoundary>);
+}
+
+createRoot(document.getElementById('root')).render(<RenderBoundary><App/></RenderBoundary>);
+
