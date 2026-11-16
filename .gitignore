@@ -8,3 +8,6 @@ validation/deployed_source/
 validation/deployed_intelligence/
 validation/deployed_desk/
 output/
+
+node_modules/
+apps/ai-intelligence-react/dist/

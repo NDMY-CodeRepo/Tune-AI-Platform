@@ -120,7 +120,8 @@ results['Streamlit AppTest']='PASS: four trends, both variance/mix bases, filter
 baseline=json.loads((ROOT/'validation/management_dashboard_baseline.json').read_text())
 tree=ast.parse((ROOT/'apps/ai-intelligence/app.py').read_text(encoding='utf-8'))
 for name,expected in baseline['preserved_functions'].items():
-    node=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name==name)
+    source_tree=ast.parse((ROOT/'shared/insight_facts.py').read_text(encoding='utf-8')) if name=='financial_narrative' else tree
+    node=next(n for n in source_tree.body if isinstance(n,ast.FunctionDef) and n.name==name)
     assert ast.dump(node)==expected,name
 assert hashlib.sha256((ROOT/'shared/business_logic.py').read_bytes()).hexdigest()==baseline['file_hashes']['shared/business_logic.py']
 results['Preservation']='PASS: customer_page, explanation and financial_narrative AST unchanged; read-only SELECT queries only'

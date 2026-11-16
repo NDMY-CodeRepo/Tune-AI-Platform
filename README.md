@@ -11,6 +11,33 @@ Tune AI Intelligence contains **Executive Intelligence, Next Best Action and Nex
 
 Both read live Snowflake data. The database describes its records as **synthetic demo data**; no business figures are fabricated locally. Existing GOLD definitions and financial calculations are preserved. The service desk reuses `APP_STATE.DATA_REQUEST_TICKET` with the additive `sql/desk_upgrade.sql` migration; existing UUIDs and ticket values are retained.
 
+## Local React demo — all three AI modules
+
+The React version runs **Executive Intelligence, Next Best Action and Next Best Offer** against the same Python/Snowflake services. Start it with:
+
+```powershell
+.\launch.ps1 -App react
+# Or directly, with optional -Port, -ConnectionName, -ConfigPath, -Role, -Warehouse:
+.\launch-react.ps1
+```
+
+Open **http://127.0.0.1:8000**. The script builds React, then serves the built UI and API from one loopback-only Python process. Press Ctrl+C in the launch terminal to stop it. Node.js 22.12+ (or 20.19+) and npm are required for the Vite build. Existing Python environment/Snowflake profile setup below still applies. No credentials are bundled into JavaScript.
+
+The first launch installs missing API dependencies from `apps/api/requirements.txt` and frontend packages using the committed npm lockfile. If preparing dependencies manually:
+
+```powershell
+.\.venv\Scripts\python -m pip install -r apps/api/requirements.txt
+npm --prefix apps/ai-intelligence-react ci
+npm --prefix apps/ai-intelligence-react run build
+.\launch-react.ps1 -SkipBuild
+```
+
+React source: `apps/ai-intelligence-react/`; API: `apps/api/main.py`. The shared financial narrative moved unchanged into `shared/insight_facts.py` for both frontends. Financial SQL, customer rules, semantic checks and Cortex fact-ID validation remain unchanged. The API rebuilds evidence server-side and accepts only structured filters/customer IDs. Read cache refresh, source-grain checks, no-data/error states and deterministic AI fallback remain available. No database migration or GOLD changes were needed. The separate Data Service Desk remains Streamlit; `-App intelligence`, `-App desk` and `-App both` retain their previous behavior. Streamlit is the fallback for today’s demo.
+
+For frontend editing only, `npm --prefix apps/ai-intelligence-react run dev` starts Vite on 5173 and proxies the API to the Python process on 8000. The normal demo launcher needs only port 8000. Run API tests after installing test tooling (`pip install pytest httpx`): `python -m pytest -q`. The live HTTP/Snowflake check is `python -m tests.live_react_api`, with the same connection environment as the launcher. See [React validation report](validation/REACT_REPORT.md).
+
+This is a local internal demo with no authentication, intended to remain loopback-only. Container/Snowflake deployment and browser visual verification have not been completed. Do not use `deploy.ps1` for React; it still deploys the existing Streamlit apps.
+
 ## Executive management analytics
 
 Executive Intelligence retains the white/navy/Tune red design and four reconciled KPIs. Monthly performance switches between GWP and NEP actual/plan, actual net incurred claims and actual net loss ratio. A dedicated AI Insights section closes the page, showing one finding, up to three verified contributors, one investigation/action and collapsed exact evidence. Cortex selects verified evidence; its loading state, filter-specific results and deterministic fallback stay inside the same section.

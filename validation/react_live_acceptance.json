@@ -1,0 +1,18 @@
+{
+  "frontend": "PASS: HTML, built JS/CSS and logo served same-origin; not a browser execution test",
+  "finance All/All": "PASS: all API numeric/null/date records equal the existing validated Python query; deterministic brief works",
+  "finance Motor/Agency": "PASS: all API numeric/null/date records equal the existing validated Python query; deterministic brief works",
+  "NBA": {
+    "status": "PASS: live worklist, profile/evidence reuse, filters and server-generated brief",
+    "total": 179725,
+    "brief_source": "Deterministic explanation"
+  },
+  "NBO": {
+    "status": "PASS: live worklist, profile/evidence reuse, filters and server-generated brief",
+    "total": 10566,
+    "brief_source": "AI-curated explanation \u00b7 Snowflake Cortex",
+    "direct_sql_candidates": 10566
+  },
+  "refresh": "PASS: read-only cache invalidation",
+  "mutations": "NONE: no database migration, writes, DDL or GOLD changes"
+}

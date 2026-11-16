@@ -1,0 +1,9 @@
+{
+  "name": "tune-ai-intelligence",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {"dev": "vite --host 127.0.0.1", "build": "vite build"},
+  "dependencies": {"react": "19.3.1", "react-dom": "19.3.1", "recharts": "3.10.1", "lucide-react": "1.73.0"},
+  "devDependencies": {"vite": "8.3.8"}
+}

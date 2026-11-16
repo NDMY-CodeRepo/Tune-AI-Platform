@@ -4,7 +4,7 @@ param(
     [string]$ConfigPath = "$env:LOCALAPPDATA\snowflake\config.toml",
     [string]$Role = 'AGENT_ROLE',
     [string]$Warehouse = 'POC_WH',
-    [ValidateSet('intelligence','desk','both')]
+    [ValidateSet('intelligence','desk','both','react')]
     [string]$App = 'intelligence',
     [ValidateRange(0,65535)]
     [int]$Port = 0
@@ -13,6 +13,11 @@ $env:TUNE_SNOWFLAKE_CONNECTION = $ConnectionName
 $env:TUNE_SNOWFLAKE_CONFIG = $ConfigPath
 $env:TUNE_SNOWFLAKE_ROLE = $Role
 $env:TUNE_SNOWFLAKE_WAREHOUSE = $Warehouse
+if ($App -eq 'react') {
+    $reactPort = if ($Port -eq 0) { 8000 } else { $Port }
+    & "$PSScriptRoot\launch-react.ps1" -ConnectionName $ConnectionName -ConfigPath $ConfigPath -Role $Role -Warehouse $Warehouse -Port $reactPort
+    return
+}
 if ($App -eq 'both') {
     $ErrorActionPreference = 'Stop'
     $firstPort = if ($Port -eq 0) { 8501 } else { $Port }
