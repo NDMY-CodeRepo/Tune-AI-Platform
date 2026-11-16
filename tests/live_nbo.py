@@ -19,7 +19,7 @@ _, facts, _ = customer_evidence(customers.iloc[0].to_dict(), 'NBO')
 ids = s.explain(facts)
 assert ids
 app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / 'apps/ai-intelligence/app.py'), default_timeout=90).run()
-app.sidebar.radio[0].set_value('Next Best Offer').run()
+app.button(key='nav-nbo').click().run()
 assert not app.exception, app.exception
 assert not app.error, [x.value for x in app.error]
 assert app.metric[0].value == '10,566'

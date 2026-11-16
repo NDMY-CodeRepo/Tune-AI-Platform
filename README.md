@@ -9,13 +9,23 @@ Two independent Streamlit applications for **19 November 2026**:
 
 Tune AI Intelligence contains **Executive Intelligence, Next Best Action and Next Best Offer**. The separate service desk contains **Business User Portal and Data Team Workspace**. They share connection utilities, presentation helpers and the existing business rules from `shared/`, but have separate navigation, entry points, processes and deployments.
 
-Both read live Snowflake data. The database describes its records as **synthetic demo data**; no business figures are fabricated locally. Existing GOLD definitions and financial calculations are preserved. The service desk reuses `APP_STATE.DATA_REQUEST_TICKET` without recreation or migration.
+Both read live Snowflake data. The database describes its records as **synthetic demo data**; no business figures are fabricated locally. Existing GOLD definitions and financial calculations are preserved. The service desk reuses `APP_STATE.DATA_REQUEST_TICKET` with the additive `sql/desk_upgrade.sql` migration; existing UUIDs and ticket values are retained.
+
+## Executive management analytics
+
+Executive Intelligence retains the white/navy/Tune red design and four reconciled KPIs. Monthly performance switches between GWP and NEP actual/plan, actual net incurred claims and actual net loss ratio. A dedicated AI Insights section closes the page, showing one finding, up to three verified contributors, one investigation/action and collapsed exact evidence. Cortex selects verified evidence; its loading state, filter-specific results and deterministic fallback stay inside the same section.
+
+Management views include separate ranked line/channel variance charts (GWP or NEP), line/channel portfolio mix with separate SQL-calculated denominators, Motor/Travel metric cards with GWP, plan variance and supporting financial highlights, a numerically sortable channel scorecard, and retained exact financial detail/methodology. All use the active date, line and channel filters. Variance charts exclude incomplete groups; unavailable comparisons are not zero. Premium mix is withheld for missing/negative group amounts or a zero denominator. Loss ratios are ratios of summed claims to summed NEP. Claims-plan and planned loss-ratio comparisons remain withheld until their basis is confirmed.
+
+For **January–October 2026, Motor + Travel, all channels**, current direct SQL and the app reconcile to **RM 18,825,419.86 (RM 18.83M)**, against plan **RM 19,974,803.65**. The earlier saved GWP result was RM 18,926,262.09. Source Motor aggregates changed by net −RM 100,842.23; values were not adjusted to match an image. See `validation/gwp_investigation.json`.
+
+The 100-test suite and read-only management SQL/AppTest checks pass. Run `.\.venv\Scripts\python -m tests.live_management_analytics` with the Snowflake environment set. See [management validation](validation/MANAGEMENT_REPORT.md) for results and boundaries. The historical schema check still flags the added `VW_AS_AT.FIRST_YEAR_ON_YEAR_MONTH` column; its baseline remains intact. Browser screenshots and responsive visual review remain blocked by unavailable browser/native hosts. The AI bundle is prepared locally; no hosted update was made in this iteration. NBA/NBO recommendation functions and financial definitions are preserved.
 
 ## Visual direction
 
-The AI application follows the supplied Tune Protect Executive Intelligence dashboard reference: compact logo/navigation, a single title/filter row, coordinated financial cards, charts and exact detail beside an insight rail. Reporting-period controls are in the calendar popover; chart options retain GWP/NEP and line/channel choices. Planned loss-ratio and claims comparisons remain unavailable until their source basis is established.
+The AI application follows the supplied Tune Protect Executive Intelligence dashboard reference: compact logo/navigation, a single title/filter row, coordinated financial cards and a monthly trend, management scorecards and a final full-width AI insights section. Reporting-period controls are in the calendar popover; chart options include premium, claims and loss-ratio trends, with separate GWP/NEP variance and mix controls. Planned loss-ratio and claims comparisons remain unavailable until their source basis is established.
 
-Customer Growth and Retention Intelligence use the same light theme, with filters in the header and the worklist/profile directly beneath the portfolio KPIs. Source definitions and ranking methodology sit after the main workflow. Engagement briefs use verified evidence and retain deterministic fallback. The service desk inherits the common branding and typography; its workflow is unchanged.
+Customer Growth and Retention Intelligence use the same light theme, with filters in the header and the worklist/profile directly beneath the portfolio KPIs. Source definitions and ranking methodology sit after the main workflow. Engagement briefs use verified evidence and retain deterministic fallback. The service desk inherits the common branding and typography and now has a separate guided-request, conversation and triage workflow.
 
 This visual pass has live data/AppTest validation. Browser rendering, responsive layout and hosted startup still require a presenter rehearsal; automated browser access was unavailable.
 
@@ -91,7 +101,7 @@ Each command reads only the selected app's deployment configuration:
 - `apps/ai-intelligence/snowflake.yml` → `TUNE_AI_INTELLIGENCE`.
 - `apps/data-service-desk/snowflake.yml` → `TUNE_DATA_SERVICE_DESK`.
 
-The script defaults to the same existing Snowflake connection, role and warehouse as the launcher. Override with `-ConnectionName`, `-Role` or `-Warehouse`. It does not run ticket setup SQL, modify GOLD or grant access. The existing ticket table is required.
+The script defaults to the same existing Snowflake connection, role and warehouse as the launcher. Override with `-ConnectionName`, `-Role` or `-Warehouse`. It does not run ticket setup SQL, modify GOLD or grant access. The existing ticket table and the desk upgrade migration are required for the enhanced desk.
 
 Snowflake CLI requires deployment sources to be inside its project directory. `deploy.ps1` therefore copies the selected entry point/config, shared Python package, logo, environment and theme into ignored `output/deploy/intelligence/` or `output/deploy/desk/`, then calls the CLI against that self-contained bundle. These are generated deployment copies, not additional maintained business logic. No credentials, secrets files, tests or validation exports are staged.
 
@@ -112,8 +122,8 @@ On the inspected account, CLI 3.33.0 creates/updates the app but exits nonzero w
 
 - Database/schema usage and SELECT on `TUNE_BI_DB.GOLD.CUSTOMER_360_WIDE_MART`, `GI_ENTERPRISE_WIDE_MART`, `GI_PLAN_MONTHLY` and `DERIVED_METRIC`.
 - USAGE on an existing running/resumable warehouse. `AGENT_ROLE` owns the inspected marts and APP_STATE; a narrower demo role can be provisioned by your administrator before sharing beyond the demonstrator.
-- The existing `APP_STATE.DATA_REQUEST_TICKET` must be present. No table setup or migration runs during launch or deployment. `sql/setup.sql` is retained only as the original initial-install script, not part of this upgrade.
-- For ticket use: SELECT, INSERT, UPDATE on `APP_STATE.DATA_REQUEST_TICKET`.
+- The existing `APP_STATE.DATA_REQUEST_TICKET` must be present. Apply `sql/desk_upgrade.sql` explicitly before using the enhanced desk. No migration or seeding runs during launch or deployment. `sql/setup.sql` remains the original initial-install script.
+- For desk use: SELECT, INSERT, UPDATE on `APP_STATE.DATA_REQUEST_TICKET`; SELECT, INSERT on `DATA_REQUEST_ACTIVITY`; SELECT on `REPORT_CATALOGUE`; USAGE on `DATA_REQUEST_NUMBER`. Migration and explicit seeding additionally require suitable APP_STATE DDL/DML privileges. No grants are applied by this change.
 - For deployment: CREATE STREAMLIT and privileges to upload its artifacts in APP_STATE. No access grants are applied automatically.
 - Optional AI: permission to call `AI_COMPLETE` and access to `llama3.3-70b`. Both were exercised on this account. Legacy `SNOWFLAKE.CORTEX.COMPLETE` is blocked here. `TUNE_CORTEX_MODEL` can override the model locally; revalidate before changing it.
 
@@ -147,7 +157,7 @@ Ties use lifetime value descending, risk score descending and customer ID. A mis
 
 **AI:** The engine receives only approved fact sentences, without customer identity. `AI_COMPLETE` selects evidence identifiers in priority order using structured output. The app validates those identifiers and renders only approved facts, together with the deterministic recommendation, next action and human-review requirement. This deliberately constrained AI-curated brief cannot introduce pricing, travel plans, eligibility or unsupported findings. AI is explicitly labelled and never executes SQL. Turning AI off, a Cortex error or an invalid response yields a deterministic brief.
 
-**Service desk:** UUID ticket reference, business justification, owner, progress notes, resolution notes and version are persisted in Snowflake. Writes are parameterized and uncached. Status moves NEW → IN_PROGRESS → RESOLVED → CLOSED; resolved requests can return to IN_PROGRESS. Owner is required for work to start, notes for resolution/closure. A version check rejects stale updates. Requester identity persists through demo-role switching. A submission token supports retry after an uncertain insert response.
+**Service desk:** Internal UUIDs remain the ticket identifiers; Snowflake sequence values display as `TDS-000123` (gaps are expected). Requests move NEW → TRIAGED → IN_PROGRESS → RESOLVED → CLOSED, with IN_PROGRESS ↔ WAITING_FOR_BU and RESOLVED → IN_PROGRESS. Same-status saves are supported; CLOSED only accepts comments. Owner and confirmed priority are required for triage/work; resolution notes are required to resolve or close. Requester comments, clarification responses and closure cannot overwrite Data Team fields. Every ticket mutation and append-only activity record commits in one transaction. Version predicates reject stale saves; the editor retains its loaded version until **Refresh request** or a successful update. Role and identity switching preserve the requester identity for the demo.
 
 The demo role selector and typed requester identity are **not authentication or authorization**. Do not expose this service desk as a production request portal. No messages or notifications are sent.
 
@@ -159,13 +169,38 @@ The demo role selector and typed requester identity are **not authentication or 
 4. Generate Engagement Brief. Explain its grounded evidence, rule-based action and human review. Disable Cortex and regenerate to show continuity.
 5. Open Next Best Action, presented as Retention Intelligence. Filter High risk and Top value. Explain the renewal window, priority-review count and selected customer action. Missing renewal dates remain explicitly unavailable.
 
-## Tune Data Service Desk demo walkthrough
+## Tune Data Service Desk enhancement
 
-1. Open the separate desk app (port 8502), Business User Portal, requester `motor.demo`.
-2. Click **New Data Request**. Submit `Motor claims breakdown by channel` with a description and business justification. Note its reference; open it in **My Requests**.
-3. Choose **Data Team Workspace** in this app's navigation. Review open/in-progress/resolved counts, pending priority breakdown and ownership in the queue.
-4. Open the reference, assign `demo.engineer`, save IN_PROGRESS with progress notes, then enter resolution notes and save RESOLVED.
-5. Return to **Business User Portal**. Open the same request to show the status journey and saved resolution. Workspace switching is a demo convenience, not real authorization.
+The enhanced desk is implemented locally; its additive migration and synthetic examples have been exercised in Snowflake. Hosted application deployment and browser visual review remain outstanding. See `validation/DESK_REPORT.md` for evidence and boundaries.
+
+Apply the upgrade using the same connection environment variables described above (the command does not deploy an application):
+
+```powershell
+$env:TUNE_SNOWFLAKE_CONNECTION = 'snowflake-DINHEAO-HN84194'
+$env:TUNE_SNOWFLAKE_CONFIG = "$env:LOCALAPPDATA\snowflake\config.toml"
+$env:TUNE_SNOWFLAKE_ROLE = 'AGENT_ROLE'
+$env:TUNE_SNOWFLAKE_WAREHOUSE = 'POC_WH'
+.\.venv\Scripts\python -m tests.migrate_desk --seed-demo
+.\.venv\Scripts\python -m tests.live_desk
+.\deploy.ps1 -App desk -PrepareOnly
+```
+
+The migration is idempotent and performs only additive APP_STATE DDL and missing-reference backfill. The sequence is never reset. Pause writes from the old desk during migration and replacement: older application code does not allocate the new reference or write history. If an old client created more tickets before replacement, rerun the migration to backfill their references. Five deterministic `[Demo]` tickets are seeded explicitly; seeding again does not duplicate them. Three illustrative catalogue entries are added only when real catalogue records are absent. They have no fabricated report links. Activity history begins with the upgrade; existing progress and resolution notes remain visible without invented historical events. Legacy resolved dates are unknown and are excluded from “Resolved this month”.
+
+The default record view excludes `[Validation]` tickets, while **All records** retains access to them. **Synthetic demo only** shows only the five seeded examples. Switch to **Exclude validation** for the full new-submission walkthrough, since newly submitted requests are ordinary request records. Request queues show at most 200 matches, with the matching count; overview counts and workload distributions use all matching records.
+
+1. Launch `./launch.ps1 -App desk` and use Business User Portal, requester `motor.demo`.
+2. Open **Find Existing Reports**, search a keyword/domain, and explain that `[Demo]` catalogue entries are illustrative.
+3. Choose **New Data Request**. Complete request information, conditional data requirements, then review and submit. Note the short reference.
+4. In **My Requests**, select the row to open request details, conversation/history and resolution.
+5. Switch to **Data Team Workspace**. Review the operations dashboard, then select the request in **Request Queue**.
+6. In **Manage request**, assign `demo.engineer`, confirm priority, set target/effort and save **Triaged**. Then save **In Progress**.
+7. In **Conversation & history**, choose **Request clarification**, enter a BU-visible question and send. The ticket becomes **Waiting for BU**.
+8. Switch back to the portal, select the request and respond. Leave the explicit **Return to In Progress with this response** option checked.
+9. As Data Team, record resolution notes and a delivered output link/reference, then resolve. Internal notes are separate from BU-visible history.
+10. As BU, view the resolution/reference and **Confirm closure**, or give a reason to reopen a resolved request.
+
+The workspace selector and typed identities are workflow demonstration controls, not production authentication or authorization. No attachments, AI search, notifications or external integrations are included.
 
 Before 19 November: open **both** deployed apps under the presenter's actual role, rehearse these journeys in a browser, check that POC_WH resumes and regenerate an AI brief. Keep both local launches available as fallbacks. These browser checks remain required.
 
@@ -177,6 +212,7 @@ Install test tooling with `.\.venv\Scripts\python -m pip install pytest`, set th
 .\.venv\Scripts\python -m pytest -q
 .\.venv\Scripts\python -m tests.live_nbo
 .\.venv\Scripts\python -m tests.live_financial_edges
+.\.venv\Scripts\python -m tests.live_management_analytics
 .\.venv\Scripts\python -m tests.live_workflows
 .\.venv\Scripts\python -m tests.final_checks
 ```
@@ -190,7 +226,7 @@ Evidence: `validation/nbo_gate.json`, `acceptance.json`, `financial_edges.json`,
 - Browser visual QA, dataframe row-click behavior in a real browser and interactive Snowflake startup remain unverified because the browser access host and native computer-use connection were unavailable during the refactor. AppTest exercises screens, filters, briefs and ticket forms, but cannot establish visual quality or hosted startup.
 - Local Python 3.10 validation does not establish Python 3.11 Snowflake runtime behavior. The hosted runtime and package settings were inspected, not interactively executed.
 - Claims actual/plan comparisons await a confirmed plan-claims definition.
-- This is a single-role demo. No user provisioning, RBAC implementation, SLA engine, notifications, ticket event history or customer contact integration.
+- This is a single-role demo. No user provisioning, RBAC implementation, SLA engine, notifications or customer contact integration. The enhanced desk has append-only ticket activity history.
 - Read-only results cache for up to five minutes. Use Refresh Snowflake data before presenting; tickets always read current state.
 - Customer tables and ticket queues are bounded to 200 rows, with counts/limits displayed. No bulk customer export or PII is exposed.
 - No performance/concurrency benchmark or production security certification is claimed.

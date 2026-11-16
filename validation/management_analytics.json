@@ -1,0 +1,17 @@
+{
+  "overview_snapshot": {
+    "GWP": "18825419.86",
+    "PLAN_GWP": "19974803.65",
+    "NEP": "16265615.88",
+    "NET_INCURRED_CLAIMS": "9405977.20",
+    "LOSS_RATIO": "0.57827366"
+  },
+  "2026-01-01 / 2026-10-01 / All / All": "PASS: unchanged base results; direct source aggregates, variances, ratios and separate shares",
+  "2026-01-01 / 2026-10-01 / Motor / Agency": "PASS: unchanged base results; direct source aggregates, variances, ratios and separate shares",
+  "2026-03-01 / 2026-05-01 / Travel / Direct Online": "PASS: unchanged base results; direct source aggregates, variances, ratios and separate shares",
+  "2026-10-01 / 2026-10-01 / All / All": "PASS: unchanged base results; direct source aggregates, variances, ratios and separate shares",
+  "2026-01-01 / 2026-10-01 / Motor / not-a-channel": "PASS: empty selection remains empty",
+  "SQL edge fixtures": "PASS: missing keys excluded; null/negative premiums, zero-denominator shares and ratios unavailable",
+  "Streamlit AppTest": "PASS: four trends, both variance/mix bases, filtered and single-month rendering, bounded AI success/fallback, NBA/NBO navigation; not browser screenshots",
+  "Preservation": "PASS: customer_page, explanation and financial_narrative AST unchanged; read-only SELECT queries only"
+}

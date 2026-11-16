@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "ticket_id": "1a3abda0-4881-4fc9-8105-9307cbd53a2b",
+  "reference": "TDS-000020",
+  "concurrent_update_one_winner": "PASS",
+  "request_fields_persist": "PASS",
+  "sequence_unique_independent_sessions": "PASS",
+  "retry_preserved": "PASS",
+  "ui_triage_assign_target_effort": "PASS",
+  "ui_clarification_and_response": "PASS",
+  "internal_notes_hidden": "PASS",
+  "activity_persisted": 17,
+  "history_failure_rolls_back": "PASS",
+  "stale_and_invalid_updates": "PASS",
+  "resolution_reopen_closure": "PASS",
+  "gold_unchanged": "PASS",
+  "gold_hash": "fc6cf6b416a38490ff314dc25355de89ee4c5cf36889a23d6d24fc288c60a701",
+  "browser": "BLOCKED: browser access host unavailable; native pipe unavailable",
+  "app_test": "PASS: form, navigation, queue render, detail and conversation interactions; selected-ticket state injected because AppTest does not click dataframe rows"
+}

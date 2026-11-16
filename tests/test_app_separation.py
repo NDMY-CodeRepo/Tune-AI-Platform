@@ -23,7 +23,10 @@ def test_separate_navigation_and_connection_failure(entry,options,ai):
     with patch('shared.snowflake_service.get_service',side_effect=RuntimeError('offline')):
         app=AppTest.from_file(str(ROOT/entry),default_timeout=15).run()
     assert not app.exception
-    assert app.sidebar.radio[0].options == options
+    if ai:
+        assert [b.label for b in app.sidebar.button if b.key in ('nav-exec','nav-nba','nav-nbo')]==options
+    else:
+        assert app.sidebar.radio[0].options==options
     assert bool(app.toggle) == ai
     assert app.error and not app.metric
     assert 'No sample figures' in app.error[0].value

@@ -9,11 +9,13 @@ import streamlit as st
 import toml
 
 from .business_logic import (GOLD, CANDIDATE_WHERE, customer_query, validate_ai_selection,
-                            finance_query, LOSS_RATIO, CATEGORIES, PRIORITIES, STATUSES,
-                            validate_ticket_change, ACTION_SQL)
+                            finance_query, LOSS_RATIO, ACTION_SQL)
 
 
-class SnowflakeService:
+from .desk_service import DeskPersistence
+
+
+class SnowflakeService(DeskPersistence):
     def __init__(self, session):
         self.session = session
         self.lock = RLock()
@@ -60,12 +62,15 @@ class SnowflakeService:
         UNION SELECT DISTINCT ACCOUNTING_MONTH,DISTRIBUTION_CHANNEL
         FROM {GOLD}.GI_PLAN_MONTHLY WHERE LINE_OF_BUSINESS IN ('Motor','Travel')""")
 
-    def finance(self, start, end, line='All', channel='All'):
+    def finance(self, start, end, line='All', channel='All', analytics=False):
         definition = self.query(f"SELECT SQL_EXPRESSION FROM {GOLD}.DERIVED_METRIC WHERE MART_NAME='GI_ENTERPRISE_WIDE_MART' AND FIELD_NAME='LOSS_RATIO'")
         normalize = lambda s: ''.join(s.upper().split())
         if len(definition) != 1 or normalize(definition.iloc[0]['SQL_EXPRESSION']) != normalize(LOSS_RATIO):
             raise RuntimeError('Loss ratio definition changed; review financial calculations.')
         sql, params = finance_query(start, end, line, channel)
+        if analytics:
+            from .executive_analytics import analytics_query
+            sql,params=analytics_query(start,end,line,channel)
         return self.query(sql, params)
 
     def tickets(self, status='All', category='All', priority='All', requester=None):
@@ -83,28 +88,6 @@ class SnowflakeService:
                           (' WHERE REQUESTER=?' if requester is not None else '')+' GROUP BY ALL',
                           [requester] if requester is not None else [])
 
-    def create_ticket(self, ticket_id, bu, requester, title, description, category, priority, justification):
-        if not all(x.strip() for x in [bu,requester,title,description,justification]):
-            raise ValueError('Complete all required request fields.')
-        if category not in CATEGORIES or priority not in PRIORITIES:
-            raise ValueError('Invalid request category or priority.')
-        if any(len(x)>limit for x,limit in [(requester,100),(title,200),(description,4000),(justification,2000),(bu,100)]):
-            raise ValueError('A request field exceeds its allowed length.')
-        self.query("""INSERT INTO TUNE_BI_DB.APP_STATE.DATA_REQUEST_TICKET
-        (TICKET_ID,BUSINESS_UNIT,REQUESTER,TITLE,DESCRIPTION,CATEGORY,PRIORITY,BUSINESS_JUSTIFICATION)
-        VALUES (?,?,?,?,?,?,?,?)""", [ticket_id,bu.strip(),requester.strip(),title.strip(),description.strip(),category,priority,justification.strip()])
-        return ticket_id
-
-    def update_ticket(self, ticket_id, version, old_status, status, owner, progress, notes):
-        validate_ticket_change(old_status,status,owner,notes)
-        if len(owner)>100 or len(progress)>4000 or len(notes)>4000:
-            raise ValueError('An update field exceeds its allowed length.')
-        result = self.query("""UPDATE TUNE_BI_DB.APP_STATE.DATA_REQUEST_TICKET
-        SET ASSIGNED_TO=?,STATUS=?,PROGRESS_NOTES=?,RESOLUTION_NOTES=?,UPDATED_AT=CURRENT_TIMESTAMP(),VERSION=VERSION+1
-        WHERE TICKET_ID=? AND VERSION=? AND STATUS=?""",
-          [owner.strip(),status,progress.strip(),notes.strip(),ticket_id,int(version),old_status])
-        if int(result.iloc[0,0]) != 1:
-            raise ValueError('This ticket changed in another session. Refresh the queue before updating.')
 
 
 @st.cache_resource

@@ -133,17 +133,5 @@ def finance_query(start, end, line='All', channel='All'):
     return sql, params + params
 
 
-CATEGORIES = ['REPORT_REQUEST','DATA_EXTRACT','DATA_ISSUE','ACCESS_REQUEST','OTHER']
-PRIORITIES = ['LOW','MEDIUM','HIGH']
-STATUSES = ['NEW','IN_PROGRESS','RESOLVED','CLOSED']
-TRANSITIONS = {'NEW': ['NEW','IN_PROGRESS'], 'IN_PROGRESS':['IN_PROGRESS','RESOLVED'],
-               'RESOLVED':['RESOLVED','IN_PROGRESS','CLOSED'], 'CLOSED':['CLOSED']}
-
-
-def validate_ticket_change(old_status, status, owner, notes):
-    if status not in TRANSITIONS.get(old_status, []):
-        raise ValueError('Follow the workflow: New → In progress → Resolved → Closed.')
-    if status != 'NEW' and not owner.strip():
-        raise ValueError('Assign an owner before starting work.')
-    if status in ('RESOLVED','CLOSED') and not notes.strip():
-        raise ValueError('Resolution notes are required before resolving or closing a request.')
+# Preserve the public imports used by existing integrations.
+from .desk_rules import CATEGORIES, PRIORITIES, STATUSES, TRANSITIONS, validate_ticket_change

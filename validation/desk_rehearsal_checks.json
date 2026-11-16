@@ -1,0 +1,14 @@
+{
+  "homepage_recent_requests": "PASS",
+  "awaiting_bu_highlight": "PASS",
+  "latest_visible_updates": "PASS",
+  "recent_reference_button_opens_conversation": "PASS",
+  "workload_chart": "PASS",
+  "queue_priority_columns": "PASS",
+  "queue_status_filter": "PASS",
+  "mutation_methods_unchanged": "PASS",
+  "stack": "Existing Streamlit / Snowflake",
+  "schema_migration_executed": false,
+  "browser": "BLOCKED: browser access host unavailable",
+  "port_8502": "Left stopped as requested previously"
+}

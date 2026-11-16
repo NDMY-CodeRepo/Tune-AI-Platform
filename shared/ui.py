@@ -34,7 +34,7 @@ def setup_page(title):
     st.markdown('''<style>
     :root {--navy:#17263F;--red:#E20836;--muted:#55647C;--border:#E8EBF2}
     html,body,[data-testid="stApp"] {font-family:Inter,"Segoe UI",Arial,sans-serif;color:var(--navy)}
-    [data-testid="stAppViewContainer"] {background:linear-gradient(125deg,#FCFCFE,#F7F8FC)}
+    [data-testid="stAppViewContainer"] {background:#FFFFFF}
     [data-testid="stHeader"] {background:transparent;height:2.25rem}
     [data-testid="stToolbar"],[data-testid="stDecoration"] {display:none}
     .block-container {max-width:1700px;padding:2.25rem 2.1rem 2rem}
@@ -43,7 +43,8 @@ def setup_page(title):
     h3 {font-size:1.02rem!important;font-weight:600!important;color:var(--navy);padding:.1rem 0 .35rem!important}
     [data-testid="stVerticalBlock"] {gap:.8rem}
     [data-testid="stSidebar"] {background:#fff;border-right:1px solid var(--border);min-width:246px!important;max-width:246px!important;width:246px!important}
-    [data-testid="stSidebarUserContent"] {padding:1.3rem .95rem 1rem}
+    [data-testid="stSidebarHeader"] {position:absolute!important;top:8px!important;right:8px!important;padding:0!important;margin:0!important;z-index:2}
+    [data-testid="stSidebarUserContent"] {padding:1.25rem .95rem 1rem!important}
     [data-testid="stSidebar"] [data-testid="stVerticalBlock"] {gap:.65rem}
     [data-testid="stSidebar"] [data-testid="stRadio"] label {padding:10px 12px;border-radius:10px;margin:2px 0;min-height:43px;gap:10px;white-space:nowrap;font-size:14px}
     [data-testid="stSidebar"] label[data-baseweb="radio"]>div:first-child {position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
@@ -52,10 +53,10 @@ def setup_page(title):
     [data-testid="stSidebar"] label[data-baseweb="radio"]:has(input:checked)::before {background:#E20836}
     [data-testid="stSidebar"] hr {margin:.65rem 0;border-color:#EEF0F5}
     [data-testid="stSidebar"] button {font-size:12px}
-    .brand {padding:0 10px 13px}
-    .brand img {display:block;width:70px;height:70px;margin-bottom:12px}
-    .brand-name {font-size:16px;font-weight:550;margin-bottom:25px}
-    .brand-area {font-size:10px;letter-spacing:1px;color:#56647A;margin-bottom:14px}
+    .brand {padding:0 10px 8px}
+    .brand img {display:block;width:70px;height:70px;margin-bottom:10px}
+    .brand-name {font-size:16px;font-weight:550;margin-bottom:16px}
+    .brand-area {font-size:10px;letter-spacing:1px;color:#56647A;margin-bottom:8px}
     .brand-app {font-size:16px;font-weight:600}
     [data-testid="stMetric"] {background:linear-gradient(125deg,#fff,#FEFAFC);border:1px solid var(--border);border-radius:14px;padding:16px 18px;box-shadow:0 3px 10px #15274504;min-height:110px}
     [data-testid="stMetricLabel"] {color:#43516A;font-size:.8rem}

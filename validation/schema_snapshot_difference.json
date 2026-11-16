@@ -1,0 +1,14 @@
+{
+  "prior_snapshot_count": 236,
+  "current_count": 237,
+  "added_columns": [
+    [
+      "VW_AS_AT",
+      "FIRST_YEAR_ON_YEAR_MONTH",
+      "DATE"
+    ]
+  ],
+  "removed_columns": [],
+  "same_columns_different_order": false,
+  "note": "Historical-schema comparison failed; no schema DDL is issued by this UI refinement."
+}

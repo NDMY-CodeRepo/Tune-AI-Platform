@@ -1,0 +1,112 @@
+{
+  "scope": {
+    "start": "2026-01-01",
+    "end": "2026-10-01",
+    "business_line": "All (Motor + Travel)",
+    "channel": "All"
+  },
+  "source_rows": 437234,
+  "direct_GWP": "18825419.86",
+  "app_service_GWP": "18825419.86",
+  "prior_validated_GWP": "18926262.09",
+  "source_matches_prior": false,
+  "reported_18_83M": "Reproduced: current source rounds to RM 18.83M.",
+  "monthly_differences": [
+    {
+      "month": "2026-01-01",
+      "line": "Motor",
+      "prior_GWP": "1076357.74",
+      "current_GWP": "1083228.71",
+      "delta": "6870.97",
+      "prior_rows": 22390,
+      "current_rows": 22390
+    },
+    {
+      "month": "2026-02-01",
+      "line": "Motor",
+      "prior_GWP": "1051618.78",
+      "current_GWP": "1055539.23",
+      "delta": "3920.45",
+      "prior_rows": 22241,
+      "current_rows": 22241
+    },
+    {
+      "month": "2026-03-01",
+      "line": "Motor",
+      "prior_GWP": "1115096.74",
+      "current_GWP": "1118135.46",
+      "delta": "3038.72",
+      "prior_rows": 22414,
+      "current_rows": 22414
+    },
+    {
+      "month": "2026-04-01",
+      "line": "Motor",
+      "prior_GWP": "1099003.04",
+      "current_GWP": "1113766.01",
+      "delta": "14762.97",
+      "prior_rows": 22318,
+      "current_rows": 22318
+    },
+    {
+      "month": "2026-05-01",
+      "line": "Motor",
+      "prior_GWP": "1089081.91",
+      "current_GWP": "1094256.81",
+      "delta": "5174.90",
+      "prior_rows": 22355,
+      "current_rows": 22355
+    },
+    {
+      "month": "2026-06-01",
+      "line": "Motor",
+      "prior_GWP": "1049927.83",
+      "current_GWP": "1054036.12",
+      "delta": "4108.29",
+      "prior_rows": 22268,
+      "current_rows": 22268
+    },
+    {
+      "month": "2026-07-01",
+      "line": "Motor",
+      "prior_GWP": "1129704.37",
+      "current_GWP": "1124871.94",
+      "delta": "-4832.43",
+      "prior_rows": 22300,
+      "current_rows": 22300
+    },
+    {
+      "month": "2026-08-01",
+      "line": "Motor",
+      "prior_GWP": "1068771.33",
+      "current_GWP": "1046663.54",
+      "delta": "-22107.79",
+      "prior_rows": 22159,
+      "current_rows": 22159
+    },
+    {
+      "month": "2026-09-01",
+      "line": "Motor",
+      "prior_GWP": "1160263.96",
+      "current_GWP": "1112465.95",
+      "delta": "-47798.01",
+      "prior_rows": 22116,
+      "current_rows": 22116
+    },
+    {
+      "month": "2026-10-01",
+      "line": "Motor",
+      "prior_GWP": "1136894.25",
+      "current_GWP": "1072913.95",
+      "delta": "-63980.30",
+      "prior_rows": 22122,
+      "current_rows": 22122
+    }
+  ],
+  "source_difference_from_prior": "-100842.23",
+  "conclusion": "Same date/line/channel scope and current direct SQL equals service result. Saved source month/line aggregates differ, establishing refreshed source results rather than display rounding or a need to adjust financial formulas.",
+  "prior_PLAN_GWP": "20084123.92",
+  "current_PLAN_GWP": "19974803.65",
+  "plan_difference_from_prior": "-109320.27",
+  "current_GWP_VARIANCE": "-1149383.79"
+}

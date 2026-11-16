@@ -1,0 +1,36 @@
+{
+  "prepared_only": true,
+  "deployed": false,
+  "files": {
+    "apps/data-service-desk/app.py": {
+      "bundle": "app.py",
+      "sha256": "274841eb93ad1d41b93bb0c124513e589633a0e6b487d198c219e6e7a2816ee0",
+      "match": true
+    },
+    "shared/desk_rules.py": {
+      "bundle": "shared/desk_rules.py",
+      "sha256": "46534107ed48adcbcfb22d5a83d293dc280932547a2401f1bb7e1126f12a3671",
+      "match": true
+    },
+    "shared/desk_service.py": {
+      "bundle": "shared/desk_service.py",
+      "sha256": "716c4eae22f905348fd383cc428df56a89c1ad2956ea8bf91b9688228659f4a3",
+      "match": true
+    },
+    "shared/desk_demo.py": {
+      "bundle": "shared/desk_demo.py",
+      "sha256": "eeadc0cf632942454cc7cdd431d6a6fb30bd81c021a0f99929f8250fd7ae4a43",
+      "match": true
+    },
+    "shared/snowflake_service.py": {
+      "bundle": "shared/snowflake_service.py",
+      "sha256": "74df753e50617c8d2215bc4249e8c450338ef5b4ba1b6433b093512a812dae4f",
+      "match": true
+    },
+    "shared/business_logic.py": {
+      "bundle": "shared/business_logic.py",
+      "sha256": "6fe61d79e628b49a36a64ffca07fdf99c603f10139062b1aca88eebc21aecc76",
+      "match": true
+    }
+  }
+}

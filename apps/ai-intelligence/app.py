@@ -17,18 +17,33 @@ import streamlit as st
 from shared.business_logic import customer_evidence
 from shared.snowflake_service import get_service, read
 from shared.ui import setup_page, sidebar_brand, heading, connection_error, compact_amount, style_chart, financial_cards, insight_heading, insight_lead, customer_profile
+from shared.executive_ui import sidebar_styles, executive_styles, compact_evidence, executive_insights, variance_chart, portfolio_chart, line_scorecards, channel_table
+
+from shared.executive_analytics import TREND_METRICS, trend_frame
 
 setup_page('Tune AI Intelligence')
-with st.sidebar:
-    sidebar_brand('Tune AI Intelligence', 'BUSINESS INTELLIGENCE')
-    module = st.radio('Workspace', ['Executive Intelligence', 'Next Best Action', 'Next Best Offer'], label_visibility='collapsed')
-    st.divider()
-    ai_enabled = st.toggle('Enable Cortex AI', value=True)
-    st.caption('Optional explanations from verified facts.')
-    if st.button('Refresh Snowflake data', use_container_width=True):
-        read.clear()
-        st.rerun()
-    st.caption('Snowflake · Synthetic demo records')
+sidebar_styles()
+st.session_state.setdefault('ai_module','Executive Intelligence')
+
+
+def select_module(name):
+    st.session_state.ai_module=name
+
+
+with st.sidebar,st.container(key='ai-sidebar'):
+    sidebar_brand('Tune AI Intelligence','BUSINESS INTELLIGENCE')
+    for name,key,symbol in [('Executive Intelligence','exec',':material/monitoring:'),('Next Best Action','nba',':material/groups:'),('Next Best Offer','nbo',':material/track_changes:')]:
+        active='-active' if st.session_state.ai_module==name else ''
+        with st.container(key='ai-nav-'+key+active):
+            st.button(name,key='nav-'+key,icon=symbol,type='tertiary',use_container_width=True,on_click=select_module,args=(name,))
+    with st.container(key='ai-utilities'):
+        ai_control,refresh_control=st.columns([4,1],vertical_alignment='center',gap='small')
+        ai_enabled=ai_control.toggle('Cortex AI',value=True)
+        with refresh_control:
+            if st.button('',icon=':material/refresh:',help='Refresh Snowflake data',key='nav-refresh',type='tertiary',use_container_width=True):
+                read.clear()
+                st.rerun()
+module=st.session_state.ai_module
 
 
 def explanation(key, recommendation, facts, action, default_ids=None, show_recommendation=True, show_action=True):
@@ -180,22 +195,24 @@ def executive_page():
         st.info('No accounting periods are available.'); return
     months=sorted(options.ACCOUNTING_MONTH.unique())
     year_start=next((i for i,m in enumerate(months) if m.year==months[-1].year),0)
-    title,filters=st.columns([1.1,1],vertical_alignment='bottom',gap='medium')
-    with title:
-        heading('Executive Intelligence','A clear view of financial performance, actuals and plan.','TUNE PROTECT / AI INTELLIGENCE')
-    with filters:
-        period,business,distribution=st.columns([1.15,1,1],gap='small')
+    with st.container(key='exec-header'):
+        heading('Executive Intelligence','Financial performance, actuals and plan.','TUNE PROTECT / AI INTELLIGENCE')
+    with st.container(key='exec-filters'):
+        period,business,distribution=st.columns(3,gap='medium')
         current_start=st.session_state.get('finance_start',months[year_start])
         current_end=st.session_state.get('finance_end',months[-1])
-        with period.popover(f'{current_start:%b %Y} – {current_end:%b %Y}',icon=':material/date_range:',use_container_width=True):
+        date_label=f'{current_start:%b %Y} – {current_end:%b %Y}'.replace(' ','\u00a0')
+        with period.popover(date_label,icon=':material/date_range:',use_container_width=True):
             start=st.selectbox('From month',months,index=year_start,format_func=lambda x:x.strftime('%b %Y'),key='finance_start')
             end=st.selectbox('To month',months,index=len(months)-1,format_func=lambda x:x.strftime('%b %Y'),key='finance_end')
-        line=business.selectbox('Business line',['All','Motor','Travel'],label_visibility='collapsed',format_func=lambda x:'Business: '+x)
+        line=business.selectbox('Business line',['All','Motor','Travel'],label_visibility='collapsed',format_func=lambda x:'Business line: '+x)
         channel=distribution.selectbox('Distribution channel',['All']+sorted(options.DISTRIBUTION_CHANNEL.dropna().unique()),label_visibility='collapsed',format_func=lambda x:'Channel: '+x)
     if start>end:
         st.warning('Choose an end month on or after the start month.'); return
     period_label=f'{start:%b %Y}–{end:%b %Y}' if start.year!=end.year else f'{start:%b}–{end:%b %Y}'
-    data=read('finance',str(start),str(end),line,channel)
+    data=read('finance',str(start),str(end),line,channel,True)
+    if data.empty:
+        st.info('No actual or plan data exists for this selection.'); return
     total=data.loc[data.LEVEL.eq('TOTAL')].iloc[0]
     if int(total.KEY_COUNT)==0:
         st.info('No actual or plan data exists for this selection.'); return
@@ -216,82 +233,79 @@ def executive_page():
     gaps=int(total.MISSING_ACTUAL or 0)+int(total.MISSING_PLAN or 0)
     if gaps:
         st.warning(f'{gaps} accounting keys lack an actual or plan counterpart. Affected comparisons are unavailable.')
-    main,insight=st.columns([3.1,1.05],gap='medium')
-    with main:
-        trend,contribution=st.columns([1.65,1],gap='medium')
-        with trend,st.container(border=True,key='panel-trend'):
-            st.subheader('Monthly premium')
-            with st.popover('GWP / NEP'):
-                metric=st.radio('Measure',['Gross written premium','Net earned premium'])
-            actual_col,plan_col=('GWP','PLAN_GWP') if metric=='Gross written premium' else ('NEP','PLAN_NEP')
-            monthly=data.loc[data.LEVEL.eq('MONTH')].copy()
-            plot=monthly[['ACCOUNTING_MONTH',actual_col,plan_col]].rename(columns={actual_col:'Actual',plan_col:'Plan'}).melt('ACCOUNTING_MONTH',var_name='Series',value_name='RM')
-            fig=px.line(plot,x='ACCOUNTING_MONTH',y='RM',color='Series',markers=True,color_discrete_map={'Actual':'#E20836','Plan':'#6884AA'})
-            fig.update_traces(line_width=2,marker_size=6,marker_color='white',marker_line_width=1.8,hovertemplate='%{x|%b %Y}<br>RM %{y:,.2f}<extra>%{fullData.name}</extra>')
-            for trace in fig.data:
-                trace.marker.line.color=trace.line.color
-                if trace.name=='Actual':
-                    trace.fill='tozeroy';trace.fillcolor='rgba(226,8,54,0.06)'
-            numbers=pd.to_numeric(plot.RM,errors='coerce').dropna()
-            if not numbers.empty:
-                low,high=float(numbers.min()),float(numbers.max())
-                pad=(high-low)*.18 or abs(high)*.1 or 1
-                fig.update_yaxes(range=[low-pad,high+pad])
-            fig.update_layout(xaxis_title=None,yaxis_title=None)
-            fig.update_yaxes(tickprefix='RM ',tickformat='.3s')
-            fig.update_xaxes(dtick='M1' if len(monthly)<=12 else 'M3',tickformat='%b' if start.year==end.year else '%b %y')
-            st.plotly_chart(style_chart(fig,245),use_container_width=True,config={'displayModeBar':False})
-            st.caption(metric+' · '+f'{start:%b %Y}–{end:%b %Y}')
-        with contribution,st.container(border=True,key='panel-variance'):
-            st.subheader('Variance contribution')
-            with st.popover('Breakdown'):
-                dimension=st.radio('Compare by',['Business line','Distribution channel'])
-            level,field=('LINE','LINE_OF_BUSINESS') if dimension=='Business line' else ('CHANNEL','DISTRIBUTION_CHANNEL')
-            var='GWP_VARIANCE' if actual_col=='GWP' else 'NEP_VARIANCE'
-            breakdown=data.loc[data.LEVEL.eq(level)].dropna(subset=[var]).copy().sort_values(var,ascending=False)
-            if breakdown.empty:
-                st.info('Comparable variance is unavailable.')
-            else:
-                breakdown['Position']=breakdown[var].map(lambda x:'Below plan' if x<0 else 'At / above plan')
-                breakdown['Label']=breakdown[var].map(compact_amount)
-                fig=px.bar(breakdown,x=var,y=field,color='Position',orientation='h',text='Label',color_discrete_map={'Below plan':'#E20836','At / above plan':'#237D75'})
-                fig.update_layout(xaxis_title=None,yaxis_title=None,showlegend=False,bargap=.52)
-                fig.update_traces(textposition='auto',textfont_size=11,hovertemplate='%{y}<br>Variance RM %{x:,.2f}<extra></extra>')
-                fig.update_xaxes(tickprefix='RM ',tickformat='.2s')
-                st.plotly_chart(style_chart(fig,245),use_container_width=True,config={'displayModeBar':False})
-            st.caption(('GWP' if actual_col=='GWP' else 'NEP')+' · Red below plan / green above plan')
-        with st.container(border=True,key='panel-detail'):
-            st.subheader('Financial detail')
-            summary=pd.DataFrame([
-                {'Metric':'Gross written premium','Actual':amount(total.GWP),'Plan':amount(total.PLAN_GWP),'Variance':amount(total.GWP_VARIANCE),'Variance %':percentage(total.GWP_VARIANCE_PCT)},
-                {'Metric':'Net earned premium','Actual':amount(total.NEP),'Plan':amount(total.PLAN_NEP),'Variance':amount(total.NEP_VARIANCE),'Variance %':percentage(total.NEP_VARIANCE_PCT)},
-                {'Metric':'Net incurred claims','Actual':amount(total.NET_INCURRED_CLAIMS),'Plan':'Not comparable','Variance':'—','Variance %':'—'},
-                {'Metric':'Net loss ratio','Actual':percentage(total.LOSS_RATIO),'Plan':'Not established','Variance':'—','Variance %':'—'},
-            ])
-            st.dataframe(summary,hide_index=True,use_container_width=True,height=178)
-            st.caption('Claims-plan gross/net basis is unconfirmed; claims and loss-ratio comparisons are withheld.')
-    recommendation,facts=financial_narrative(data,total)
-    with insight,st.container(border=True,key='panel-insights'):
-        insight_heading(pill='Cortex optional' if ai_enabled else 'Rules & SQL')
-        if pd.notna(total.GWP_VARIANCE):
-            percent_note='' if pd.isna(total.GWP_VARIANCE_PCT) else f' ({percentage(abs(total.GWP_VARIANCE_PCT))})'
-            lead=(f'GWP is in line with plan for {period_label}.' if total.GWP_VARIANCE==0 else
-                  f'GWP is {compact_amount(abs(total.GWP_VARIANCE))}{percent_note} '+('below' if total.GWP_VARIANCE<0 else 'above')+f' plan for {period_label}.')
-        else:
-            lead='Comparable GWP variance is unavailable for this selection.'
-        insight_lead(lead)
-        explanation('EXEC',recommendation,facts,'Review business-line performance by channel and segment to identify areas requiring investigation. Observed contributions do not establish causes.',default_ids=list(range(3,len(facts)))[:3] or [0],show_recommendation=False)
+    with st.container(border=True,key='panel-trend'):
+        title,selector=st.columns([2,1],vertical_alignment='center',gap='medium')
+        title.subheader('Monthly performance')
+        measure=selector.selectbox('Trend metric',list(TREND_METRICS),key='exec-trend',label_visibility='collapsed')
+        plot,kind=trend_frame(data,measure)
+        fig=px.line(plot,x='ACCOUNTING_MONTH',y='Value',color='Series',markers=True,
+            color_discrete_map={'Actual':'#D71942','Plan':'#7289A9'})
+        hover='%{y:.1%}' if kind=='percent' else 'RM %{y:,.2f}'
+        fig.update_traces(line_width=2,marker_size=6,connectgaps=False,
+            hovertemplate='%{x|%b %Y}<br>'+hover+'<extra>%{fullData.name}</extra>')
+        fig.update_layout(xaxis_title=None,yaxis_title=None)
+        fig.update_yaxes(tickprefix='' if kind=='percent' else 'RM ',tickformat='.0%' if kind=='percent' else '~s')
+        fig.update_xaxes(nticks=10,tickformat='%b' if start.year==end.year else '%b %y')
+        monthly=data.loc[data.LEVEL.eq('MONTH')]
+        if len(monthly)==1:
+            fig.update_xaxes(tickvals=monthly.ACCOUNTING_MONTH.tolist(),tickformat='%b %Y')
+        st.plotly_chart(style_chart(fig,280),use_container_width=True,config={'displayModeBar':False})
+        st.caption(measure+' · '+period_label+(' · Actuals only; plan basis unconfirmed' if kind=='percent' or measure=='Net Incurred Claims' else ' · Validated actual / plan basis'))
+    title,selector=st.columns([3,1],vertical_alignment='center',gap='medium')
+    title.subheader('Variance intelligence')
+    variance_metric=selector.selectbox('Variance measure',['GWP','NEP'],key='exec-variance',label_visibility='collapsed')
+    for column,level,label in zip(st.columns(2,gap='medium'),['LINE','CHANNEL'],['By business line','By distribution channel']):
+        with column,st.container(border=True,key='panel-var-'+level.lower()):
+            st.subheader(label)
+            variance_chart(data,level,variance_metric)
+    title,selector=st.columns([3,1],vertical_alignment='center',gap='medium')
+    title.subheader('Portfolio composition')
+    mix_metric=selector.selectbox('Premium basis',['GWP','NEP'],key='exec-mix',label_visibility='collapsed')
+    for column,level,label in zip(st.columns(2,gap='medium'),['LINE','CHANNEL'],['Business line premium mix','Distribution channel premium mix']):
+        with column,st.container(border=True,key='panel-mix-'+level.lower()):
+            st.subheader(label)
+            portfolio_chart(data,level,mix_metric)
+    st.subheader('Motor vs Travel')
+    line_scorecards(data)
+    with st.container(border=True,key='panel-channel-scorecard'):
+        st.subheader('Channel performance scorecard')
+        channel_table(data)
+    with st.container(border=True,key='panel-detail'):
+        st.subheader('Financial detail')
+        summary=pd.DataFrame([
+            {'Metric':'Gross written premium','Actual':amount(total.GWP),'Plan':amount(total.PLAN_GWP),'Variance':amount(total.GWP_VARIANCE),'Variance %':percentage(total.GWP_VARIANCE_PCT)},
+            {'Metric':'Net earned premium','Actual':amount(total.NEP),'Plan':amount(total.PLAN_NEP),'Variance':amount(total.NEP_VARIANCE),'Variance %':percentage(total.NEP_VARIANCE_PCT)},
+            {'Metric':'Net incurred claims','Actual':amount(total.NET_INCURRED_CLAIMS),'Plan':'Not comparable','Variance':'—','Variance %':'—'},
+            {'Metric':'Net loss ratio','Actual':percentage(total.LOSS_RATIO),'Plan':'Not established','Variance':'—','Variance %':'—'},
+        ])
+        st.dataframe(summary,hide_index=True,use_container_width=True,height=178)
+        st.caption('Claims-plan gross/net basis is unconfirmed; claims and loss-ratio comparisons are withheld.')
     with st.expander('Reporting basis & source evidence'):
         st.write('Net incurred = gross claims paid + outstanding reserve movement + IBNR movement − reinsurance recoveries. Net loss ratio = net incurred / net earned premium; zero denominators return unavailable. Definition reconciles to GOLD.DERIVED_METRIC.LOSS_RATIO at runtime.')
         st.write('Actual grain: policy/accounting month. Plan grain: accounting month/entity/business line/distribution channel. Each is aggregated at plan grain before joining. Amount variance = actual − plan; percentage variance = amount variance / plan.')
         st.caption(f'Gross claims paid: {amount(total.CLAIMS_PAID)} · Gross incurred: {amount(total.GROSS_INCURRED_CLAIMS)} · Source plan incurred: {amount(total.PLAN_INCURRED_CLAIMS)} (basis unconfirmed)')
         st.caption('Snowflake synthetic demo records · Read cache up to five minutes · Exact amounts shown above')
         st.dataframe(data,hide_index=True,use_container_width=True)
+    recommendation,facts=financial_narrative(data,total)
+    with st.container(border=True,key='panel-insights'):
+        if pd.notna(total.GWP_VARIANCE):
+            percent_note='' if pd.isna(total.GWP_VARIANCE_PCT) else f' ({percentage(abs(total.GWP_VARIANCE_PCT))})'
+            lead=(f'GWP is in line with plan for {period_label}.' if total.GWP_VARIANCE==0 else
+                  f'GWP is {compact_amount(abs(total.GWP_VARIANCE))}{percent_note} '+('below' if total.GWP_VARIANCE<0 else 'above')+f' plan for {period_label}.')
+        else:
+            lead='Comparable GWP variance is unavailable for this selection.'
+        short_facts=compact_evidence(data,total)
+        executive_insights(lead,facts,short_facts,list(range(3,len(facts)))[:3] or [0],
+            'Review business-line and channel variances with the business owner.',ai_enabled,
+            lambda evidence:get_service().explain(evidence))
+
 
 
 try:
     if module == 'Executive Intelligence':
-        executive_page()
+        executive_styles()
+        with st.container(key='executive-page'):
+            executive_page()
     else:
         customer_page('NBO' if module == 'Next Best Offer' else 'NBA')
 except Exception:

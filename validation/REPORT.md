@@ -1,4 +1,65 @@
-# Separation and redesign validation — 16 November 2026
+# Executive Intelligence and sidebar refinement — 16 November 2026
+
+**Current status: implementation and data checks complete; browser/screenshot acceptance BLOCKED.** This section supersedes the older iteration results retained below. No claim is made that visual quality, sidebar collapse, tooltips or responsive rendering have been verified in a browser.
+
+## White-surface and section-spacing follow-up
+
+The latest follow-up removes the warm/peach page, KPI and finding fills from Executive Intelligence. Header, filters, KPI row, charts, financial detail and AI insights use a consistent section rhythm. Filters now use three equal-width columns aligned across the page. The former right-hand insight rail was moved below the chart pair and financial table into a full-width AI performance insights section. It presents finding, contributors and action across three desktop columns, with Explain performance in its header and exact evidence collapsed below. No calculation, data query, customer view or sidebar change was required for this follow-up.
+
+Validation: **31 pytest cases pass**. A live Executive AppTest loads the expanded layout, verifies collapsed evidence and a single in-place Cortex selection on click (mocked for this layout check). Browser geometry/appearance remains unverified because browser access is unavailable. This is a local follow-up; no hosted deployment was performed.
+
+## Current scope
+
+Only the AI app sidebar and Executive Intelligence were changed. The new `shared/executive_ui.py` is explicitly called by the AI sidebar/executive view. Styles are scoped to owned container keys; sidebar sizing uses its native `aria-expanded` state. The native collapse control remains in normal document flow. No new framework, dependency, service, database object or model training was introduced.
+
+- Sidebar: 252px expanded desktop target, native icon navigation, pale-red active item with red left border, compact branding, scrollable native content and a small Cortex/refresh utility row.
+- Executive: regular/medium weights, uniform white page/card surfaces, no card gradients/shadows, a consistent date/line/channel filter grid with nonbreaking date labels, equal KPI cards, and a full-width chart pair, financial detail, then a dedicated AI performance insights section. Charts have equal heights, muted grids, red actuals and blue plans.
+- Insights: one highlighted finding, at most three compact evidence sentences, one short action, Explain performance and a collapsed Supporting evidence section. Exact values stay in the financial table and evidence. Cortex generation uses an in-panel spinner and disabled submit control, retains the existing summary during the request, then reruns with the result in the same panel. Error and toggle-off paths retain deterministic results.
+- Existing `customer_page`, general `explanation` and `financial_narrative` functions have unchanged ASTs relative to the start-of-task snapshot. Backend/recommendation files and the desk entry point are byte-identical. This pass issued no DDL, application-table DML or customer messages.
+
+## GWP investigation
+
+For 1 January–1 October accounting months in 2026 (January–October inclusive), Motor + Travel and all channels:
+
+| Observation | Amount |
+|---|---:|
+| Current direct source GWP | RM 18,825,419.86 |
+| Current application-service GWP | RM 18,825,419.86 |
+| Earlier saved GWP | RM 18,926,262.09 |
+| Change in saved/current Motor aggregates | −RM 100,842.23 |
+| Current plan GWP | RM 19,974,803.65 |
+| Current GWP variance | −RM 1,149,383.79 |
+
+The current display of **RM 18.83M** is correct rounding of the current source. All ten Motor month aggregates differ from the saved inspection; Travel aggregates and row counts match. Plan GWP has also changed from its saved RM 20,084,123.92. Current direct SQL and the existing service reconcile under the same explicit filters. This establishes changed source-query results, not a display-rounding problem. The writer/refresh operation responsible was not audited, and no causal explanation of that source change is asserted. No values or formulas were adjusted to reproduce the design image.
+
+## Acceptance and validation
+
+| Check | Status / boundary |
+|---|---|
+| Compact sidebar, readable cards, 1920×1080 / 1366×768 layout | IMPLEMENTED; browser verification BLOCKED |
+| Compact insights / max three displayed facts | PASS in unit/AppTest checks; browser height/readability unverified |
+| Cortex loading/result placement | IMPLEMENTED with native spinner, disabled button and same-panel replacement; actual loading appearance unverified |
+| Cortex and fallback | PASS: live executive Cortex result; one call per click in mocked test; failure fallback and AI-off/no-call pass |
+| Exact financial reconciliation | PASS: independent actual GWP/NEP/net incurred/loss-ratio and plan GWP/NEP SQL match the service |
+| Filters and source availability | PASS: business-line, NEP view, channel breakdown and single-month AppTest interaction |
+| NBA/NBO unchanged | PASS: preserved function ASTs and navigation/portfolio counts; live NBO remains 10,566 |
+| Backend / separate desk unchanged | PASS: file hashes match the task-start snapshot; no desk redesign or ticket writes executed |
+| Unit / existing pytest suite | **31 passed** |
+| Existing NBO live test | PASS including live Cortex and toggle-off fallback |
+| Existing financial edge fixtures | PASS (read-only inline SQL) |
+| Existing historical schema check | **FAIL:** current GOLD metadata has one extra column, `VW_AS_AT.FIRST_YEAR_ON_YEAR_MONTH` (DATE), compared with saved inspection. No columns were removed. Its baseline/assertion was not weakened. Semantic fingerprints passed before the metadata assertion. |
+| App execution | PASS in AppTest; both existing local HTTP health endpoints responded `ok` |
+| Desktop browser screenshots captured and reviewed | **BLOCKED:** browser access host and native computer-use pipe unavailable; no screenshots captured |
+
+No full ticket-write rehearsal was rerun in this focused iteration. Previous ticket results below are historical. Current evidence: `executive_refinement_baseline.json`, `executive_refinement_checks.json`, `gwp_investigation.json`, `schema_snapshot_difference.json`, plus current test logs. Existing source-reconciliation tests were retained; only navigation selectors were adapted to the native icon buttons, and five compact-evidence edge cases were added.
+
+## Delivery boundary
+
+Changes are local. An intelligence-only deployment bundle was prepared, but no new hosted deployment was performed while the required visual review remains blocked. Both independent apps and deployment commands remain intact. To finish visual acceptance, browser access must become available for screenshots at 1920×1080 and 1366×768, including collapsed sidebar, filters, the loading/result state and the small-screen stack.
+
+---
+
+# Earlier iteration records (historical)
 
 The existing MVP was refactored into two independent Streamlit apps. Existing financial SQL, ranking/retention rules, Cortex grounding, ticket persistence, transition validation and concurrency checks were preserved. **Local AppTest and live SQL checks pass. Browser appearance and interactive hosted startup remain unverified.**
 
@@ -89,3 +150,17 @@ Earlier separation evidence files: `nbo_gate.json`, `acceptance.json`, `financia
 2. Open each Snowflake app under the presenter's actual role; verify Python 3.11 package/runtime startup and access.
 3. Rehearse the complete hosted customer brief and request/assignment/resolution journeys. Workspace switching is a demo convenience, not real authorization.
 4. Confirm the plan-claims basis before enabling any further claims comparisons.
+
+
+## Data Service Desk enhancement — 16 November 2026
+
+The desk now has guided requests, short sequence-backed references, triage/clarification, append-only conversations, internal notes, requester closure/reopening, SQL workload views and an illustrative report catalogue. The APP_STATE migration and five labelled synthetic scenarios have been applied and rerun safely. Existing tickets and UUIDs are retained; GOLD definition hashes match. All 94 tests and the focused live desk acceptance pass, including independent-session concurrency and transaction rollback. The desk deployment bundle is prepared; no hosted update was made. Browser rendering/row-click QA is blocked by unavailable browser/native helpers. See [DESK_REPORT.md](DESK_REPORT.md) and the `desk_upgrade_*.json` evidence for the current desk results; earlier workflow/source-preservation statements above describe the prior iterations.
+
+## Executive management analytics — 16 November 2026
+
+The expanded management view and its verification boundaries are documented in [MANAGEMENT_REPORT.md](MANAGEMENT_REPORT.md). This iteration changes Executive Intelligence only; no hosted update was made. Historical results above describe earlier source snapshots and application iterations.
+
+
+### Data Service Desk rehearsal refinement
+
+Targeted Streamlit-only layout improvements completed for the BU homepage, queue, workload comparison and ticket conversation/manage sections. No new dependency, schema migration, financial change or workflow rewrite. All 100 existing tests and the full live desk acceptance pass. Browser rendering remains blocked by unavailable browser access. Port 8502 is left stopped; no hosted update was made. Latest evidence and limits are in [DESK_REPORT.md](DESK_REPORT.md), `desk_rehearsal_acceptance.json` and `desk_rehearsal_checks.json`.

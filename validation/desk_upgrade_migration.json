@@ -1,0 +1,12 @@
+{
+  "migration": "PASS",
+  "idempotent_rerun": "PASS",
+  "existing_tickets_preserved": 19,
+  "existing_reference_values_preserved": "PASS",
+  "historical_validation_records": 14,
+  "gold_before": "fc6cf6b416a38490ff314dc25355de89ee4c5cf36889a23d6d24fc288c60a701",
+  "gold_after": "fc6cf6b416a38490ff314dc25355de89ee4c5cf36889a23d6d24fc288c60a701",
+  "demo_seed": "PASS",
+  "synthetic_tickets": 5,
+  "seed_rerun": "PASS"
+}

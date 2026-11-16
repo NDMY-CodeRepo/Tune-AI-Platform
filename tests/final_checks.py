@@ -15,12 +15,12 @@ missing = s.query(f"SELECT CUSTOMER_ID, LIFETIME_VALUE,LIFETIME_VALUE_BAND,RETEN
 assert 'unavailable' in customer_evidence(missing,'NBA')[1][-1]
 a = AppTest.from_file(str(ROOT/'apps/ai-intelligence/app.py'),default_timeout=90).run()
 assert not a.error and not a.exception
-a.sidebar.radio[0].set_value('Next Best Action').run()
+a.button(key='nav-nba').click().run()
 a.selectbox(key='NBArisk').set_value('Low').run()
 a.toggle[0].set_value(False).run()
 a.button(key='NBA').click().run()
 assert not a.error and not a.exception
-a.sidebar.radio[0].set_value('Executive Intelligence').run()
+a.button(key='nav-exec').click().run()
 assert not a.error and not a.exception
 
 before = json.loads((ROOT/'validation/runtime_inspection.json').read_text(encoding='utf-8-sig'))[-1]
