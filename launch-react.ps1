@@ -36,6 +36,7 @@ try {
     }
     if (-not (Test-Path -LiteralPath apps/ai-intelligence-react/dist/index.html)) { throw 'Frontend build missing. Run without -SkipBuild.' }
     Write-Host "Tune AI Intelligence: http://127.0.0.1:$Port"
+    Write-Host "Tune Data Service Desk: http://127.0.0.1:$Port/desk"
     Write-Host 'Local demo only. Press Ctrl+C to stop. Streamlit remains available through launch.ps1.'
     & $python -m uvicorn apps.api.main:app --host 127.0.0.1 --port $Port
 } finally { Pop-Location }

@@ -1,0 +1,22 @@
+{
+  "business_units": [
+    "Finance",
+    "Claims",
+    "Underwriting",
+    "Actuarial",
+    "Sales & Distribution",
+    "Partnerships",
+    "Customer Experience",
+    "Technology",
+    "People & Culture",
+    "Risk & Compliance",
+    "Corporate Strategy",
+    "Other"
+  ],
+  "legacy_filters_retained": true,
+  "data_domains_unchanged": true,
+  "demo_controls": "Retained in collapsed Demo settings",
+  "test_suite": "149 passed",
+  "source": "https://www.tuneprotect.com/my/corporate/group/about-us/",
+  "directory_status": "Suggested demo business functions, not a verified internal directory"
+}

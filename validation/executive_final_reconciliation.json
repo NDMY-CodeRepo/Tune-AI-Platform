@@ -1,0 +1,225 @@
+{
+  "All/All": {
+    "GWP": "18825419.86",
+    "PLAN_GWP": "19974803.65",
+    "variance": "-1149383.79",
+    "actual_rows": 437234,
+    "plan_rows": 210,
+    "brief_source": "Deterministic explanation"
+  },
+  "snapshot_investigation": {
+    "GI_ENTERPRISE_WIDE_MART": {
+      "prior_total": "18926262.09",
+      "current_total": "18825419.86",
+      "source_delta": "-100842.23",
+      "differences": [
+        {
+          "month": "2026-07-01",
+          "line": "Motor",
+          "prior": "1129704.37",
+          "current": "1124871.94",
+          "difference": "-4832.43",
+          "prior_rows": 22300,
+          "current_rows": 22300
+        },
+        {
+          "month": "2026-06-01",
+          "line": "Motor",
+          "prior": "1049927.83",
+          "current": "1054036.12",
+          "difference": "4108.29",
+          "prior_rows": 22268,
+          "current_rows": 22268
+        },
+        {
+          "month": "2026-04-01",
+          "line": "Motor",
+          "prior": "1099003.04",
+          "current": "1113766.01",
+          "difference": "14762.97",
+          "prior_rows": 22318,
+          "current_rows": 22318
+        },
+        {
+          "month": "2026-03-01",
+          "line": "Motor",
+          "prior": "1115096.74",
+          "current": "1118135.46",
+          "difference": "3038.72",
+          "prior_rows": 22414,
+          "current_rows": 22414
+        },
+        {
+          "month": "2026-09-01",
+          "line": "Motor",
+          "prior": "1160263.96",
+          "current": "1112465.95",
+          "difference": "-47798.01",
+          "prior_rows": 22116,
+          "current_rows": 22116
+        },
+        {
+          "month": "2026-01-01",
+          "line": "Motor",
+          "prior": "1076357.74",
+          "current": "1083228.71",
+          "difference": "6870.97",
+          "prior_rows": 22390,
+          "current_rows": 22390
+        },
+        {
+          "month": "2026-02-01",
+          "line": "Motor",
+          "prior": "1051618.78",
+          "current": "1055539.23",
+          "difference": "3920.45",
+          "prior_rows": 22241,
+          "current_rows": 22241
+        },
+        {
+          "month": "2026-08-01",
+          "line": "Motor",
+          "prior": "1068771.33",
+          "current": "1046663.54",
+          "difference": "-22107.79",
+          "prior_rows": 22159,
+          "current_rows": 22159
+        },
+        {
+          "month": "2026-10-01",
+          "line": "Motor",
+          "prior": "1136894.25",
+          "current": "1072913.95",
+          "difference": "-63980.30",
+          "prior_rows": 22122,
+          "current_rows": 22122
+        },
+        {
+          "month": "2026-05-01",
+          "line": "Motor",
+          "prior": "1089081.91",
+          "current": "1094256.81",
+          "difference": "5174.90",
+          "prior_rows": 22355,
+          "current_rows": 22355
+        }
+      ]
+    },
+    "GI_PLAN_MONTHLY": {
+      "prior_total": "20084123.92",
+      "current_total": "19974803.65",
+      "source_delta": "-109320.27",
+      "differences": [
+        {
+          "month": "2026-02-01",
+          "line": "Motor",
+          "prior": "1154303.25",
+          "current": "1158349.60",
+          "difference": "4046.35",
+          "prior_rows": 5,
+          "current_rows": 5
+        },
+        {
+          "month": "2026-09-01",
+          "line": "Motor",
+          "prior": "1270520.26",
+          "current": "1218267.22",
+          "difference": "-52253.04",
+          "prior_rows": 5,
+          "current_rows": 5
+        },
+        {
+          "month": "2026-04-01",
+          "line": "Motor",
+          "prior": "1215104.03",
+          "current": "1231006.42",
+          "difference": "15902.39",
+          "prior_rows": 5,
+          "current_rows": 5
+        },
+        {
+          "month": "2026-06-01",
+          "line": "Motor",
+          "prior": "1130753.62",
+          "current": "1134410.38",
+          "difference": "3656.76",
+          "prior_rows": 5,
+          "current_rows": 5
+        },
+        {
+          "month": "2026-08-01",
+          "line": "Motor",
+          "prior": "1156570.55",
+          "current": "1132161.22",
+          "difference": "-24409.33",
+          "prior_rows": 5,
+          "current_rows": 5
+        },
+        {
+          "month": "2026-01-01",
+          "line": "Motor",
+          "prior": "1186803.52",
+          "current": "1194723.01",
+          "difference": "7919.49",
+          "prior_rows": 5,
+          "current_rows": 5
+        },
+        {
+          "month": "2026-10-01",
+          "line": "Motor",
+          "prior": "1231661.28",
+          "current": "1163020.40",
+          "difference": "-68640.88",
+          "prior_rows": 5,
+          "current_rows": 5
+        },
+        {
+          "month": "2026-07-01",
+          "line": "Motor",
+          "prior": "1234962.32",
+          "current": "1230763.13",
+          "difference": "-4199.19",
+          "prior_rows": 5,
+          "current_rows": 5
+        },
+        {
+          "month": "2026-03-01",
+          "line": "Motor",
+          "prior": "1213119.42",
+          "current": "1215788.17",
+          "difference": "2668.75",
+          "prior_rows": 5,
+          "current_rows": 5
+        },
+        {
+          "month": "2026-05-01",
+          "line": "Motor",
+          "prior": "1200535.14",
+          "current": "1206523.57",
+          "difference": "5988.43",
+          "prior_rows": 5,
+          "current_rows": 5
+        }
+      ]
+    },
+    "matches_recent_reconciliation": true,
+    "conclusion": "Direct source sums and API agree for identical filters. Any earlier differences are saved source-aggregate differences, not display rounding; this check cannot identify who changed records or why."
+  },
+  "Motor/Agency": {
+    "GWP": "4834084.23",
+    "PLAN_GWP": "5742966.22",
+    "variance": "-908881.99",
+    "actual_rows": 99885,
+    "plan_rows": 10,
+    "brief_source": "AI-curated explanation \u00b7 Snowflake Cortex"
+  },
+  "Travel/Direct Online": {
+    "GWP": "1616623.82",
+    "PLAN_GWP": "1651320.77",
+    "variance": "-34696.95",
+    "actual_rows": 43532,
+    "plan_rows": 40,
+    "brief_source": "Deterministic explanation"
+  },
+  "mutations": "NONE: independent SELECT aggregates and existing cache/AI APIs only; no GOLD or financial formula changes"
+}

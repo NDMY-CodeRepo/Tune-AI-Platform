@@ -12,9 +12,11 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
-from shared.business_logic import customer_evidence, validate_ai_selection
+from shared.business_logic import customer_evidence, validate_ai_selection, GOLD, CANDIDATE_WHERE
+from shared.customer_presentation import unified_profile
 from shared.executive_ui import compact_evidence
 from shared.insight_facts import financial_narrative
+from shared.executive_chat import answer_question
 from shared.snowflake_service import get_service, read
 
 ROOT=Path(__file__).resolve().parents[2]
@@ -137,6 +139,69 @@ class Explain(BaseModel):
     ai:bool=True
 
 
+def candidate_membership(customer_ids):
+    """Use the unchanged validated predicate, not intersection of two top-200 lists."""
+    if not customer_ids:
+        return set()
+    marks=','.join('?' for _ in customer_ids)
+    rows=get_service().query(f'SELECT CUSTOMER_ID FROM {GOLD}.CUSTOMER_360_WIDE_MART '
+                            f'WHERE {CANDIDATE_WHERE} AND CUSTOMER_ID IN ({marks})',customer_ids)
+    return set(rows.CUSTOMER_ID.tolist()) if not rows.empty else set()
+
+
+@app.get('/api/customer-intelligence')
+def customer_intelligence(view:Literal['PRIORITIES','RETENTION','CROSS_SELL']='PRIORITIES',
+                          risk:str=Query('All',max_length=100),value:str=Query('All',max_length=100),
+                          channel:str=Query('All',max_length=100)):
+    # Customer priorities is the existing retention-ordered unique portfolio,
+    # not a union of overlapping retention and offer customer lists.
+    mode='NBO' if view=='CROSS_SELL' else 'NBA'
+    payload=customer_list(mode,risk,value,channel)
+    ids=[row['CUSTOMER_ID'] for row in payload['rows']]
+    if len(ids)!=len(set(ids)):
+        raise HTTPException(503,'Duplicate customer IDs detected; resolve source grain before presentation.')
+    offers=candidate_membership(ids)
+    # Reuse original Python rows for evidence formatting and null/renewal semantics.
+    original=read('customers',mode,risk,value,channel)
+    profiles={row.CUSTOMER_ID:unified_profile(row.to_dict(),row.CUSTOMER_ID in offers)
+              for _,row in original.iterrows()}
+    for row in payload['rows']:
+        row['CANDIDATE_PRODUCT']='Travel' if row['CUSTOMER_ID'] in offers else None
+    overview=read('overview','NBO')
+    payload.update(view=view,profiles=profiles,summary={
+        'portfolio_total':int(read('health')['CUSTOMERS']),
+        'cross_sell_candidates':int(overview.CUSTOMERS.sum()) if not overview.empty else 0,
+        'overlap_note':'Cross-sell candidates are a subset of the portfolio. Categories overlap; counts must not be added.'})
+    return payload
+
+
+class CustomerBrief(BaseModel):
+    model_config=ConfigDict(extra='forbid')
+    view:Literal['PRIORITIES','RETENTION','CROSS_SELL']='PRIORITIES'
+    customer_id:str=Field(min_length=1,max_length=100)
+    risk:str=Field(default='All',max_length=100)
+    value:str=Field(default='All',max_length=100)
+    channel:str=Field(default='All',max_length=100)
+    ai:bool=True
+
+
+@app.post('/api/customer-intelligence/brief')
+def customer_brief(body:CustomerBrief):
+    payload=customer_intelligence(body.view,body.risk,body.value,body.channel)
+    if body.customer_id not in payload['profiles']:
+        raise HTTPException(404,'Select a customer from the current ranked worklist.')
+    result=payload['profiles'][body.customer_id]['combined'].copy()
+    result['source']='Deterministic explanation'
+    if body.ai:
+        try:
+            ids=get_service().explain(result['facts'])
+            result['ids']=validate_ai_selection({'evidence_ids':ids},len(result['facts']))[:3]
+            result['source']='AI-curated engagement brief · Snowflake Cortex'
+        except Exception:
+            result['source']='Deterministic explanation · Cortex unavailable or response rejected'
+    return result
+
+
 @app.post('/api/explain')
 def explain(body:Explain):
     if body.module=='EXEC':
@@ -171,6 +236,25 @@ def refresh():
     return {'status':'refreshed'}
 
 
+class Chat(BaseModel):
+    model_config=ConfigDict(extra='forbid')
+    scope:Scope
+    question:str=Field(min_length=1,max_length=600)
+    history:list[str]=Field(default_factory=list,max_length=4)
+    ai:bool=True
+
+
+@app.post('/api/chat')
+def chat(body:Chat):
+    if not body.question.strip() or any(len(q)>600 for q in body.history):
+        raise HTTPException(422,'Use a question of 1–600 characters and up to four prior questions.')
+    data=finances(body.scope)
+    options=read('financial_options')
+    channels=options.DISTRIBUTION_CHANNEL.dropna().unique().tolist() if not options.empty else []
+    return answer_question(data,body.scope.model_dump(mode='json'),body.question.strip(),body.history,
+                           body.ai,get_service() if body.ai else None,available_channels=channels)
+
+
 if (DIST/'assets').is_dir():
     app.mount('/assets',StaticFiles(directory=DIST/'assets'),name='assets')
 
@@ -185,3 +269,16 @@ def frontend():
     if not (DIST/'index.html').exists():
         raise HTTPException(503,'Build the React frontend first: npm run build.')
     return FileResponse(DIST/'index.html')
+
+
+# The desk shares the local server, with its own UI and endpoint namespace.
+from apps.api.desk import router as desk_router
+app.include_router(desk_router)
+
+
+@app.get('/desk',include_in_schema=False)
+@app.get('/desk/',include_in_schema=False)
+def desk_frontend():
+    if not (DIST/'desk.html').exists():
+        raise HTTPException(503,'Build the React frontend first: npm run build.')
+    return FileResponse(DIST/'desk.html')

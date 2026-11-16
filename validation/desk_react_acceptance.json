@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "ticket_id": "fafd4e4e-e066-4892-b845-69fdc795eaf4",
+  "reference": "TDS-000106",
+  "request_fields": "PASS",
+  "retry_idempotency": "PASS",
+  "queue_filtering": "PASS",
+  "triage_assignment": "PASS",
+  "clarification_both_directions": "PASS",
+  "internal_note_visibility": "PASS",
+  "requester_guards": "PASS",
+  "stale_version_409": "PASS",
+  "history_failure_atomic_rollback": "PASS",
+  "resolution_visibility": "PASS",
+  "reopen_closure": "PASS",
+  "concurrent_http_update_one_winner": "PASS",
+  "catalogue_filter": "PASS",
+  "separate_frontend_routes": "PASS",
+  "schema_hashes_before": {
+    "TUNE_BI_DB.APP_STATE": "72d77a55cc514e200534ae28d99130793ad27395f5df065e03c4ab7bc735ee64",
+    "TUNE_BI_DB.GOLD": "fc6cf6b416a38490ff314dc25355de89ee4c5cf36889a23d6d24fc288c60a701"
+  },
+  "schema_hashes_after": {
+    "TUNE_BI_DB.APP_STATE": "72d77a55cc514e200534ae28d99130793ad27395f5df065e03c4ab7bc735ee64",
+    "TUNE_BI_DB.GOLD": "fc6cf6b416a38490ff314dc25355de89ee4c5cf36889a23d6d24fc288c60a701"
+  },
+  "browser": "NOT VERIFIED: HTTP and build checks do not establish browser rendering or clicks"
+}

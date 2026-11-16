@@ -1,0 +1,29 @@
+{
+  "PRIORITIES": {
+    "status": "PASS: exact legacy order/counts/attributes, unique IDs, original retention/offer evidence and risk/value filters",
+    "total": 179725,
+    "displayed": 200
+  },
+  "RETENTION": {
+    "status": "PASS: exact legacy order/counts/attributes, unique IDs, original retention/offer evidence and risk/value filters",
+    "total": 179725,
+    "displayed": 200
+  },
+  "CROSS_SELL": {
+    "status": "PASS: exact legacy order/counts/attributes, unique IDs, original retention/offer evidence and risk/value filters",
+    "total": 10566,
+    "displayed": 200
+  },
+  "reconciliation": {
+    "unique_portfolio": 179725,
+    "nbo_candidates": 10566,
+    "categories": "Overlapping; never summed"
+  },
+  "bounded_membership": {
+    "qualified_priorities": 66,
+    "qualified_not_in_first_200_nbo": 66
+  },
+  "brief_no_offer": "Deterministic explanation",
+  "brief_offer": "AI-curated engagement brief \u00b7 Snowflake Cortex",
+  "mutations": "NONE: no ticket writes, GOLD/schema changes or recommendation-engine modifications"
+}

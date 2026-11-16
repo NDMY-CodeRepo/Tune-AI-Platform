@@ -1,0 +1,13 @@
+{
+  "url": "http://127.0.0.1:8002/desk",
+  "routes": {
+    "/": 200,
+    "/desk": 200,
+    "/assets/desk-Bpd8cemz.js": 200,
+    "/assets/jsx-runtime-KJeo-h19.js": 200,
+    "/assets/desk-Bj9Z4hAn.css": 200,
+    "/api/desk/meta": 200,
+    "/api/desk/overview?actor=motor.demo&role=Business%20User": 200
+  },
+  "browser_visual_verified": false
+}

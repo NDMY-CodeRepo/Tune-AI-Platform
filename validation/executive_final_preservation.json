@@ -1,0 +1,23 @@
+{
+  "customerTab": true,
+  "UnifiedBrief": true,
+  "CustomerIntelligence": true,
+  "KPI": true,
+  "Variance": true,
+  "Mix": true,
+  "LineCard": true,
+  "ChannelTable": true,
+  "Detail": true,
+  "shared/business_logic.py": true,
+  "shared/snowflake_service.py": true,
+  "shared/insight_facts.py": true,
+  "shared/customer_presentation.py": true,
+  "shared/executive_chat.py": true,
+  "apps/api/main.py": true,
+  "apps/api/desk.py": true,
+  "apps/data-service-desk/app.py": true,
+  "apps/ai-intelligence-react/src/desk/desk.css": true,
+  "apps/ai-intelligence-react/src/desk/main.jsx": true,
+  "sidebar": true,
+  "KPI markup": true
+}

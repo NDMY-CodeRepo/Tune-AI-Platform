@@ -11,9 +11,9 @@ Tune AI Intelligence contains **Executive Intelligence, Next Best Action and Nex
 
 Both read live Snowflake data. The database describes its records as **synthetic demo data**; no business figures are fabricated locally. Existing GOLD definitions and financial calculations are preserved. The service desk reuses `APP_STATE.DATA_REQUEST_TICKET` with the additive `sql/desk_upgrade.sql` migration; existing UUIDs and ticket values are retained.
 
-## Local React demo — all three AI modules
+## Local React demo — Executive & Customer Intelligence
 
-The React version runs **Executive Intelligence, Next Best Action and Next Best Offer** against the same Python/Snowflake services. Start it with:
+The React navigation has **Executive Intelligence** and **Customer Growth & Retention Intelligence**. The customer workspace has **Customer Priorities**, **Retention Actions** and **Cross-Sell Opportunities** tabs, reusing the existing NBA/NBO queries and rules. Start it with:
 
 ```powershell
 .\launch.ps1 -App react
@@ -32,15 +32,29 @@ npm --prefix apps/ai-intelligence-react run build
 .\launch-react.ps1 -SkipBuild
 ```
 
-React source: `apps/ai-intelligence-react/`; API: `apps/api/main.py`. The shared financial narrative moved unchanged into `shared/insight_facts.py` for both frontends. Financial SQL, customer rules, semantic checks and Cortex fact-ID validation remain unchanged. The API rebuilds evidence server-side and accepts only structured filters/customer IDs. Read cache refresh, source-grain checks, no-data/error states and deterministic AI fallback remain available. No database migration or GOLD changes were needed. The separate Data Service Desk remains Streamlit; `-App intelligence`, `-App desk` and `-App both` retain their previous behavior. Streamlit is the fallback for today’s demo.
+React source: `apps/ai-intelligence-react/`; API: `apps/api/main.py`. The shared financial narrative moved unchanged into `shared/insight_facts.py` for both frontends. Financial SQL, customer rules, semantic checks and Cortex fact-ID validation remain unchanged. The API rebuilds evidence server-side and accepts only structured filters/customer IDs. Read cache refresh, source-grain checks, no-data/error states and deterministic AI fallback remain available. No database migration or GOLD changes were needed. The separate Data Service Desk now also has a React entry at `/desk`, with its own navigation and `/api/desk` endpoints. The existing Streamlit desk remains available; `-App intelligence`, `-App desk` and `-App both` retain their previous behavior.
 
 For frontend editing only, `npm --prefix apps/ai-intelligence-react run dev` starts Vite on 5173 and proxies the API to the Python process on 8000. The normal demo launcher needs only port 8000. Run API tests after installing test tooling (`pip install pytest httpx`): `python -m pytest -q`. The live HTTP/Snowflake check is `python -m tests.live_react_api`, with the same connection environment as the launcher. See [React validation report](validation/REACT_REPORT.md).
 
 This is a local internal demo with no authentication, intended to remain loopback-only. Container/Snowflake deployment and browser visual verification have not been completed. Do not use `deploy.ps1` for React; it still deploys the existing Streamlit apps.
 
+### Unified customer workspace
+
+Customer Priorities uses the existing NBA portfolio order with one row per customer. Retention Actions preserves NBA, and Cross-Sell Opportunities preserves NBO’s Motor-to-Travel segment and ordering. The shared profile shows retention action/evidence and a Travel candidate only when the existing consent-based Snowflake predicate supports it. It does not infer offer eligibility from the source next-best-product field alone. Offer membership is checked for the displayed IDs, so a qualified retention customer is not missed because they are absent from NBO’s first 200 rows.
+
+Cards retain full-portfolio/segment counts while filters refine the worklist. Cross-sell candidates are a subset of the portfolio; overlapping counts are never added. Combined briefs reuse existing evidence and retain retention-first actions. Existing `#NBA`/`#NBO` React bookmarks open the matching new tabs; the sidebar has no separate NBA/NBO entries. The Streamlit fallback retains its existing separate screens.
+
+### Ask Tune AI and padded dropdowns
+
+Executive Intelligence ends with the compact performance summary. **Ask Tune AI** opens from a floating bottom-right button. Try “Which channel has the largest GWP shortfall?”, followed by “What about NEP?”, or ask “How is the Motor net loss ratio calculated?”. Questions use the current dates, line and channel. Up to four previous questions provide follow-up context; the visible conversation is bounded to 12 turns and is not stored in Snowflake. Changing the scope or financial evidence clears it.
+
+The server rebuilds a bounded catalogue of verified aggregate facts. Cortex selects relevant fact IDs; the UI never displays model-written financial numbers or unrestricted prose. With AI off, unavailable or rejected, calculated answers remain usable. Unsupported periods, forecasts, causes and unavailable metrics are explicitly bounded; this is financial Q&A, not a general-purpose chatbot or text-to-SQL agent. The prompt receives the user question and at most 24 aggregate fact sentences, with no customer data. Existing explain buttons remain available.
+
+Shared React dropdowns now have padded option rows, selection ticks, bounded scrolling, type-ahead and Arrow/Home/End/Enter/Escape navigation. Browser rendering/keyboard interaction still require manual review because automated browser access remains unavailable.
+
 ## Executive management analytics
 
-Executive Intelligence retains the white/navy/Tune red design and four reconciled KPIs. Monthly performance switches between GWP and NEP actual/plan, actual net incurred claims and actual net loss ratio. A dedicated AI Insights section closes the page, showing one finding, up to three verified contributors, one investigation/action and collapsed exact evidence. Cortex selects verified evidence; its loading state, filter-specific results and deterministic fallback stay inside the same section.
+Executive Intelligence retains the white/navy/Tune red design and four reconciled KPIs. Monthly performance switches between GWP and NEP actual/plan, actual net incurred claims and actual net loss ratio. A compact AI Insights section closes the page after the financial detail, showing one finding, the leading business line/channel contributions, one recommended investigation and collapsed exact evidence. Ask Tune AI opens in a separate floating window with the current scope, conversation and question area. Closing it preserves the conversation; changing scope or source results clears it. Escape or the close/minimize controls return focus to the launcher. Cortex selects verified evidence; its loading state, filter-specific results and deterministic fallback stay inside the same section.
 
 Management views include separate ranked line/channel variance charts (GWP or NEP), line/channel portfolio mix with separate SQL-calculated denominators, Motor/Travel metric cards with GWP, plan variance and supporting financial highlights, a numerically sortable channel scorecard, and retained exact financial detail/methodology. All use the active date, line and channel filters. Variance charts exclude incomplete groups; unavailable comparisons are not zero. Premium mix is withheld for missing/negative group amounts or a zero denominator. Loss ratios are ratios of summed claims to summed NEP. Claims-plan and planned loss-ratio comparisons remain withheld until their basis is confirmed.
 
@@ -50,7 +64,7 @@ The 100-test suite and read-only management SQL/AppTest checks pass. Run `.\.ven
 
 ## Visual direction
 
-The AI application follows the supplied Tune Protect Executive Intelligence dashboard reference: compact logo/navigation, a single title/filter row, coordinated financial cards and a monthly trend, management scorecards and a final full-width AI insights section. Reporting-period controls are in the calendar popover; chart options include premium, claims and loss-ratio trends, with separate GWP/NEP variance and mix controls. Planned loss-ratio and claims comparisons remain unavailable until their source basis is established.
+The AI application follows the supplied Tune Protect Executive Intelligence dashboard reference: compact logo/navigation, a single title/filter row, coordinated financial cards, a compact AI insights section immediately below them, a monthly trend and management scorecards. Reporting-period controls are in the calendar popover; chart options include premium, claims and loss-ratio trends, with separate GWP/NEP variance and mix controls. Planned loss-ratio and claims comparisons remain unavailable until their source basis is established.
 
 Customer Growth and Retention Intelligence use the same light theme, with filters in the header and the worklist/profile directly beneath the portfolio KPIs. Source definitions and ranking methodology sit after the main workflow. Engagement briefs use verified evidence and retain deterministic fallback. The service desk inherits the common branding and typography and now has a separate guided-request, conversation and triage workflow.
 
@@ -191,10 +205,10 @@ The demo role selector and typed requester identity are **not authentication or 
 ## Tune AI Intelligence demo walkthrough
 
 1. Open the intelligence app (port 8501), defaulting to Executive Intelligence. Select 2026 YTD, All business lines and All channels. Review GWP/NEP versus plan, the actual/plan trend and variance contribution. Use Financial detail for exact amounts and Definitions for the calculation basis. The plan-claims basis remains unconfirmed.
-2. Open Next Best Offer, presented as Customer Growth Intelligence. Refresh Snowflake data, show the live candidate headline and snapshot date, and explain the synthetic source records.
+2. In React, open Customer Growth & Retention Intelligence → Cross-Sell Opportunities (or Next Best Offer in the Streamlit fallback). Refresh Snowflake data, show the live candidate headline and snapshot date, and explain the synthetic source records.
 3. Filter value to High or Top. Select a customer row and inspect the profile beside the table. Explain holdings, consent, risk, value and renewal month. Travel remains a candidate recommendation.
 4. Generate Engagement Brief. Explain its grounded evidence, rule-based action and human review. Disable Cortex and regenerate to show continuity.
-5. Open Next Best Action, presented as Retention Intelligence. Filter High risk and Top value. Explain the renewal window, priority-review count and selected customer action. Missing renewal dates remain explicitly unavailable.
+5. Open the Retention Actions tab (or Next Best Action in Streamlit). Filter High risk and Top value. Explain the renewal window, priority-review count and selected customer action. Missing renewal dates remain explicitly unavailable.
 
 ## Tune Data Service Desk enhancement
 
@@ -257,3 +271,19 @@ Evidence: `validation/nbo_gate.json`, `acceptance.json`, `financial_edges.json`,
 - Read-only results cache for up to five minutes. Use Refresh Snowflake data before presenting; tickets always read current state.
 - Customer tables and ticket queues are bounded to 200 rows, with counts/limits displayed. No bulk customer export or PII is exposed.
 - No performance/concurrency benchmark or production security certification is claimed.
+
+
+## Data Service Desk React frontend
+
+The desk reuses the existing React/Vite package and local Python API, with separate `desk.html` / `src/desk/` sources and `apps/api/desk.py`. Its UI has no AI Intelligence navigation. Ticket UUIDs, sequence references, ownership/resolution rules, append-only activity, internal-note visibility, retry tokens and version checks use the existing Snowflake service. No new npm/Python dependencies, database migrations, containers or infrastructure are added. The original Streamlit desk remains available on its existing launcher.
+
+Launch the React desk on a separate loopback port when the AI rehearsal already uses 8000:
+
+```powershell
+.\launch-react.ps1 -Port 8002
+# Open http://127.0.0.1:8002/desk
+```
+
+The same build still serves AI Intelligence at `/`; the desk lives at `/desk`. With the API on 8000, the existing Vite development server can open `/desk.html` on port 5173. Build both HTML entries with `npm --prefix apps/ai-intelligence-react run build`. This remains a local internal demo with typed demo identities, not real authentication or production authorization. Do not use `deploy.ps1` for React.
+
+Validation: 149 tests pass; live HTTP/Snowflake acceptance covers submit → triage/assign → clarification → BU response → resolve → BU visibility, plus reopening/closure, retries, internal notes, transactional rollback and stale/concurrent HTTP updates. APP_STATE and GOLD definition hashes match before/after. Browser rendering/click verification is blocked by the unavailable browser host. See `validation/DESK_REACT_REPORT.md`, `desk_react_acceptance.json` and `desk_react_serving.json`.
