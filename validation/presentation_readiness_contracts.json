@@ -1,0 +1,7 @@
+{
+  "desk_payload_templates": "PASS: unchanged from Git HEAD",
+  "validation_filter": "PASS: existing Exclude validation remains default; display label only changed",
+  "profile_references": "PASS: canonical requester/owner references retained",
+  "favicon": "PASS: both HTML entry points reference existing logo",
+  "browser_verification": "BLOCKED: browser/native hosts unavailable"
+}

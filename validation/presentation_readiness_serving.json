@@ -1,0 +1,5 @@
+{
+  "/": "PASS: built entry point, favicon reference and local assets",
+  "/desk": "PASS: built entry point, favicon reference and local assets",
+  "favicon": "PASS: existing PNG is served by unchanged logo endpoint"
+}

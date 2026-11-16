@@ -60,3 +60,7 @@ AI Performance Insights now sits directly below the unchanged KPI cards, with co
 ## Floating financial assistant
 
 Following the latest UI request, AI Performance Insights returns to the end of Executive Intelligence. Ask Tune AI now uses a bottom-right launcher and a non-modal, responsive floating chat window. Conversation state persists while minimized and resets with financial scope/evidence changes. Escape and close/minimize controls restore launcher focus; hidden responses do not take focus or scroll the page. Backend questions, grounding and calculations are unchanged. The production build and 149 tests pass; browser interactions are not verified in this pass. Applications remain stopped as requested.
+
+## Presentation-readiness review
+
+Both React apps now share consistent sidebar branding/navigation, business-friendly copy and an accessible Illustrative Data information panel. The desk favicon is added, Ask Tune AI is wider, existing record filters/identifiers and API payloads are preserved, and backend/API/SQL hashes match. The 149 Python tests and seven presentation tests pass. See [PRESENTATION_READINESS_REPORT.md](PRESENTATION_READINESS_REPORT.md) for exact verification and the remaining blocked browser rehearsal. No app server was started or stopped by this review.

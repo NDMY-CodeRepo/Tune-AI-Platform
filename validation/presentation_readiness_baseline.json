@@ -1,0 +1,21 @@
+{
+  "shared/business_logic.py": "6fe61d79e628b49a36a64ffca07fdf99c603f10139062b1aca88eebc21aecc76",
+  "shared/customer_presentation.py": "dd2a8f3d17a82f86485427447e76fffe94c258fc4cd65f3c2d70509c749fc703",
+  "shared/desk_demo.py": "eeadc0cf632942454cc7cdd431d6a6fb30bd81c021a0f99929f8250fd7ae4a43",
+  "shared/desk_rules.py": "e267d022ee43e872a11d7ce8e614523e2ed6b9cfdcee697d2765033b3a083108",
+  "shared/desk_service.py": "438aa73b81b35e7dddc871f7cdcef9c38aac7883420a31c53e25be5f5f93310b",
+  "shared/executive_analytics.py": "b3168dc05c211272f92c40134e294d664ff68b6946203b70060be3e8d1eb8e0a",
+  "shared/executive_chat.py": "6e59c20b654764d78b8718483ccadf1f27b6c902aa6dedb9aae8a48ac49284f4",
+  "shared/executive_ui.py": "ebe23f414db0dbc19cbc4c245ba19006386dc83b68abb6f598778b640a304dff",
+  "shared/insight_facts.py": "6ec5c65d7272dcbebd4faae125a23083b3ae96e01809fbb59e8990a5079fd950",
+  "shared/snowflake_service.py": "462b734ead77f65f30549c25c203744a821caaf748f88b08d2daa919100a4d90",
+  "shared/ui.py": "750084c133a4130233575c0800c875f150b5047433bc30cf2054bc16630b7146",
+  "shared/__init__.py": "e30f91e02f19366c59d2f0f01fedd2344811f781e7286189044cf678375b5da9",
+  "apps/api/desk.py": "a516277c03a23a3af5d3f0b998cea427b38e984fdc135db90109d58da8e0e12f",
+  "apps/api/main.py": "5fad541199510c6a3fcd6fdafc7f902bf067018b807dca78e5870c7581cce813",
+  "apps/api/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "sql/desk_upgrade.sql": "c98adf36f212d9c069bfdd8c730c5bb75614ee050fe43fa972e3b16b7d539e6d",
+  "sql/inspect.sql": "2e1cbc48d23feae9c8fbe8b237b972e817497c7414afcae427a55e59bbf03ee4",
+  "sql/inspect_finance.sql": "30981d92b2c47ae0f5a52f377483fdcb56109aac8a8d171c5e527c8c28a88970",
+  "sql/setup.sql": "a708a44b7582cd69518a4b7a2fe82df9427f5be3a3ddc0ab88c7b6130c3c7d78"
+}

@@ -94,9 +94,9 @@ def test_out_of_scope_backend_and_executive_components_are_unchanged():
         assert hashlib.sha256((ROOT/path).read_bytes()).hexdigest()==expected,path
     source=(ROOT/'apps/ai-intelligence-react/src/main.jsx').read_bytes().decode('utf-8')
     for name,expected in baseline['executive_functions'].items():
-        # A subsequent user-authorized polish pass moves/compacts these three
-        # views. Continue guarding the financial services and other charts.
-        if name in {'Executive','Trend','Insights'}:
+        # Subsequent user-authorized presentation passes change layout and copy
+        # in these views. Keep guarding financial services and unchanged charts.
+        if name in {'Executive','Trend','Insights','Variance','Mix','Detail'}:
             continue
         start=source.index('function '+name+'(');end=source.index('\nfunction ',start+1)
         assert source[start:end]==expected,name

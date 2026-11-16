@@ -1,6 +1,8 @@
 import React,{useState,useRef,useEffect} from 'react';
 import {MessageSquareText,ArrowUp,Sparkles,LoaderCircle,ChevronDown,RotateCcw,X} from 'lucide-react';
 
+import {sourceLabel} from './shared/presentation.mjs';
+
 const SUGGESTIONS=['Which business line has the largest GWP shortfall?','Which channel is furthest below plan?','How does the net loss ratio compare for Motor and Travel?'];
 const month=date=>new Date(date+'T00:00:00').toLocaleDateString('en-GB',{month:'short',year:'numeric'});
 
@@ -28,15 +30,15 @@ export default function ExecutiveChat({scope,ai,send,onClose}){
     {!!turns.length&&<div className="chat-transcript" role="log" aria-label="Financial questions and answers" aria-live="polite" aria-busy={busy}>{turns.map((turn,i)=><div className="chat-turn" key={i} ref={i===turns.length-1?latest:null}>
       <div className="chat-question"><span>You</span><p>{turn.question}</p></div>
       <div className="chat-answer"><span className="assistant-label"><Sparkles size={14}/>Tune AI</span>
-        {turn.pending?<div className="chat-thinking" role="status"><LoaderCircle size={15} className="spin"/>Checking the selected Snowflake results…</div>:turn.error?<p role="alert" className="negative">{turn.error}</p>:<>
+        {turn.pending?<div className="chat-thinking" role="status"><LoaderCircle size={15} className="spin"/>Reviewing the selected financial results…</div>:turn.error?<p role="alert" className="negative">{turn.error}</p>:<>
           <p>{turn.answer}</p>
           {turn.evidence.length>0&&<ul>{turn.evidence.map((e,j)=><li key={e.id}>{e.text}<span className="evidence-number">[{j+1}]</span></li>)}</ul>}
-          <div className="chat-answer-source">{turn.source}</div>
-          {turn.evidence.length>0&&<details><summary>View SQL evidence<ChevronDown size={14}/></summary>{turn.evidence.map((e,j)=><div className="chat-evidence" key={e.id}><strong>[{j+1}] {e.text}</strong><p>{e.source}</p></div>)}<p>{turn.note}</p></details>}
+          <div className="chat-answer-source">{sourceLabel(turn.source)}</div>
+          {turn.evidence.length>0&&<details><summary>Supporting evidence<ChevronDown size={14}/></summary>{turn.evidence.map((e,j)=><div className="chat-evidence" key={e.id}><strong>[{j+1}] {e.text}</strong><p>{e.source}</p></div>)}<p>{turn.note}</p></details>}
         </>}
       </div>
     </div>)}</div>}
     <form className="chat-composer" onSubmit={e=>{e.preventDefault();ask(question);}}><textarea ref={input} value={question} maxLength={600} disabled={busy} onChange={e=>setQuestion(e.target.value)} placeholder="Ask about premium, plan variance, claims or loss ratio…" aria-label="Ask a financial question" rows={2} onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.nativeEvent.isComposing){e.preventDefault();ask(question);}}}/><button type="submit" className="chat-send" disabled={busy||!question.trim()} aria-label="Send question">{busy?<LoaderCircle className="spin" size={18}/>:<ArrowUp size={19}/>}</button></form>
-    <p className="chat-limit">{ai?'Cortex-assisted answers':'Cortex is off · Calculated answers remain available'} · Verified financial evidence only. Change filters for another scope. Chat clears when the scope or source results change.</p>
+    <p className="chat-limit">{ai?'AI-assisted answers':'AI assistance is off · Calculated answers remain available'} · Uses verified financial results. Review the supporting evidence before acting. Changing filters starts a new conversation.</p>
   </div>;
 }

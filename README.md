@@ -52,6 +52,14 @@ The server rebuilds a bounded catalogue of verified aggregate facts. Cortex sele
 
 Shared React dropdowns now have padded option rows, selection ticks, bounded scrolling, type-ahead and Arrow/Home/End/Enter/Escape navigation. Browser rendering/keyboard interaction still require manual review because automated browser access remains unavailable.
 
+## Presentation consistency
+
+Both React applications use one shared sidebar component: the same 244px width, 65px logo, heading hierarchy, navigation styling and mobile drawer. The desk workspace selector is in the bottom utility area; profile and record-view settings are available through **Illustrative Data → View settings**. The desk entry point now includes the same favicon. Ask Tune AI opens in a wider 560px panel and continues to fit smaller viewports.
+
+Primary screens use business-friendly labels and dates. An accessible **Illustrative Data** information panel explains provenance, calculation/AI limitations, unavailable integrations and the desk’s non-authenticated workspace/profile controls. Known illustrative request markers are cleaned up for display only. Stored titles, actor identifiers, status/category codes, request payloads and API routes are unchanged. There is no deletion or source-data migration.
+
+Verification: `python -m pytest -q` and `node --test tests/presentation.test.mjs`. See [presentation-readiness review](validation/PRESENTATION_READINESS_REPORT.md) for the browser-verification boundary.
+
 ## Executive management analytics
 
 Executive Intelligence retains the white/navy/Tune red design and four reconciled KPIs. Monthly performance switches between GWP and NEP actual/plan, actual net incurred claims and actual net loss ratio. A compact AI Insights section closes the page after the financial detail, showing one finding, the leading business line/channel contributions, one recommended investigation and collapsed exact evidence. Ask Tune AI opens in a separate floating window with the current scope, conversation and question area. Closing it preserves the conversation; changing scope or source results clears it. Escape or the close/minimize controls return focus to the launcher. Cortex selects verified evidence; its loading state, filter-specific results and deterministic fallback stay inside the same section.
@@ -228,7 +236,7 @@ $env:TUNE_SNOWFLAKE_WAREHOUSE = 'POC_WH'
 
 The migration is idempotent and performs only additive APP_STATE DDL and missing-reference backfill. The sequence is never reset. Pause writes from the old desk during migration and replacement: older application code does not allocate the new reference or write history. If an old client created more tickets before replacement, rerun the migration to backfill their references. Five deterministic `[Demo]` tickets are seeded explicitly; seeding again does not duplicate them. Three illustrative catalogue entries are added only when real catalogue records are absent. They have no fabricated report links. Activity history begins with the upgrade; existing progress and resolution notes remain visible without invented historical events. Legacy resolved dates are unknown and are excluded from “Resolved this month”.
 
-The default record view excludes `[Validation]` tickets, while **All records** retains access to them. **Synthetic demo only** shows only the five seeded examples. Switch to **Exclude validation** for the full new-submission walkthrough, since newly submitted requests are ordinary request records. Request queues show at most 200 matches, with the matching count; overview counts and workload distributions use all matching records.
+In React, the default **Business requests** view uses the existing `Exclude validation` filter. **All requests** retains access to historical quality-check records, while **Illustrative requests** uses the existing `Synthetic demo only` scope. These controls are under **Illustrative Data → View settings**. Business requests includes new submissions; no records are deleted or migrated. The Streamlit fallback retains its original filter labels. Request queues show at most 200 matches, with the matching count; overview counts and workload distributions use all matching records.
 
 1. Launch `./launch.ps1 -App desk` and use Business User Portal, requester `motor.demo`.
 2. Open **Find Existing Reports**, search a keyword/domain, and explain that `[Demo]` catalogue entries are illustrative.
