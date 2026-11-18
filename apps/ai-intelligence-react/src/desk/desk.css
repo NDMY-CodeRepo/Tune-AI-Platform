@@ -11,3 +11,12 @@
 .demo-settings[open] summary{margin-bottom:14px}
 .sidebar-bottom>.demo-notice{display:block!important;font-size:11px;line-height:1.5;margin-top:14px}
 @media(max-width:600px){.sidebar-bottom{display:block}.demo-settings{margin-top:8px}.sidebar-bottom>.demo-notice{margin-top:8px}}
+
+/* Targeted effort-approval workflow controls; existing theme and layout retained. */
+.status.awaiting_bu_approval{background:#fff4e5;color:#8b5d1b}.status.approved{background:#edf7f1;color:#27734e}.status.rejected{background:#fff0f4;color:#ad1b3e}
+.effort-card{border:1px solid var(--border);border-radius:10px;padding:16px 18px;background:#fff;margin:14px 0}.effort-card.pending{border-color:#eac4ce;background:#fffbfc}
+.effort-card h2{margin:0;font-size:15px}.effort-card .section-head{margin-bottom:12px}.effort-card p{font-size:13px;margin:10px 0}
+.effort-facts{display:grid;grid-template-columns:.65fr 1fr 1.4fr;gap:15px}.effort-facts span,.effort-facts strong{display:block}.effort-facts strong{font-size:13px;margin-top:4px}
+.effort-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:12px 0}.approval-inbox{margin-bottom:18px}.approval-inbox-row{display:flex;gap:14px;align-items:center;justify-content:space-between;border-top:1px solid var(--border);padding:12px 0}.approval-inbox-row:last-child{padding-bottom:0}.approval-inbox-row strong{font-size:13px}.approval-inbox-row p{margin:6px 0}
+input:disabled,textarea:disabled,select:disabled{background:#f7f8fa;color:#637087;cursor:not-allowed}
+@media(max-width:700px){.effort-facts{grid-template-columns:1fr}.approval-inbox-row{align-items:flex-start;flex-direction:column}}

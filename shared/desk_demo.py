@@ -25,6 +25,13 @@ def seed_demo(service):
             if target=='NEW':
                 break
             t=service.ticket(tid)
+            if status=='IN_PROGRESS':
+                service.change_ticket(tid,t['VERSION'],'demo.engineer','Data Team',effort_action='SUBMIT',entry_type='STATUS_UPDATE',
+                    changes={'ASSESSMENT_NOTES':'Illustrative mapping, development and validation effort.'})
+                t=service.ticket(tid)
+                service.change_ticket(tid,t['VERSION'],'motor.demo','Business User',effort_action='APPROVE',entry_type='STATUS_UPDATE',
+                    assessment_version=t['EFFORT_ASSESSMENT_VERSION'],confirmed=True)
+                t=service.ticket(tid)
             service.change_ticket(tid,t['VERSION'],'demo.engineer','Data Team',changes={
                 'ASSIGNED_TO':'demo.engineer','CONFIRMED_PRIORITY':'MEDIUM','STATUS':status,'EFFORT_ESTIMATE':'M'},entry_type='STATUS_UPDATE')
             if target==status:

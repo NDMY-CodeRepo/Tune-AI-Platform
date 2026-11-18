@@ -164,3 +164,8 @@ The expanded management view and its verification boundaries are documented in [
 ### Data Service Desk rehearsal refinement
 
 Targeted Streamlit-only layout improvements completed for the BU homepage, queue, workload comparison and ticket conversation/manage sections. No new dependency, schema migration, financial change or workflow rewrite. All 100 existing tests and the full live desk acceptance pass. Browser rendering remains blocked by unavailable browser access. Port 8502 is left stopped; no hosted update was made. Latest evidence and limits are in [DESK_REPORT.md](DESK_REPORT.md), `desk_rehearsal_acceptance.json` and `desk_rehearsal_checks.json`.
+
+
+## Business Effort Approval — 18 November 2026
+
+Added assessment-version-bound BU approval before engineering, server-enforced status transitions, rejection with a mandatory reason, explicit reassessment and automatic approval invalidation on changed effort/notes. The additive migration preserved 22 historical tickets and 112 activity entries; GOLD definitions are unchanged. All 222 Python tests, 5 existing JavaScript tests, React build and live API/Snowflake happy/rejection/revision/concurrency/rollback paths pass. Pending illustrative request: TDS-000202. Actual browser interaction/visual verification is NOT EXECUTED because automatic approval review rejected the headless browser run as blocked by policy. See [DESK_EFFORT_REPORT.md](DESK_EFFORT_REPORT.md) for evidence, compatibility and demo steps.

@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "ticket_id": "f78cffde-ae37-4d46-81eb-b4ef695f66fe",
+  "reference": "TDS-000203",
+  "assessment_persistence": "PASS",
+  "approval_confirmation": "PASS",
+  "rejection_reason_and_actor_timestamp": "PASS",
+  "rejected_work_blocked": "PASS",
+  "explicit_reassessment_resubmission": "PASS",
+  "stale_assessment_revision_blocked": "PASS",
+  "revised_size_invalidates_approval": "PASS",
+  "revised_notes_during_work_invalidates_approval": "PASS",
+  "concurrent_decisions_single_winner": "PASS",
+  "decision_and_audit_atomic_rollback": "PASS",
+  "audit_event_types": [
+    "APPROVAL_REQUESTED",
+    "EFFORT_APPROVED",
+    "EFFORT_ASSESSED",
+    "EFFORT_REJECTED",
+    "EFFORT_REVISED",
+    "EFFORT_SUBMITTED",
+    "RESOLUTION",
+    "STATUS_UPDATE"
+  ],
+  "legacy_ticket_access_preserved": "PASS",
+  "unapproved_legacy_reopening_blocked": "PASS",
+  "final_status": "CLOSED",
+  "schema_before": {
+    "TUNE_BI_DB.APP_STATE": "14b101ff9360d1a6d107dc337337f6d93d5f138dfdd8574abf5fc02bad3c2188",
+    "TUNE_BI_DB.GOLD": "efcad8602f1ee2ebc7d2c6f8c1a2641b00081bcc169d7d510bbcc5bd9c6a24c1"
+  },
+  "schema_after": {
+    "TUNE_BI_DB.APP_STATE": "14b101ff9360d1a6d107dc337337f6d93d5f138dfdd8574abf5fc02bad3c2188",
+    "TUNE_BI_DB.GOLD": "efcad8602f1ee2ebc7d2c6f8c1a2641b00081bcc169d7d510bbcc5bd9c6a24c1"
+  }
+}

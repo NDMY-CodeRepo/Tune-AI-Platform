@@ -11,6 +11,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from shared.desk_rules import (BUSINESS_UNITS as LEGACY_BUSINESS_UNITS,CATEGORIES,CATEGORY_LABELS,DOMAINS,FORMATS,
                                PRIORITIES,STATUSES,STATUS_LABELS,TRANSITIONS,reference)
 from shared.snowflake_service import get_service
+from shared.desk_approval import valid_effort_approval
 
 router=APIRouter(prefix='/api/desk',tags=['Data Service Desk'])
 Role=Literal['Business User','Data Team']
@@ -49,6 +50,7 @@ def ticket_payload(ticket_id,actor,role):
         t=s.ticket(ticket_id,requester(actor,role))
     except ValueError as exc:
         raise HTTPException(404,str(exc)) from None
+    t['APPROVAL_VALID']=valid_effort_approval(t)
     return {'ticket':records(pd.DataFrame([t]))[0],
             'activity':records(s.activity(ticket_id,requester(actor,role)))}
 
@@ -134,7 +136,8 @@ class Changes(StrictModel):
     CONFIRMED_PRIORITY:Literal['LOW','MEDIUM','HIGH']|None=None
     TARGET_DATE:dt.date|None=None
     EFFORT_ESTIMATE:Literal['S','M','L']|None=None
-    STATUS:Literal['NEW','TRIAGED','IN_PROGRESS','WAITING_FOR_BU','RESOLVED','CLOSED']|None=None
+    ASSESSMENT_NOTES:str|None=Field(default=None,max_length=4000)
+    STATUS:Literal['NEW','TRIAGED','AWAITING_BU_APPROVAL','APPROVED','REJECTED','IN_PROGRESS','WAITING_FOR_BU','RESOLVED','CLOSED']|None=None
     PROGRESS_NOTES:str|None=Field(default=None,max_length=4000)
     RESOLUTION_NOTES:str|None=Field(default=None,max_length=4000)
     DELIVERED_REFERENCE:str|None=Field(default=None,max_length=2000)
@@ -143,7 +146,10 @@ class Changes(StrictModel):
 class Update(StrictModel):
     actor:str=Field(min_length=1,max_length=100)
     role:Role
-    version:int=Field(ge=1)
+    version:int=Field(ge=1,strict=True)
+    effort_action:Literal['SUBMIT','APPROVE','REJECT','REASSESS']|None=None
+    assessment_version:int|None=Field(default=None,ge=1,strict=True)
+    confirmed:bool=Field(default=False,strict=True)
     changes:Changes|None=None
     entry_type:Literal['COMMENT','CLARIFICATION_REQUEST','CLARIFICATION_RESPONSE','STATUS_UPDATE']='COMMENT'
     message:str=Field(default='',max_length=4000)
@@ -156,11 +162,12 @@ def update(ticket_id:str,body:Update):
     changes=body.changes.model_dump(mode='json',exclude_unset=True) if body.changes else {}
     if 'STATUS' in changes and changes['STATUS'] is None:
         raise HTTPException(422,'Choose a status.')
-    if not changes and not body.message:
+    if not changes and not body.message and not body.effort_action:
         raise HTTPException(422,'Enter a message or change a ticket field.')
     try:
         get_service().change_ticket(ticket_id,body.version,identity(body.actor),body.role,changes=changes,
-            entry_type=body.entry_type,message=body.message,internal=body.internal,resume=body.resume)
+            entry_type=body.entry_type,message=body.message,internal=body.internal,resume=body.resume,
+            effort_action=body.effort_action,assessment_version=body.assessment_version,confirmed=body.confirmed)
     except ValueError as exc:
         raise HTTPException(409 if 'another session' in str(exc) else 422,str(exc)) from None
     return ticket_payload(ticket_id,body.actor,body.role)

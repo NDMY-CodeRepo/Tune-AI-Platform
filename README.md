@@ -40,9 +40,13 @@ This is a local internal demo with no authentication, intended to remain loopbac
 
 ### Unified customer workspace
 
-Customer Priorities uses the existing NBA portfolio order with one row per customer. Retention Actions preserves NBA, and Cross-Sell Opportunities preserves NBO’s Motor-to-Travel segment and ordering. The shared profile shows retention action/evidence and a Travel candidate only when the existing consent-based Snowflake predicate supports it. It does not infer offer eligibility from the source next-best-product field alone. Offer membership is checked for the displayed IDs, so a qualified retention customer is not missed because they are absent from NBO’s first 200 rows.
+**Customer Priorities — Where should we focus?** is a management overview with the existing portfolio KPIs, retention/cross-sell opportunity summaries, compact risk/value segmentation and direct paths into the action tabs. Charts combine the existing portfolio aggregate cells; they do not infer totals from the bounded customer list. This overview has no customer table or individual profile.
 
-Cards retain full-portfolio/segment counts while filters refine the worklist. Cross-sell candidates are a subset of the portfolio; overlapping counts are never added. Combined briefs reuse existing evidence and retain retention-first actions. Existing `#NBA`/`#NBO` React bookmarks open the matching new tabs; the sidebar has no separate NBA/NBO entries. The Streamlit fallback retains its existing separate screens.
+**Retention Actions — Who should we retain?** keeps the original NBA ranking, filters, selection and profile. Retention action, risk/value and the existing SQL upcoming-renewal flag are prominent. Missing renewal timing remains unavailable, rather than being labelled outside the window.
+
+**Cross-Sell Opportunities — What should we offer?** keeps the original NBO candidate ranking and filters. The candidate list uses the full width; click a customer row or ID to open their product recommendation and engagement brief together in a right-hand drawer. Close it with the close button, Escape, backdrop click or Back to candidates; list filters, search and scroll context remain available. Retention Actions keeps its existing side-by-side layout. Travel Insurance, eligibility review, customer value, preferred channel, product evidence and the engagement brief are visually primary. Retention context remains accessible, and the unchanged recommended engagement action still requires retention attention first for high-risk candidates.
+
+The underlying API, SQL, counts, marketing consent checks and recommendation rules are unchanged. Overview counts describe the full portfolio/segment and overlapping categories are not added. Filters apply to the worklists. Existing `#NBA`/`#NBO` bookmarks open the matching tabs; the Streamlit fallback retains its separate screens.
 
 ### Ask Tune AI and padded dropdowns
 
@@ -206,7 +210,7 @@ Ties use lifetime value descending, risk score descending and customer ID. A mis
 
 **AI:** The engine receives only approved fact sentences, without customer identity. `AI_COMPLETE` selects evidence identifiers in priority order using structured output. The app validates those identifiers and renders only approved facts, together with the deterministic recommendation, next action and human-review requirement. This deliberately constrained AI-curated brief cannot introduce pricing, travel plans, eligibility or unsupported findings. AI is explicitly labelled and never executes SQL. Turning AI off, a Cortex error or an invalid response yields a deterministic brief.
 
-**Service desk:** Internal UUIDs remain the ticket identifiers; Snowflake sequence values display as `TDS-000123` (gaps are expected). Requests move NEW → TRIAGED → IN_PROGRESS → RESOLVED → CLOSED, with IN_PROGRESS ↔ WAITING_FOR_BU and RESOLVED → IN_PROGRESS. Same-status saves are supported; CLOSED only accepts comments. Owner and confirmed priority are required for triage/work; resolution notes are required to resolve or close. Requester comments, clarification responses and closure cannot overwrite Data Team fields. Every ticket mutation and append-only activity record commits in one transaction. Version predicates reject stale saves; the editor retains its loaded version until **Refresh request** or a successful update. Role and identity switching preserve the requester identity for the demo.
+**Service desk:** Internal UUIDs remain the ticket identifiers; Snowflake sequence values display as `TDS-000123` (gaps are expected). Requests move NEW → TRIAGED → AWAITING_BU_APPROVAL → APPROVED → IN_PROGRESS → RESOLVED → CLOSED. BU may reject effort to REJECTED; the team can explicitly reassess and resubmit. Clarification and reopening require a valid approval before returning to IN_PROGRESS. Same-status saves are supported; CLOSED only accepts comments. Owner and confirmed priority are required for triage/work; resolution notes are required to resolve or close. Requester comments, clarification responses and closure cannot overwrite Data Team fields. Every ticket mutation and append-only activity record commits in one transaction. Version predicates reject stale saves; the editor retains its loaded version until **Refresh request** or a successful update. Role and identity switching preserve the requester identity for the demo.
 
 The demo role selector and typed requester identity are **not authentication or authorization**. Do not expose this service desk as a production request portal. No messages or notifications are sent.
 
@@ -295,3 +299,30 @@ Launch the React desk on a separate loopback port when the AI rehearsal already 
 The same build still serves AI Intelligence at `/`; the desk lives at `/desk`. With the API on 8000, the existing Vite development server can open `/desk.html` on port 5173. Build both HTML entries with `npm --prefix apps/ai-intelligence-react run build`. This remains a local internal demo with typed demo identities, not real authentication or production authorization. Do not use `deploy.ps1` for React.
 
 Validation: 149 tests pass; live HTTP/Snowflake acceptance covers submit → triage/assign → clarification → BU response → resolve → BU visibility, plus reopening/closure, retries, internal notes, transactional rollback and stale/concurrent HTTP updates. APP_STATE and GOLD definition hashes match before/after. Browser rendering/click verification is blocked by the unavailable browser host. See `validation/DESK_REACT_REPORT.md`, `desk_react_acceptance.json` and `desk_react_serving.json`.
+
+
+## Business effort approval — Service Desk
+
+The React desk now requires the requesting business user to approve the current S/M/L effort assessment before engineering starts. This applies in the Python service, including direct API calls and legacy callers. Assessment size/notes have a separate revision identifier from the ticket's optimistic-concurrency version. Editing either field withdraws any previous approval and returns assessed work to Triaged. Target-date/owner/progress updates do not change the approved assessment.
+
+Apply the additive migration explicitly in another environment before starting the upgraded API (already applied on the configured rehearsal account):
+
+```powershell
+# Uses the same Snowflake environment variables as the existing launchers.
+.\.venv\Scripts\python -m tests.migrate_desk_approval --seed-demo
+.\launch-react.ps1 -Port 8002
+```
+
+No migration or seeding runs on app startup. The migration adds nine nullable ticket columns, with no historical backfill or ticket changes. Existing status values and UUIDs are preserved. Existing in-progress work can still be commented on or resolved; a future start, resume or reopen into In Progress requires a valid effort approval. Legacy unapproved requests must be reassessed through the React workspace before resuming. Streamlit remains a compatibility view; use React for effort submission and BU decisions.
+
+Demo at `/desk`:
+
+1. BU submits a request. Data Team opens Manage request, assigns owner, confirms priority and saves Triaged (displayed as Reviewed).
+2. Set effort M and assessment notes, then **Submit for BU Approval**. The assessed-by identity and timestamp are recorded by the server.
+3. BU opens **Review Effort** from the homepage. Review size, notes, assessor, timestamp and assessment version. Check the explicit decision confirmation and select **Approve Effort** (comments optional), or **Reject Effort** (reason required).
+4. After approval, Data Team opens Manage request and selects **Start Work**. Continue the existing clarification, resolution and closure workflow.
+5. For rejected or changed estimates, Data Team selects **Reassess Effort**, edits the assessment and submits it again. A new BU approval is required; an old approval cannot be reused.
+
+The illustrative pending request is `TDS-000202`, Motor claims dashboard enhancement, owned by requester `motor.demo` (displayed as Motor business user). It has effort M and notes: “Data mapping, development and validation are required.” The seed is idempotent and does not reset subsequent demonstrator decisions.
+
+Validation: `python -m tests.live_desk_react` exercises the full approved request/clarification/resolution path; `python -m tests.live_desk_effort` exercises rejection, stale assessment revisions, conflicting decisions, invalidation and decision/audit rollback. Both retain labelled validation records. See `validation/DESK_EFFORT_REPORT.md` for evidence and the browser-check limitation. Typed workspace/profile selection remains a demonstration mechanism, not production authentication or authorization.

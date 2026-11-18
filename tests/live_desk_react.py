@@ -41,6 +41,13 @@ def run():
         'entry_type':'STATUS_UPDATE','changes':{'STATUS':'RESOLVED','ASSIGNED_TO':'demo.engineer','RESOLUTION_NOTES':'invalid shortcut'}}).status_code==422
     update(entry_type='STATUS_UPDATE',changes={'STATUS':'TRIAGED','ASSIGNED_TO':'demo.engineer','CONFIRMED_PRIORITY':'HIGH',
         'TARGET_DATE':str(date.today()+timedelta(days=7)),'EFFORT_ESTIMATE':'M'})
+    assert client.post(f'/api/desk/tickets/{tid}/updates',json={'actor':'demo.engineer','role':'Data Team','version':t['VERSION'],
+        'entry_type':'STATUS_UPDATE','changes':{'STATUS':'IN_PROGRESS'}}).status_code==422
+    update(entry_type='STATUS_UPDATE',effort_action='SUBMIT',changes={
+        'EFFORT_ESTIMATE':'M','ASSESSMENT_NOTES':'Data mapping, development and validation are required.'})
+    assert t['STATUS']=='AWAITING_BU_APPROVAL' and t['ASSESSED_BY']=='demo.engineer' and t['ASSESSED_AT']
+    update('Business User',entry_type='STATUS_UPDATE',effort_action='APPROVE',assessment_version=t['EFFORT_ASSESSMENT_VERSION'],confirmed=True)
+    assert t['STATUS']=='APPROVED' and t['APPROVAL_VALID']
     update(entry_type='STATUS_UPDATE',changes={'STATUS':'IN_PROGRESS','PROGRESS_NOTES':'Confirmed source fields and report grain.'})
     queue=checked(client.get('/api/desk/tickets',params={'actor':'demo.engineer','role':'Data Team','scope':'All records','status':'IN_PROGRESS','owner':'demo.engineer','priority':'HIGH'}))
     assert any(x['TICKET_ID']==tid for x in queue['rows'])
@@ -86,7 +93,7 @@ def run():
     assert before==after,(before,after)
     result=dict(status='PASS',ticket_id=tid,reference=t['REFERENCE'],
         request_fields='PASS',retry_idempotency='PASS',queue_filtering='PASS',triage_assignment='PASS',
-        clarification_both_directions='PASS',internal_note_visibility='PASS',requester_guards='PASS',
+        effort_assessment_approval_gate='PASS',clarification_both_directions='PASS',internal_note_visibility='PASS',requester_guards='PASS',
         stale_version_409='PASS',history_failure_atomic_rollback='PASS',resolution_visibility='PASS',reopen_closure='PASS',
         concurrent_http_update_one_winner='PASS',catalogue_filter='PASS',separate_frontend_routes='PASS',
         schema_hashes_before=before,schema_hashes_after=after,

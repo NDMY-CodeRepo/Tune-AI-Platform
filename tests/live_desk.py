@@ -79,6 +79,15 @@ def run():
     element('date_input','Target completion date').set_value(target)
     button('Save ticket update')
     t=s.ticket(token);assert t['STATUS']=='TRIAGED' and t['TARGET_DATE']==target and t['CONFIRMED_PRIORITY']=='HIGH'
+    # Effort approval is performed via the shared service; Streamlit remains a
+    # compatibility view while the React portal provides the approval controls.
+    current=s.ticket(token)
+    s.change_ticket(token,current['VERSION'],'demo.engineer','Data Team',effort_action='SUBMIT',entry_type='STATUS_UPDATE',
+                    changes={'ASSESSMENT_NOTES':'Synthetic mapping, development and validation effort.'})
+    current=s.ticket(token)
+    s.change_ticket(token,current['VERSION'],'validation.desk','Business User',effort_action='APPROVE',entry_type='STATUS_UPDATE',
+                    assessment_version=current['EFFORT_ASSESSMENT_VERSION'],confirmed=True)
+    button('Refresh request')
     element('selectbox','Update status').set_value('IN_PROGRESS')
     button('Save ticket update')
     # Request clarification through the actual Streamlit conversation form.

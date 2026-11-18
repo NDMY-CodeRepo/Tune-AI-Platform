@@ -7,7 +7,9 @@ import pytest
 from shared.desk_rules import (STATUSES,TRANSITIONS,validate_ticket_change,validate_request,reference,safe_link)
 from shared.snowflake_service import SnowflakeService
 
-EDGES={('NEW','TRIAGED'),('TRIAGED','IN_PROGRESS'),('IN_PROGRESS','WAITING_FOR_BU'),
+EDGES={('NEW','TRIAGED'),('TRIAGED','AWAITING_BU_APPROVAL'),
+       ('AWAITING_BU_APPROVAL','APPROVED'),('AWAITING_BU_APPROVAL','REJECTED'),
+       ('APPROVED','IN_PROGRESS'),('REJECTED','TRIAGED'),('IN_PROGRESS','WAITING_FOR_BU'),
        ('WAITING_FOR_BU','IN_PROGRESS'),('IN_PROGRESS','RESOLVED'),('RESOLVED','CLOSED'),('RESOLVED','IN_PROGRESS')}
 
 @pytest.mark.parametrize('old',STATUSES)

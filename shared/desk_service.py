@@ -8,6 +8,7 @@ from datetime import date
 import json
 import uuid
 
+from .desk_approval import prepare_effort_change
 from .desk_rules import (EXTRA_FIELDS, PRIORITIES, validate_request,
                          validate_ticket_change, reference)
 
@@ -72,21 +73,24 @@ class DeskPersistence:
           ORDER BY a.CREATED_AT,a.ACTIVITY_ID''',[ticket_id])
 
     def change_ticket(self, ticket_id, version, actor, role, *, changes=None,
-                      entry_type='COMMENT', message='', internal=False, resume=False):
+                      entry_type='COMMENT', message='', internal=False, resume=False,
+                      effort_action=None, assessment_version=None, confirmed=False):
         """Guard role, stored state, required fields and compare-and-set in one place."""
         if role not in ('Business User','Data Team') or not actor.strip() or len(actor)>100:
             raise ValueError('Choose a demo identity and role.')
         if len(message)>4000:
             raise ValueError('Messages must be 4,000 characters or fewer.')
         allowed = {'ASSIGNED_TO','CONFIRMED_PRIORITY','TARGET_DATE','EFFORT_ESTIMATE',
-                   'STATUS','PROGRESS_NOTES','RESOLUTION_NOTES','DELIVERED_REFERENCE'}
+                   'STATUS','PROGRESS_NOTES','RESOLUTION_NOTES','DELIVERED_REFERENCE','ASSESSMENT_NOTES'}
         changes = dict(changes or {})
         if set(changes)-allowed:
             raise ValueError('Unsupported ticket field.')
         if entry_type not in ('COMMENT','CLARIFICATION_REQUEST','CLARIFICATION_RESPONSE','STATUS_UPDATE','RESOLUTION'):
             raise ValueError('Unsupported activity type.')
-        if entry_type in ('COMMENT','CLARIFICATION_REQUEST','CLARIFICATION_RESPONSE') and not message.strip():
+        if entry_type in ('COMMENT','CLARIFICATION_REQUEST','CLARIFICATION_RESPONSE') and not message.strip() and not effort_action:
             raise ValueError('Enter a message before saving.')
+        if effort_action and entry_type not in ('COMMENT','STATUS_UPDATE'):
+            raise ValueError('Use a separate action for effort assessment or approval.')
         with self.desk_transaction():
             t = self.ticket(ticket_id, actor if role=='Business User' else None)
             if int(t['VERSION']) != int(version):
@@ -112,6 +116,10 @@ class DeskPersistence:
                     raise ValueError('This request is not waiting for clarification.')
                 if resume:
                     changes['STATUS']='IN_PROGRESS'
+            if internal and effort_action:
+                raise ValueError('Effort assessments and approval decisions must be BU-visible.')
+            changes,effort_events,reassessment = prepare_effort_change(t,actor,role,changes,effort_action,
+                assessment_version,confirmed,message)
             status = changes.get('STATUS',t['STATUS'])
             if status=='WAITING_FOR_BU' and t['STATUS']!='WAITING_FOR_BU' and entry_type!='CLARIFICATION_REQUEST':
                 raise ValueError('Use Request clarification and enter a BU-visible question.')
@@ -121,9 +129,9 @@ class DeskPersistence:
             notes = changes.get('RESOLUTION_NOTES',t.get('RESOLUTION_NOTES')) or ''
             # Legacy unassigned resolved tickets can still receive comments.
             if changes or status!=t['STATUS']:
-                validate_ticket_change(t['STATUS'],status,owner,notes)
+                validate_ticket_change(t['STATUS'],status,owner,notes,effort_reassessment=reassessment)
             merged = {**t,**changes}
-            if status in ('TRIAGED','IN_PROGRESS','WAITING_FOR_BU') and changes and merged.get('CONFIRMED_PRIORITY') not in PRIORITIES:
+            if status in ('TRIAGED','AWAITING_BU_APPROVAL','APPROVED','IN_PROGRESS','WAITING_FOR_BU') and changes and merged.get('CONFIRMED_PRIORITY') not in PRIORITIES:
                 raise ValueError('Confirm priority before triaging or starting work.')
             if changes.get('CONFIRMED_PRIORITY') is not None and changes['CONFIRMED_PRIORITY'] not in PRIORITIES:
                 raise ValueError('Invalid confirmed priority.')
@@ -138,7 +146,7 @@ class DeskPersistence:
             values = [str(v).strip() if v is not None else None for v in changes.values()]
             if status=='RESOLVED' and t['STATUS']!='RESOLVED':
                 assignments.append('RESOLVED_AT=CURRENT_TIMESTAMP()')
-            elif status=='IN_PROGRESS' and t['STATUS']=='RESOLVED':
+            elif status in ('IN_PROGRESS','TRIAGED') and t['STATUS']=='RESOLVED':
                 assignments.append('RESOLVED_AT=NULL')
             assignments += ['UPDATED_AT=CURRENT_TIMESTAMP()','VERSION=VERSION+1']
             result = self.query(f"UPDATE {TICKETS} SET {','.join(assignments)} WHERE TICKET_ID=? AND VERSION=? AND STATUS=?",
@@ -151,7 +159,9 @@ class DeskPersistence:
                 self._activity(ticket_id,actor,role,'STATUS_UPDATE',audit,internal)
             if status=='RESOLVED' and t['STATUS']!='RESOLVED':
                 self._activity(ticket_id,actor,role,'RESOLUTION',notes)
-            if message.strip():
+            for event_type,event_message in effort_events:
+                self._activity(ticket_id,actor,role,event_type,event_message)
+            if message.strip() and effort_action not in ('APPROVE','REJECT','REASSESS'):
                 self._activity(ticket_id,actor,role,entry_type,message.strip(),internal)
 
     def update_ticket(self, ticket_id, version, old_status, status, owner, progress, notes):
@@ -185,11 +195,13 @@ class DeskPersistence:
 
     def desk_metrics(self, requester=None, scope='All records'):
         where,params=self._desk_scope(requester,scope)
-        return self.query(f'''SELECT COUNT_IF(STATUS NOT IN ('RESOLVED','CLOSED')) OPEN_REQUESTS,
-        COUNT_IF(STATUS='NEW' OR (NULLIF(ASSIGNED_TO,'') IS NULL AND STATUS NOT IN ('RESOLVED','CLOSED'))) NEW_UNASSIGNED,
+        return self.query(f'''SELECT COUNT_IF(STATUS NOT IN ('RESOLVED','CLOSED','REJECTED')) OPEN_REQUESTS,
+        COUNT_IF(STATUS='NEW' OR (NULLIF(ASSIGNED_TO,'') IS NULL AND STATUS NOT IN ('RESOLVED','CLOSED','REJECTED'))) NEW_UNASSIGNED,
+        COUNT_IF(STATUS='AWAITING_BU_APPROVAL') AWAITING_BU_APPROVAL,
+        COUNT_IF(STATUS IN ('AWAITING_BU_APPROVAL','WAITING_FOR_BU')) NEEDS_BU_ACTION,
         COUNT_IF(STATUS='IN_PROGRESS') IN_PROGRESS,COUNT_IF(STATUS='WAITING_FOR_BU') WAITING_FOR_BU,
         COUNT_IF(STATUS IN ('RESOLVED','CLOSED')) RESOLVED_CLOSED,
-        COUNT_IF(STATUS NOT IN ('RESOLVED','CLOSED') AND TARGET_DATE<CURRENT_DATE()) OVERDUE,
+        COUNT_IF(STATUS NOT IN ('RESOLVED','CLOSED','REJECTED') AND TARGET_DATE<CURRENT_DATE()) OVERDUE,
         COUNT_IF(STATUS IN ('RESOLVED','CLOSED') AND RESOLVED_AT>=DATE_TRUNC('month',CURRENT_DATE())) RESOLVED_MONTH
         FROM {TICKETS} WHERE {' AND '.join(where)}''',params).iloc[0].fillna(0).to_dict()
 

@@ -99,4 +99,7 @@ def test_out_of_scope_backend_and_executive_components_are_unchanged():
         if name in {'Executive','Trend','Insights','Variance','Mix','Detail'}:
             continue
         start=source.index('function '+name+'(');end=source.index('\nfunction ',start+1)
-        assert source[start:end]==expected,name
+        # Historical snapshots contain mixed Windows CR/CRLF line endings.
+        # Compare identical source text independently of checkout normalization.
+        normalize=lambda value:value.replace('\r\n','\n').replace('\r','\n')
+        assert normalize(source[start:end])==normalize(expected),name

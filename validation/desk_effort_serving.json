@@ -1,0 +1,12 @@
+{
+  "test_server_routes_assets": "PASS",
+  "demo_reference": "TDS-000202",
+  "demo_status": "AWAITING_BU_APPROVAL",
+  "effort": "M",
+  "assessment_version": 1,
+  "browser_interaction": "NOT EXECUTED: automatic approval review blocked the headless Edge/Playwright run by policy",
+  "new_production_dependencies": false,
+  "current_url": "http://127.0.0.1:8000/desk",
+  "current_api_approval_gate": "PASS",
+  "temporary_server_stopped": true
+}

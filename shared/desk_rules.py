@@ -5,12 +5,15 @@ from urllib.parse import urlparse
 CATEGORIES = ['REPORT_REQUEST', 'DATA_EXTRACT', 'DATA_ISSUE', 'ACCESS_REQUEST', 'ENHANCEMENT', 'OTHER']
 CATEGORY_LABELS = dict(zip(CATEGORIES, ['Report / Dashboard', 'Data Extract', 'Data Issue', 'Access Request', 'Enhancement', 'Other']))
 PRIORITIES = ['LOW', 'MEDIUM', 'HIGH']
-STATUSES = ['NEW', 'TRIAGED', 'IN_PROGRESS', 'WAITING_FOR_BU', 'RESOLVED', 'CLOSED']
-STATUS_LABELS = dict(zip(STATUSES, ['New', 'Triaged', 'In Progress', 'Waiting for BU', 'Resolved', 'Closed']))
+STATUSES = ['NEW', 'TRIAGED', 'AWAITING_BU_APPROVAL', 'APPROVED', 'REJECTED', 'IN_PROGRESS', 'WAITING_FOR_BU', 'RESOLVED', 'CLOSED']
+STATUS_LABELS = dict(zip(STATUSES, ['New', 'Triaged', 'Awaiting BU Approval', 'Approved', 'Rejected', 'In Progress', 'Waiting for BU', 'Resolved', 'Closed']))
 # Same-status saves are allowed, including comments; closed tickets cannot reopen.
 TRANSITIONS = {
  'NEW': ['NEW', 'TRIAGED'],
- 'TRIAGED': ['TRIAGED', 'IN_PROGRESS'],
+ 'TRIAGED': ['TRIAGED', 'AWAITING_BU_APPROVAL'],
+ 'AWAITING_BU_APPROVAL': ['AWAITING_BU_APPROVAL', 'APPROVED', 'REJECTED'],
+ 'APPROVED': ['APPROVED', 'IN_PROGRESS'],
+ 'REJECTED': ['REJECTED', 'TRIAGED'],
  'IN_PROGRESS': ['IN_PROGRESS', 'WAITING_FOR_BU', 'RESOLVED'],
  'WAITING_FOR_BU': ['WAITING_FOR_BU', 'IN_PROGRESS'],
  'RESOLVED': ['RESOLVED', 'IN_PROGRESS', 'CLOSED'],
@@ -31,8 +34,9 @@ def safe_link(value):
     return bool(value and urlparse(str(value)).scheme in ('https', 'http') and urlparse(str(value)).netloc)
 
 
-def validate_ticket_change(old_status, status, owner, notes):
-    if status not in TRANSITIONS.get(old_status, []):
+def validate_ticket_change(old_status, status, owner, notes, *, effort_reassessment=False):
+    from .desk_approval import REASSESSMENT_STATES
+    if status not in TRANSITIONS.get(old_status, []) and not (effort_reassessment and old_status in REASSESSMENT_STATES and status=='TRIAGED'):
         raise ValueError('This status transition is not allowed. Follow the ticket workflow.')
     if status != 'NEW' and not owner.strip():
         raise ValueError('Assign an owner before triaging or starting work.')
