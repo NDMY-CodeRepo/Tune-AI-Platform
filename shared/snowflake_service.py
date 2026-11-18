@@ -13,9 +13,10 @@ from .business_logic import (GOLD, CANDIDATE_WHERE, customer_query, validate_ai_
 
 
 from .desk_service import DeskPersistence
+from .product_opportunities import ProductOpportunities
 
 
-class SnowflakeService(DeskPersistence):
+class SnowflakeService(DeskPersistence, ProductOpportunities):
     def __init__(self, session):
         self.session = session
         self.lock = RLock()

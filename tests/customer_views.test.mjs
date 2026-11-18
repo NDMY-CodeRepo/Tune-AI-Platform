@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {customerSegments,renewalTiming} from '../apps/ai-intelligence-react/src/shared/customerViews.mjs';
+import {customerSegments,renewalTiming,recordedHoldings,friendlyCustomerText} from '../apps/ai-intelligence-react/src/shared/customerViews.mjs';
 
 test('overview sums existing aggregate cells across value and channel without using customer rows',()=>{
   const cells=[
@@ -27,4 +27,23 @@ test('renewal presentation uses the SQL flag and preserves missing timing',()=>{
   assert.equal(renewalTiming(false),'Outside renewal window');
   assert.equal(renewalTiming(null),'Timing unavailable');
   assert.equal(renewalTiming(undefined),'Timing unavailable');
+});
+
+test('holdings show only source flags and keep missing information explicit',()=>{
+  assert.equal(recordedHoldings({HOLDS_MOTOR:'Yes',HOLDS_TRAVEL:'Yes'}),'Motor + Travel');
+  assert.equal(recordedHoldings({HOLDS_MOTOR:'No',HOLDS_TRAVEL:'Yes'}),'Travel');
+  assert.equal(recordedHoldings({HOLDS_MOTOR:'No',HOLDS_TRAVEL:'No'}),'No Motor or Travel cover on record');
+  assert.match(recordedHoldings({HOLDS_MOTOR:'Yes',HOLDS_TRAVEL:null}),/Motor.*Travel holdings unavailable/);
+});
+
+test('conversation wording preserves retention-first and review requirements',()=>{
+  const high=friendlyCustomerText('Review retention needs first, then consider a Fire discussion.');
+  assert.match(high,/Start with the customer’s retention needs/);
+  assert.ok(high.indexOf('retention needs')<high.indexOf('conversation about Fire'));
+  assert.match(high,/Confirm existing cover and suitability before making an offer/);
+  const low=friendlyCustomerText('Prepare a human-reviewed Personal Accident needs discussion through Agency.');
+  assert.match(low,/through Agency/);
+  assert.match(low,/whether Personal Accident meets/);
+  assert.match(low,/Review their existing cover and suitability/);
+  assert.equal(friendlyCustomerText('Unrecognized source information.'),'Unrecognized source information.');
 });

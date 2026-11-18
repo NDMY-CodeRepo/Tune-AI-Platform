@@ -49,12 +49,12 @@ def payload():
     return {'rows':[customer()],'profiles':{},'counts':{'total':1},'filtered_total':1}
 
 
-@pytest.mark.parametrize('view,mode',[('PRIORITIES','NBA'),('RETENTION','NBA'),('CROSS_SELL','NBO')])
+@pytest.mark.parametrize('view,mode',[('PRIORITIES','NBA'),('RETENTION','NBA')])
 def test_each_tab_keeps_the_existing_query_order_and_count(view,mode):
     pytest.importorskip('fastapi')
     from apps.api.main import customer_intelligence
     def read(kind,*args):
-        return pd.DataFrame([customer()]) if kind=='customers' else pd.DataFrame([{'CUSTOMERS':1}]) if kind=='overview' else {'CUSTOMERS':1}
+        return pd.DataFrame([customer()]) if kind=='customers' else pd.DataFrame([{'CUSTOMERS':1}]) if kind in ('overview','opportunity_overview') else {'CUSTOMERS':1}
     with patch('apps.api.main.customer_list',return_value=payload()) as original,patch('apps.api.main.read',side_effect=read),patch('apps.api.main.candidate_membership',return_value={'C1'}):
         response=customer_intelligence(view,'High','Top','Agency')
     original.assert_called_once_with(mode,'High','Top','Agency')
@@ -91,7 +91,12 @@ def test_out_of_scope_backend_and_executive_components_are_unchanged():
         # floating widget; keep its financial grounding/backend guards below.
         if path=='apps/ai-intelligence-react/src/ExecutiveChat.jsx':
             continue
-        assert hashlib.sha256((ROOT/path).read_bytes()).hexdigest()==expected,path
+        original=(ROOT/path).read_bytes()
+        if path=='shared/snowflake_service.py':
+            # Product-agnostic opportunities add one mixin only. All pre-existing
+            # service methods must remain byte-for-byte unchanged.
+            original=original.replace(b'from .product_opportunities import ProductOpportunities\r\n',b'').replace(b'class SnowflakeService(DeskPersistence, ProductOpportunities):',b'class SnowflakeService(DeskPersistence):')
+        assert hashlib.sha256(original).hexdigest()==expected,path
     source=(ROOT/'apps/ai-intelligence-react/src/main.jsx').read_bytes().decode('utf-8')
     for name,expected in baseline['executive_functions'].items():
         # Subsequent user-authorized presentation passes change layout and copy

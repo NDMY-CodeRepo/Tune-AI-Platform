@@ -153,8 +153,8 @@
 .offer-engagement p,.secondary-retention-context p{font-size:11px;line-height:1.8;color:#79869B}
 .cross-sell-profile .profile-stats b{font-size:24px}
 .cross-sell-profile .secondary-retention-context{margin-top:20px}
-.customer-grid.cross-sell-workspace{grid-template-columns:minmax(0,1fr)}
-.opportunity-drawer{position:fixed;inset:0 0 0 auto;margin:0;padding:0;width:620px;max-width:100vw;height:100dvh;max-height:100dvh;border:0;border-left:1px solid #E5E9F0;border-radius:0;background:#fff;color:#1D2D49;box-shadow:-10px 0 40px #1D2D4914;display:flex;flex-direction:column;overflow:hidden}
+.customer-grid.cross-sell-workspace,.customer-grid.retention-workspace{grid-template-columns:minmax(0,1fr)}
+.opportunity-drawer{position:fixed;inset:0 0 0 auto;margin:0;padding:0;width:50vw;max-width:100vw;height:100dvh;max-height:100dvh;border:0;border-left:1px solid #E5E9F0;border-radius:0;background:#fff;color:#1D2D49;box-shadow:-10px 0 40px #1D2D4914;display:flex;flex-direction:column;overflow:hidden}
 .opportunity-drawer:not([open]){display:none}
 .opportunity-drawer::backdrop{background:#1D2D4928}
 .opportunity-drawer-header{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 24px;border-bottom:1px solid #E5E9F0;flex-shrink:0}
@@ -173,10 +173,16 @@
 .opportunity-drawer .insights .button{width:100%}
 .opportunity-drawer-footer{display:flex;align-items:center;justify-content:flex-end;flex-shrink:0;gap:12px;border-top:1px solid #E5E9F0;margin:0;padding:14px 24px;background:#fff;font-size:12px}
 .opportunity-drawer-footer>.button{border:1px solid #DFE5EE;background:#fff;color:#53647F}
+@media(max-width:1100px){.opportunity-drawer{width:min(100vw,680px)}}
 @media(max-width:760px){.opportunity-drawer{width:100vw}.opportunity-drawer-header{padding:18px 20px}.opportunity-drawer-content>.panel,.opportunity-drawer-content>.insights{padding:20px!important}.opportunity-drawer-footer{padding:12px 20px}}
+.opportunity-drawer-content>.cross-sell-profile>.offer-customer-reference+.channel-focus{margin-top:0;padding-top:0;border-top:0}
 @media(max-width:1050px){.opportunity-summary-grid{gap:15px}.opportunity-summary{padding:20px}.opportunity-summary-facts{gap:14px}.customer-segment-row{grid-template-columns:77px minmax(0,1fr) 65px;gap:10px}}
 @media(max-width:760px){.opportunity-summary-grid{grid-template-columns:1fr}.opportunity-summary .button{width:100%;white-space:normal}.customer-view-intro h2{font-size:21px}.opportunity-summary-number{font-size:30px}.customer-segment-row{grid-template-columns:82px minmax(0,1fr) 70px}}
 .spotlight .profile-action details{font-size:10px;padding-top:10px;margin-top:12px}
 .spotlight .profile-action summary{font-size:10px}
 .spotlight .profile-action li{font-size:10px;line-height:1.8}
 @media(max-width:760px){.chat-suggestions{flex-direction:column}.chat-question{max-width:95%}.chat-answer>p{max-width:100%}.chat-scope{line-height:1.7}.select-menu{max-height:235px}}
+.product-opportunity-filters{flex-wrap:wrap;gap:12px}.product-opportunity-filters .select-control{flex:1 1 210px;min-width:0}
+
+.opportunity-drawer-content>.retention-profile>.panel-heading,.opportunity-drawer-content>.retention-profile>.customer-id{display:none}
+.opportunity-drawer-content>.retention-profile>.travel-product-hero{margin-top:0}

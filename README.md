@@ -44,7 +44,7 @@ This is a local internal demo with no authentication, intended to remain loopbac
 
 **Retention Actions — Who should we retain?** keeps the original NBA ranking, filters, selection and profile. Retention action, risk/value and the existing SQL upcoming-renewal flag are prominent. Missing renewal timing remains unavailable, rather than being labelled outside the window.
 
-**Cross-Sell Opportunities — What should we offer?** keeps the original NBO candidate ranking and filters. The candidate list uses the full width; click a customer row or ID to open their product recommendation and engagement brief together in a right-hand drawer. Close it with the close button, Escape, backdrop click or Back to candidates; list filters, search and scroll context remain available. Retention Actions keeps its existing side-by-side layout. Travel Insurance, eligibility review, customer value, preferred channel, product evidence and the engagement brief are visually primary. Retention context remains accessible, and the unchanged recommended engagement action still requires retention attention first for high-risk candidates.
+**Cross-Sell Opportunities — What should we offer?** presents consented candidates from the existing `NEXT_BEST_PRODUCT` field, reusing the original NBO ranking. Existing Motor/Travel holding and candidate-product filters are populated from full Snowflake aggregates, not the first 200 rows. Blank/no-recommendation values and already-held Motor/Travel candidates are excluded. For other products, holdings are explicitly unverified and require human review. No recommendations are generated or inferred. The original Motor-to-Travel NBO endpoint and Streamlit fallback remain unchanged. The candidate list uses the full width; click a customer row or ID to open their product recommendation and engagement brief together in a right-hand drawer. Close it with the close button, Escape, backdrop click or Back to candidates; list filters, search and scroll context remain available. Retention Actions uses the same half-width drawer: select a customer to open their retention review and AI explanation; close it to return to the full-width worklist. The source-recorded candidate product, current Motor/Travel holdings, review requirements, customer value, preferred channel, product evidence and engagement brief are visually primary. Retention context remains accessible, and the unchanged recommended engagement action still requires retention attention first for high-risk candidates.
 
 The underlying API, SQL, counts, marketing consent checks and recommendation rules are unchanged. Overview counts describe the full portfolio/segment and overlapping categories are not added. Filters apply to the worklists. Existing `#NBA`/`#NBO` bookmarks open the matching tabs; the Streamlit fallback retains its separate screens.
 
@@ -184,7 +184,7 @@ No GOLD DDL or DML is issued by setup, the application or validation scripts. Re
 
 ## Business definitions
 
-**NBO:** Motor held, Travel not held, existing next-best-product Travel, marketing consent Yes. The inspected source has **10,566 unique candidates**, with required attributes populated. The UI always displays queried counts. This is not confirmed eligibility, suitability or a newly trained propensity model.
+**Legacy Motor-to-Travel NBO:** Motor held, Travel not held, existing next-best-product Travel, marketing consent Yes. The inspected source has **10,566 unique candidates**, with required attributes populated. The UI always displays queried counts. This is not confirmed eligibility, suitability or a newly trained propensity model.
 
 Ranking is SQL-based: Low risk → Medium → High, then lifetime value descending, renewal-window flag first, renewal month ascending and customer ID. High-risk candidates receive a retention-first next step. The first 200 matching customers are displayed, with the full filtered count shown separately. The expandable opportunity segmentation describes the entire candidate segment; list filters apply to the ranked list and detail panel. The priority-opportunity count means Low retention risk + High/Top source value; it is not a conversion forecast. The selected customer and engagement brief sit beside the ranked list.
 
@@ -326,3 +326,12 @@ Demo at `/desk`:
 The illustrative pending request is `TDS-000202`, Motor claims dashboard enhancement, owned by requester `motor.demo` (displayed as Motor business user). It has effort M and notes: “Data mapping, development and validation are required.” The seed is idempotent and does not reset subsequent demonstrator decisions.
 
 Validation: `python -m tests.live_desk_react` exercises the full approved request/clarification/resolution path; `python -m tests.live_desk_effort` exercises rejection, stale assessment revisions, conflicting decisions, invalidation and decision/audit rollback. Both retain labelled validation records. See `validation/DESK_EFFORT_REPORT.md` for evidence and the browser-check limitation. Typed workspace/profile selection remains a demonstration mechanism, not production authentication or authorization.
+
+
+Product-agnostic customer opportunity checks (read-only, using the configured Snowflake connection):
+
+```powershell
+.\.venv\Scripts\python -m tests.live_product_opportunities
+```
+
+This reconciles all recorded holding/product combinations, the unchanged Motor-to-Travel subset and ranking, retention counts/rules, product filters, and an engagement brief. It uses the API in process and starts no server. Aggregate-only evidence is saved to `validation/product_opportunities_live.json`. Browser presentation remains a separate check.

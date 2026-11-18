@@ -17,3 +17,21 @@ export function customerSegments(segments,field){
 export function renewalTiming(upcoming){
   return upcoming===true?'Upcoming renewal':upcoming===false?'Outside renewal window':'Timing unavailable';
 }
+
+export function recordedHoldings(row){
+  const products=['Motor','Travel'];
+  const held=products.filter(name=>row['HOLDS_'+name.toUpperCase()]==='Yes');
+  const unknown=products.filter(name=>!['Yes','No'].includes(row['HOLDS_'+name.toUpperCase()]));
+  return (held.join(' + ')||'No Motor or Travel cover on record')+(unknown.length?` · ${unknown.join(' / ')} holdings unavailable`:'');
+}
+
+// Display-only wording for existing evidence/actions; unknown text is kept intact.
+export function friendlyCustomerText(text){
+  return text
+    .replace(/^Recommended retention action: Standard relationship maintenance\.$/,'Continue regular relationship care.')
+    .replace(/^Recommended retention action: (.+)\.$/,'Retention next step: $1.')
+    .replace(/^Customer value is MYR (.+) \((.+) band\)\.$/,'Customer value: RM $1 · $2 value segment.')
+    .replace(/^Retention risk is (.+); source score .+\.$/,'$1 retention risk.')
+    .replace(/^Prepare a human-reviewed (.+) needs discussion through (.+)\.$/,'Arrange a conversation through $2 to understand whether $1 meets the customer’s needs. Review their existing cover and suitability before making an offer.')
+    .replace(/^Review retention needs first, then consider a (.+) discussion\.$/,'Start with the customer’s retention needs. Once these have been reviewed, consider a conversation about $1. Confirm existing cover and suitability before making an offer.');
+}

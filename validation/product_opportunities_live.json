@@ -1,0 +1,54 @@
+{
+  "status": "PASS",
+  "total_candidates": 27139,
+  "relationships": [
+    {
+      "holding": "Motor",
+      "candidate_product": "Travel",
+      "customers": 10566,
+      "status": "PASS"
+    },
+    {
+      "holding": "Motor + Travel",
+      "candidate_product": "Fire",
+      "customers": 67,
+      "status": "PASS"
+    },
+    {
+      "holding": "Motor + Travel",
+      "candidate_product": "Personal Accident",
+      "customers": 644,
+      "status": "PASS"
+    },
+    {
+      "holding": "No Motor / Travel recorded",
+      "candidate_product": "Motor",
+      "customers": 5202,
+      "status": "PASS"
+    },
+    {
+      "holding": "No Motor / Travel recorded",
+      "candidate_product": "Personal Accident",
+      "customers": 3309,
+      "status": "PASS"
+    },
+    {
+      "holding": "Travel",
+      "candidate_product": "Motor",
+      "customers": 299,
+      "status": "PASS"
+    },
+    {
+      "holding": "Travel",
+      "candidate_product": "Personal Accident",
+      "customers": 7052,
+      "status": "PASS"
+    }
+  ],
+  "legacy_motor_to_travel": 10566,
+  "legacy_order_and_filtered_subset": "PASS",
+  "retention_order_counts_and_rules": "PASS",
+  "cortex": "AI-curated engagement brief \u00b7 Snowflake Cortex",
+  "snowflake_writes": "NONE",
+  "browser": "NOT VERIFIED"
+}

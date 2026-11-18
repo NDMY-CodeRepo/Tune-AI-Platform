@@ -14,6 +14,7 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from shared.business_logic import customer_evidence, validate_ai_selection, GOLD, CANDIDATE_WHERE
 from shared.customer_presentation import unified_profile
+from shared.product_opportunities import candidate_product, product_evidence
 from shared.executive_ui import compact_evidence
 from shared.insight_facts import financial_narrative
 from shared.executive_chat import answer_question
@@ -95,37 +96,48 @@ def finance(start:dt.date,end:dt.date,line:Literal['All','Motor','Travel']='All'
     return {'rows':records(data),'brief':executive_brief(data)}
 
 
-def customers(mode,risk='All',value='All',channel='All'):
+def customers(mode,risk='All',value='All',channel='All',holding='All',product='All'):
     health=read('health')
     if health['ROW_COUNT']!=health['CUSTOMERS'] or health['SNAPSHOT_MIN']!=health['SNAPSHOT_MAX']:
         raise HTTPException(503,'Customer grain validation failed: duplicate customers or mixed snapshots.')
-    overview=read('overview',mode)
-    rows=read('customers',mode,risk,value,channel)
+    overview=read('opportunity_overview') if mode=='OPPORTUNITY' else read('overview',mode)
+    rows=(read('opportunity_customers',risk,value,channel,holding,product) if mode=='OPPORTUNITY'
+          else read('customers',mode,risk,value,channel))
     return health,overview,rows
 
 
-@app.get('/api/customers/{mode}')
-def customer_list(mode:Literal['NBA','NBO'],risk:str=Query('All',max_length=100),
-                  value:str=Query('All',max_length=100),channel:str=Query('All',max_length=100)):
-    health,overview,rows=customers(mode,risk,value,channel)
+def customer_payload(mode,risk='All',value='All',channel='All',holding='All',product='All'):
+    health,overview,rows=(customers(mode,risk,value,channel,holding,product) if mode=='OPPORTUNITY' else customers(mode,risk,value,channel))
     total=int(overview.CUSTOMERS.sum()) if not overview.empty else 0
     count=lambda mask:int(overview.loc[mask,'CUSTOMERS'].sum()) if not overview.empty else 0
     high_value=overview.LIFETIME_VALUE_BAND.isin(['High','Top']) if not overview.empty else pd.Series(dtype=bool)
     high_risk=overview.RETENTION_RISK_BAND.eq('High') if not overview.empty else pd.Series(dtype=bool)
-    priority=(count(high_value & overview.RETENTION_RISK_BAND.eq('Low')) if mode=='NBO' and total else
+    priority=(count(high_value & overview.RETENTION_RISK_BAND.eq('Low')) if mode in ('NBO','OPPORTUNITY') and total else
               int(read('retention_priorities')['PRIORITY_CUSTOMERS'] or 0) if mode=='NBA' else 0)
     counts={'total':total,'high_value':count(high_value),'high_risk':count(high_risk),
             'high_value_at_risk':count(high_value & high_risk),'priority':priority}
     profiles={}
     for _,row in rows.iterrows():
-        recommendation,facts,action=customer_evidence(row.to_dict(),mode)
+        recommendation,facts,action=(product_evidence(row.to_dict()) if mode=='OPPORTUNITY' else customer_evidence(row.to_dict(),mode))
         profiles[row.CUSTOMER_ID]={'finding':recommendation,'facts':facts,'action':action,
                                    'ids':list(range(min(3,len(facts)))),'source':'Rule-based recommendation'}
+    options={key:sorted(overview[field].dropna().unique().tolist()) if not overview.empty else []
+             for key,field in [('risk','RETENTION_RISK_BAND'),('value','LIFETIME_VALUE_BAND'),('channel','PREFERRED_CHANNEL')]}
+    if mode=='OPPORTUNITY':
+        for key,field,other,selection in [('holding','EXISTING_HOLDING','CANDIDATE_PRODUCT',product),('product','CANDIDATE_PRODUCT','EXISTING_HOLDING',holding)]:
+            cells=overview if selection=='All' or overview.empty else overview.loc[overview[other].eq(selection)]
+            options[key]=sorted(cells[field].dropna().unique().tolist()) if not cells.empty else []
     return {'rows':records(rows),'profiles':profiles,'counts':counts,
             'filtered_total':int(rows.iloc[0].FILTERED_TOTAL) if not rows.empty else 0,
             'snapshot':str(health['SNAPSHOT_MAX']), 'segments':records(overview),
-            'options':{key:sorted(overview[field].dropna().unique().tolist()) if not overview.empty else []
-                       for key,field in [('risk','RETENTION_RISK_BAND'),('value','LIFETIME_VALUE_BAND'),('channel','PREFERRED_CHANNEL')]}}
+            'options':options}
+
+
+
+@app.get('/api/customers/{mode}')
+def customer_list(mode:Literal['NBA','NBO'],risk:str=Query('All',max_length=100),
+                  value:str=Query('All',max_length=100),channel:str=Query('All',max_length=100)):
+    return customer_payload(mode,risk,value,channel)
 
 
 class Explain(BaseModel):
@@ -152,22 +164,25 @@ def candidate_membership(customer_ids):
 @app.get('/api/customer-intelligence')
 def customer_intelligence(view:Literal['PRIORITIES','RETENTION','CROSS_SELL']='PRIORITIES',
                           risk:str=Query('All',max_length=100),value:str=Query('All',max_length=100),
-                          channel:str=Query('All',max_length=100)):
+                          channel:str=Query('All',max_length=100),
+                          holding:str=Query('All',max_length=100),product:str=Query('All',max_length=100)):
     # Customer priorities is the existing retention-ordered unique portfolio,
     # not a union of overlapping retention and offer customer lists.
-    mode='NBO' if view=='CROSS_SELL' else 'NBA'
-    payload=customer_list(mode,risk,value,channel)
+    mode='OPPORTUNITY' if view=='CROSS_SELL' else 'NBA'
+    payload=(customer_payload(mode,risk,value,channel,holding,product) if view=='CROSS_SELL'
+             else customer_list(mode,risk,value,channel))
     ids=[row['CUSTOMER_ID'] for row in payload['rows']]
     if len(ids)!=len(set(ids)):
         raise HTTPException(503,'Duplicate customer IDs detected; resolve source grain before presentation.')
-    offers=candidate_membership(ids)
     # Reuse original Python rows for evidence formatting and null/renewal semantics.
-    original=read('customers',mode,risk,value,channel)
-    profiles={row.CUSTOMER_ID:unified_profile(row.to_dict(),row.CUSTOMER_ID in offers)
+    original=(read('opportunity_customers',risk,value,channel,holding,product) if view=='CROSS_SELL'
+              else read('customers',mode,risk,value,channel))
+    offers={row.CUSTOMER_ID:candidate_product(row.to_dict()) for _,row in original.iterrows()}
+    profiles={row.CUSTOMER_ID:dict(unified_profile(row.to_dict(),bool(offers[row.CUSTOMER_ID]),product_agnostic=True),product=offers[row.CUSTOMER_ID])
               for _,row in original.iterrows()}
     for row in payload['rows']:
-        row['CANDIDATE_PRODUCT']='Travel' if row['CUSTOMER_ID'] in offers else None
-    overview=read('overview','NBO')
+        row['CANDIDATE_PRODUCT']=offers.get(row['CUSTOMER_ID'])
+    overview=read('opportunity_overview')
     payload.update(view=view,profiles=profiles,summary={
         'portfolio_total':int(read('health')['CUSTOMERS']),
         'cross_sell_candidates':int(overview.CUSTOMERS.sum()) if not overview.empty else 0,
@@ -182,12 +197,14 @@ class CustomerBrief(BaseModel):
     risk:str=Field(default='All',max_length=100)
     value:str=Field(default='All',max_length=100)
     channel:str=Field(default='All',max_length=100)
+    holding:str=Field(default='All',max_length=100)
+    product:str=Field(default='All',max_length=100)
     ai:bool=True
 
 
 @app.post('/api/customer-intelligence/brief')
 def customer_brief(body:CustomerBrief):
-    payload=customer_intelligence(body.view,body.risk,body.value,body.channel)
+    payload=customer_intelligence(body.view,body.risk,body.value,body.channel,body.holding,body.product)
     if body.customer_id not in payload['profiles']:
         raise HTTPException(404,'Select a customer from the current ranked worklist.')
     result=payload['profiles'][body.customer_id]['combined'].copy()
